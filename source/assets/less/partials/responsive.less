@@ -1,0 +1,34 @@
+@import '../partials/vars';
+
+@media (min-width: @screen-retina-min) {
+    html, body {
+        height: 100%;
+        font-size: 20px;
+    }
+}
+
+@media (min-width: @screen-desktop-min) and (max-width: @screen-desktop-max) {
+    html, body {
+        height: 100%;
+        font-size: 20px;
+    }
+}
+
+@media (min-width: @screen-laptop-min) and (max-width: @screen-laptop-max) {
+    html, body {
+        height: 100%;
+        font-size: 16px;
+    }
+}
+
+@media (min-width: @screen-tablet-min) and (max-width: @screen-tablet-max) {
+    body {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: @screen-mobile-max) {
+    body {
+        font-size: 12px;
+    }
+}

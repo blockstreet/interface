@@ -1,0 +1,60 @@
+@font-face {
+  font-family: 'logo';
+  src:  url('fonts/logo.eot?805url');
+  src:  url('fonts/logo.eot?805url#iefix') format('embedded-opentype'),
+    url('fonts/logo.ttf?805url') format('truetype'),
+    url('fonts/logo.woff?805url') format('woff'),
+    url('fonts/logo.svg?805url#logo') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.icon-logo {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'logo' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.logo-bull-color-o:before {
+  content: "\e906";
+}
+.logo-bull-blue-o:before {
+  content: "\e909";
+}
+.logo-bull-grass-o:before {
+  content: "\e90a";
+}
+.logo-bull-grass:before {
+  content: "\e907";
+}
+.logo-bull-blue:before {
+  content: "\e908";
+}
+.logo-super-minimal:before {
+  content: "\e905";
+}
+.logo-simple-bull-o:before {
+  content: "\e904";
+}
+.logo-charging-s:before {
+  content: "\e902";
+}
+.logo-bull-no-shadow:before {
+  content: "\e903";
+}
+.logo-bull-o:before {
+  content: "\e901";
+}
+.logo-bull:before {
+  content: "\e900";
+}
+

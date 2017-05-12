@@ -1,0 +1,55 @@
+.chart-container {
+    display: flex;
+    flex: 1 1 auto;
+    height: 350px;
+    position: relative;
+
+    .highcharts-container, svg {
+        overflow: visible !important;
+    }
+
+    input.highcharts-range-selector {
+        border-top: 1px solid #ccd6eb !important;
+        border-right: 0 !important;
+        border-bottom: 0 !important;
+        border-left: 1px solid #ccd6eb !important;
+        font-weight: bold;
+    }
+
+    .highcharts-navigator-xaxis {
+        text {
+            fill: rgba(0, 0, 0, 0.65) !important;
+            font-weight: 600;
+            transform: translate(0, -4px);
+        }
+    }
+
+    &.no-history {
+        &:before {
+            content: 'No Health History';
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 20;
+            height: 100%;
+            width: 100%;
+            line-height: 400px;
+            text-align: center;
+            font-size: 56px;
+            text-transform: uppercase;
+            border: 1px solid #d8e2e7;
+        }
+
+        .highcharts-container {
+            -webkit-filter: blur(3px);
+            filter: blur(3px);
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;      /* iOS Safari */
+            -khtml-user-select: none;       /* Chrome/Safari/Opera */
+            -moz-user-select: none;         /* Konqueror */
+            -ms-user-select: none;          /* Firefox */
+            user-select: none;              /* Internet Explorer/Edge */
+        }
+    }
+
+}

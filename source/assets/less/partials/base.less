@@ -1,0 +1,36 @@
+@import '../partials/reset';
+@import '../partials/mixins';
+@import '../partials/vars';
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+body { background: @color-bg-page; }
+
+html, body {
+    width: 100%;
+    position: relative;
+    height: 100%;
+
+    letter-spacing: 0;
+    font-style: normal;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -moz-font-feature-settings: "liga" on;
+    color: rgba(0,0,0,.8);
+    line-height: 1.4;
+    font-size: 14.5px;
+}
+
+a, p, h1, h2, h3, h4, h5, span, ul, li {
+    text-decoration: none;
+    -webkit-font-smoothing: antialiased;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.004);
+    -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5 {
+    margin: 0;
+}

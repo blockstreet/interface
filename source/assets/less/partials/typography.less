@@ -1,0 +1,32 @@
+@import '../partials/reset';
+@import '../partials/mixins';
+@import '../partials/vars';
+
+/* ==========================================================================
+   Typography
+   ========================================================================== */
+
+body,
+button,
+html,
+input,
+select,
+textarea {
+    color: @color-text;
+    font-family: @font-text;
+    line-height: 1.4;
+    text-rendering: optimizeLegibility;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    -moz-font-smoothing: antialiased;
+    -o-font-smoothing: antialiased;
+}
+
+a, button { .hover_animate(); }
+a, a:hover, a:focus {
+    color: @color-link;
+    text-decoration: none;
+    cursor: pointer;
+    outline: none !important;
+	&:hover { text-decoration: none; }
+}
