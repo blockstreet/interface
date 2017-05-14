@@ -5,7 +5,7 @@
                 <i class="icon-logo logo-bull-o"></i>
             </div>
             <div class="logo-title">
-                Block Street
+                Blockstreet
             </div>
         </div>
 
@@ -125,7 +125,7 @@
 
                 h1.section-title {
                     font-family: @font-text, sans-serif;
-                    font-size: 0.75em;
+                    font-size: 15px;
                     font-weight: 500;
                     color: @text-faded-gray;
                     line-height: 25px;

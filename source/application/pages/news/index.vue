@@ -2,17 +2,22 @@
     <div class="page page-home">
         <div class="content-body">
             <div class="news">
-                <div class="item" v-for="article in articles">
-                    <div class="news-image" :style="{ backgroundImage: 'url(' + article.image + ')' }"></div>
-
-                    <div class="news-body">
+                <div class="item" v-for="(article, index) in articles">
+                    <div class="header">
                         <h1 class="title">{{ article.headline }}</h1>
 
                         <div class="details">
+                            <span class="author">
+                                <span class="profile" style="background-image: url('/static/images/avatar-sign.png')"></span>
+                                <a href="#">{{ article.author }}</a>
+                            </span>
                             <span class="date">{{ article.date }}</span>
-                            <span class="author">by <a href="#">{{ article.author }}</a></span>
                         </div>
+                    </div>
 
+                    <div class="news-image" :style="{ backgroundImage: 'url(' + article.image + ')' }"></div>
+
+                    <div class="news-body">
                         <markdown
                             ref="markdown"
                             class="markdown"
@@ -20,6 +25,33 @@
                             :toc-anchor-link="false"
                             :source="article.excerpt">
                         </markdown>
+                    </div>
+
+                    <div class="footer">
+                        <div class="tag">
+                            <i class="fa fa-tags"></i> {{ article.tag }}
+                        </div>
+
+                        <div class="keep-reading">
+                            <i class="fa fa-chevron-down"></i>
+                            Keep Reading
+                            <span class="words">{{ words[index] }} words</span>
+                        </div>
+
+                        <div class="social">
+                            <span class="facebook">
+                                <i class="fa fa-facebook"></i>
+                            </span>
+                            <span class="twitter">
+                                <i class="fa fa-twitter"></i>
+                            </span>
+                            <span class="reddit">
+                                <i class="fa fa-reddit"></i>
+                            </span>
+                            <span class="link">
+                                <i class="fa fa-link"></i>
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -30,6 +62,7 @@
 <script lang="babel">
     import Vue from 'vue'
     import VueMarkdown from 'vue-markdown'
+    import moment from 'moment'
 
     export default {
         components: {
@@ -42,10 +75,17 @@
                     id: '0000-0000-0000',
                     headline: 'Blockstreet Launches',
                     image: 'https://raw.githubusercontent.com/nkmlombardi/desktop-backgrounds/master/mountain-purple.jpg',
-                    date: 'May 2nd, 2017',
+                    date: moment('5/1/2017').fromNow(),
                     author: 'The Blockstreet Team',
-                    excerpt: ''
+                    excerpt: '',
+                    tag: 'General'
                 }]
+            }
+        },
+
+        computed: {
+            words() {
+                return this.articles.map(article => article.excerpt.split(' ').length)
             }
         },
 
@@ -78,31 +118,67 @@
 
             .item {
                 flex: 1;
-                background: @color-bg-grey-light;
-                border: 1px solid @color-border-light;
-                border-radius: 3px;
+                background: @color-white;
+                border: 1px solid #e8e8e8;
                 overflow: hidden;
                 flex-direction: column;
                 position: relative;
+                padding-bottom: 50px;
 
                 .news-image {
                     width: 100%;
-                    height: 180px;
                     background-position: center;
                     background-size: cover;
                     position: relative;
                     overflow: hidden;
-                    cursor: pointer;
 
                     @-webkit-keyframes shine {
-                        100% {
-                            left: 125%;
-                        }
+                        100% { left: 125%; }
                     }
 
                     @keyframes shine {
-                        100% {
-                            left: 125%;
+                        100% { left: 125%; }
+                    }
+                }
+
+                .header {
+                    h1 {
+                        font-weight: 700;
+                        font-style: normal;
+                        letter-spacing: -.028em;
+                        display: inline-block;
+                    }
+
+                    .details {
+                        display: flex;
+                        flex-direction: row;
+                        font-size: 18px;
+                        flex-wrap: nowrap;
+
+                        .date {
+                            flex: 1;
+                            text-align: right;
+                            line-height: 26px;
+                            color: @color-placeholder;
+                        }
+
+                        .author {
+                            flex: 2;
+                            line-height: 26px;
+                            margin-top: 3px;
+
+                            .profile {
+                                height: 26px;
+                                width: 26px;
+                                display: block;
+                                float: left;
+                                margin-right: 12.5px;
+                                border-radius: 50%;
+
+                                background-size: cover;
+                                background-position: center center;
+                                background-color: #F9F9F9;
+                            }
                         }
                     }
                 }
@@ -112,34 +188,22 @@
                     flex-direction: column;
                     flex: 1 1 auto;
 
-                    h1 {
-                        font-weight: 700;
-                        font-style: normal;
-                        font-size: 36px;
-                        line-height: 1.04;
-                        letter-spacing: -.028em;
-                        cursor: pointer;
-                    }
-
-                    .details {
-                        border-top: 1px solid @color-border;
-                        padding-top: 10px;
-                        display: flex;
-                        flex-direction: row;
-                        margin-top: 10px;
-                        font-size: 18px;
-                        flex-wrap: wrap;
-
-                        .author { margin-left: 5px; }
-                    }
+                    font-family: blockstreet-content-serif-font, Georgia, Cambria, "Times New Roman", Times, serif;
+                    --x-height-multiplier: 0.35;
+                    --baseline-multiplier: 0.179;
+                    letter-spacing: .01rem;
+                    font-weight: 400;
+                    font-style: normal;
+                    letter-spacing: -.003em;
+                    line-height: 1.58;
 
                     p {
-                        margin-top: 10px;
-                        font-size: 21px;
+                        margin-bottom: 20px;
+                        & + ul { margin-top: -20px; }
                     }
 
                     ul {
-                        font-size: 21px;
+                        margin: 20px 0;
 
                         li {
                             &:before {
@@ -149,18 +213,96 @@
                         }
                     }
                 }
+
+                .footer {
+                    border-top: 1px solid #e8e8e8;
+                    display: flex;
+                    flex-direction: row;
+                    width: 100%;
+                    padding: 10px 40px;
+                    color: #4a4a4a;
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    background: @color-white;
+
+                    & > div { height: 32px; }
+
+                    .tag {
+                        flex: 1 1 auto;
+                        text-transform: uppercase;
+                        font-size: 16px;
+                        line-height: 32px;
+                        font-weight: 700;
+                        letter-spacing: 0.5px;
+                        max-width: 200px;
+                    }
+
+                    .keep-reading {
+                        text-align: center;
+                        flex: 2 0 auto;
+                        font-weight: 600;
+                        font-size: 16px;
+                        line-height: 32px;
+                        letter-spacing: 0.5px;
+
+                        i { margin-right: 10px; }
+
+                        .words {
+                            margin-left: 8px;
+                            font-weight: 700;
+                        }
+                    }
+
+                    .social {
+                        flex: 1 1 auto;
+                        flex-direction: row;
+                        flex-wrap: nowrap;
+                        height: 100%;
+                        text-align: right;
+                        max-width: 200px;
+
+                        span {
+                            background-color: #f0f0f0;
+                            color: #4a4a4a;
+                            flex: 1 1 auto;
+                            border-radius: 50%;
+                            font-size: 16px;
+                            display: inline-block;
+
+                            i.fa {
+                                width: 32px;
+                                height: 32px;
+                                line-height: 32px;
+                                text-align: center;
+                            }
+                        }
+                    }
+                }
             }
         }
 
-        @media (min-width: @screen-laptop-min) {
+
+        @media (min-width: @screen-desktop-min) {
+            .news { margin: 50px auto; }
+        }
+
+
+        @media (min-width: @screen-laptop-min) and (max-width: @screen-desktop-max) {
             .news {
+                max-width: 1000px;
+                font-size: 20px;
+
                 .item {
                     min-height: 360px;
                     min-width: 600px;
                     max-width: 100%;
-                    margin: 10px;
+
+                    .header { padding: 40px 40px 30px 40px; }
 
                     .news-image {
+                        height: 400px;
+
                         &:before {
                             position: absolute;
                             top: 0;
@@ -182,42 +324,40 @@
                         }
                     }
 
-                    .news-body {
-                        padding: 30px;
+                    .header {
+                        h1 { font-size: 42px; line-height: 1; }
+                    }
 
-                        h1 { font-size: 36px; }
-                        p { font-size: 21px; }
+                    .news-body {
+                        padding: 30px 40px;
                     }
                 }
             }
         }
 
-        @media (min-width: @screen-desktop-min) {
-            .news {
-                padding: 30px;
-            }
+
+        @media (min-width: @screen-laptop-min) and (max-width: @screen-laptop-max) {
+            .content-body { padding: 20px; }
+            .news { margin: 0px auto; }
         }
 
-        @media (min-width: @screen-tablet-min) and (max-width: @screen-tablet-max) {
-            .news { padding: 20px; }
-        }
 
         @media (max-width: @screen-tablet-max) {
             .news {
-                flex-direction: column;
+                font-size: 18px;
 
                 .item {
-                    min-width: 100%;
-                    max-width: 100%;
-                    margin-bottom: 20px;
+                    width: 100%;
 
-                    &:last-child { margin-bottom: 0; }
+                    &:not(:first-child) { margin-top: 20px; }
+
+                    .header { padding: 20px; }
+                    .news-image { height: 250px; }
 
                     .news-body {
                         padding: 20px;
 
                         h1 { font-size: 32px; }
-                        p, ul { font-size: 18px; }
                     }
                 }
             }
@@ -226,18 +366,20 @@
         @media (max-width: @screen-mobile-max) {
             .news {
                 .item {
-                    padding: 0;
                     border-left: 0;
                     border-right: 0;
+                    padding-bottom: 100px;
 
                     &:first-child { border-top: 0; }
                     &:last-child { margin-bottom: 0; }
 
-                    .news-body {
-                        .details {
-                            justify-content: space-between;
+                    .footer {
+                        flex-direction: column;
 
-                            .author { margin-left: 0; }
+                        & > div {
+                            text-align: center !important;
+                            min-width: 100%;
+                            flex: 1 1 auto;
                         }
                     }
                 }
