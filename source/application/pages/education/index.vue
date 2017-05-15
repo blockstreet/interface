@@ -73,11 +73,11 @@
         },
 
         mounted() {
-            Vue.$http.get('https://nkmlombardi.github.io/blockstreet/education.md')
+            Vue.$http.get('https://raw.githubusercontent.com/blockstreet/content/master/education.md')
                 .then((response) => { this.information = this.splitMarkdown(response) })
                 .catch(error => console.log(error))
 
-            Vue.$http.get('https://nkmlombardi.github.io/blockstreet/terms.json')
+            Vue.$http.get('https://raw.githubusercontent.com/blockstreet/content/master/terms.json')
                 .then((response) => { this.helper.dictionary = response })
                 .catch(error => console.log(error))
         },

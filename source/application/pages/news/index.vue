@@ -33,8 +33,8 @@
                         </div>
 
                         <div class="keep-reading">
-                            <i class="fa fa-chevron-down"></i>
-                            Keep Reading
+                            <!-- <i class="fa fa-chevron-down"></i>
+                            Keep Reading -->
                             <span class="words">{{ words[index] }} words</span>
                         </div>
 
@@ -90,7 +90,7 @@
         },
 
         mounted() {
-            Vue.$http.get('https://raw.githubusercontent.com/nkmlombardi/blockstreet/staging/news/04-04-2017.md')
+            Vue.$http.get('https://raw.githubusercontent.com/blockstreet/content/staging/news/04-04-2017.md')
                 .then((response) => {
                     this.articles[0].excerpt = response
                 })
@@ -288,7 +288,7 @@
         }
 
 
-        @media (min-width: @screen-laptop-min) and (max-width: @screen-desktop-max) {
+        @media (min-width: @screen-laptop-min) {
             .news {
                 max-width: 1000px;
                 font-size: 20px;
