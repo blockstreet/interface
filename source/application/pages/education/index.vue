@@ -20,7 +20,7 @@
                     </markdown>
                 </div>
             </div>
-            <div class="help-gutter">
+            <!-- <div class="help-gutter">
                 <div class="helper" :style="{ top: helper.offset + 'px' }">
                     <div v-for="(item, key) in helper.dictionary" class="term" :id="'lookup-' + key">
                         <div class="title">{{ key.replace('-', ' ') }}</div>
@@ -30,7 +30,7 @@
                         Nothing to show.
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </template>
@@ -158,7 +158,7 @@
     @import '~assets/less/partials/vars';
 
     .page-education {
-        background: @color-white;
+        // background: @color-white;
 
         .content-body {
             padding: 0;
@@ -276,8 +276,7 @@
 
         @media (min-width: @screen-desktop-min) {
             .education {
-                margin-left: auto;
-                margin-right: 75px;
+
                 max-width: 850px;
 
                 .section {

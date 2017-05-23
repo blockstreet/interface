@@ -215,9 +215,9 @@ Vue.use(VueWaypoint)
  *
  * https://www.npmjs.com/package/vue-intercom
  */
-import VueIntercom from 'vue-intercom'
-
-Vue.use(VueIntercom, { appId: 't45fbomu' })
+// import VueIntercom from 'vue-intercom'
+//
+// Vue.use(VueIntercom, { appId: 't45fbomu' })
 
 
 /* ============

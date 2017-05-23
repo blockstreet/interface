@@ -2,6 +2,7 @@
     <div id="tray" class="tray">
         <gutter></gutter>
         <sidebar></sidebar>
+        <sub-navigation></sub-navigation>
     </div>
 </template>
 
@@ -13,7 +14,8 @@
     export default {
         components: {
             sidebar: require('./sidebar.vue'),
-            gutter: require('./gutter.vue')
+            gutter: require('./gutter.vue'),
+            'sub-navigation': require('./sub-navigation.vue')
         },
 
         mounted() {
@@ -44,6 +46,14 @@
 
     @media (min-width: @screen-laptop-min) and (min-width: @screen-desktop-min) {
         .tray { width: 400px; }
+
+        .application.education .tray {
+            width: 470px;
+
+            .sub-navigation {
+                display: flex;
+            }
+        }
     }
 
     @media (max-width: @screen-tablet-max) {

@@ -40,6 +40,7 @@
         height: 100%;
         z-index: 10;
         background: transparent;
+        max-width: 300px;
 
         .logo-container {
             flex: 1 1 auto;
@@ -152,6 +153,7 @@
         .sidebar {
             width: 300px;
             border-left: 1px solid @color-text;
+            border-right: 1px solid @color-text;
         }
     }
 

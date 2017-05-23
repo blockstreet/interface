@@ -4,37 +4,19 @@
             <div class="table-container">
                 <div class="flex-table table-primary table-striped">
                     <div class="table-header">
+                        <div class="cell">Status</div>
                         <div class="cell">Name</div>
-                        <div class="cell">Supply</div>
-                        <div class="cell">Pool</div>
-                        <div class="cell">Start Date</div>
-                        <div class="cell">End Date</div>
+                        <div class="cell">Symbol</div>
+                        <div class="cell">Chain</div>
                     </div>
 
                     <div class="table-body">
-                        <div class="table-row" v-for="token in formattedUpcoming">
+                        <div class="table-row" v-for="token in list">
                             <div class="cells">
+                                <div class="cell">{{ token.status }}</div>
                                 <div class="cell">{{ token.name }}</div>
-                                <div class="cell">{{ token.supply }}</div>
-                                <div class="cell">{{ token.pool }}</div>
-                                <div class="cell">{{ token.start }}</div>
-                                <div class="cell">{{ token.end }}</div>
-                            </div>
-                        </div>
-
-                        <div class="table-row">
-                            <div class="cells">
-                                <div class="cell text-center">Completed Crowdsales</div>
-                            </div>
-                        </div>
-
-                        <div class="table-row" v-for="token in formattedCompleted">
-                            <div class="cells">
-                                <div class="cell">{{ token.name }}</div>
-                                <div class="cell">{{ token.supply }}</div>
-                                <div class="cell">{{ token.pool }}</div>
-                                <div class="cell">{{ token.start }}</div>
-                                <div class="cell">{{ token.end }}</div>
+                                <div class="cell">{{ token.symbol }}</div>
+                                <div class="cell">{{ token.chain }}</div>
                             </div>
                         </div>
                     </div>
@@ -46,101 +28,24 @@
 
 
 <script lang="babel">
+    import Vue from 'vue'
     import moment from 'moment'
 
     export default {
         computed: {
-            formattedUpcoming() {
-                return this.format(this.upcoming)
-            },
 
-            formattedCompleted() {
-                return this.format(this.completed)
-            },
-
-            oi() {
-                return JSON.stringify({ up: this.upcoming, down: this.completed })
-            }
         },
 
         data() {
             return {
-                upcoming: [{
-                    name: 'TokenCard',
-                    supply: 21000000,
-                    pool: 13600000,
-                    start: '5/2/2017',
-                    end: '5/9/2017'
-                }, {
-                    name: 'Peerplays',
-                    supply: 6000000,
-                    pool: 950000,
-                    start: '2/26/2017',
-                    end: '5/15/2017'
-                }, {
-                    name: 'BAT Token',
-                    supply: null,
-                    pool: null,
-                    start: null,
-                    end: null
-                }, {
-                    name: 'Status',
-                    supply: null,
-                    pool: null,
-                    start: null,
-                    end: null
-                }, {
-                    name: 'Aragon',
-                    supply: null,
-                    pool: null,
-                    start: null,
-                    end: null
-                }],
-
-                completed: [{
-                    name: 'Humaniq',
-                    supply: null,
-                    pool: null,
-                    start: null,
-                    end: null
-                }, {
-                    name: 'Edgeless',
-                    supply: null,
-                    pool: null,
-                    start: null,
-                    end: null
-                }, {
-                    name: 'vDice',
-                    supply: null,
-                    pool: null,
-                    start: null,
-                    end: null
-                }, {
-                    name: 'Gnosis',
-                    supply: null,
-                    pool: null,
-                    start: null,
-                    end: null
-                }, {
-                    name: 'Golem',
-                    supply: null,
-                    pool: null,
-                    start: null,
-                    end: null
-                }, {
-                    name: 'Matchpool',
-                    supply: null,
-                    pool: null,
-                    start: null,
-                    end: null
-                }, {
-                    name: 'Melonport',
-                    supply: null,
-                    pool: null,
-                    start: null,
-                    end: null
-                }]
+                list: false
             }
+        },
+
+        mounted() {
+            Vue.$http.get('http://localhost:4000/api/content/ico/index.json')
+                .then((response) => { this.list = response })
+                .catch(error => console.log(error))
         },
 
         methods: {

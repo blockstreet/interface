@@ -1,5 +1,5 @@
 <template>
-    <div class="application">
+    <div class="application" :class="$route.path.replace('/', '')">
         <router-view></router-view>
     </div>
 </template>

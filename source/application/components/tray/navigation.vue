@@ -1,13 +1,22 @@
 <template>
     <div class="navigation">
-        <div class="item-container" v-for="item in menu" :class="{ 'active': $route.name === item.name }">
+        <!-- <div class="icon-navigation">
+            <div class="link" v-for="item in menu" :class="{ 'active': $route.name === item.name }">
+                <i class="fa" :class="item.icon"></i>
+            </div>
+        </div> -->
+
+        <div class="item-container primary" v-for="item in menu" :class="{ 'active': $route.name === item.name }">
             <router-link :to="{ name: item.name, path: item.path }" class="row-item" tag="div">
                 <i class="fa" :class="item.icon"></i>
                 <span class="title">{{ item.title }}</span>
             </router-link>
 
             <div class="submenu-container" v-if="item.subitems.length > 0  && $route.name === item.name">
-                <div class="item-container" v-for="subitem in item.subitems" :class="{ 'active': ($route.hash === subitem.path) || ($route.name === subitem.name) }">
+                <div class="item-container" v-for="subitem in item.subitems" :class="{
+                    'active': ($route.hash === subitem.path) || ($route.name === subitem.name),
+                    'completed': (Math.round(Math.random() * 2) % 2)
+                }">
                     <router-link
                         v-if="subitem.type === 'view'"
                         :to="{ name: subitem.name }"
@@ -18,6 +27,24 @@
                     >{{ subitem.title }}</router-link>
 
                     <a class="row-item" v-if="subitem.type === 'hash'" :href="subitem.path">{{ subitem.title }}</a>
+
+                    <div class="childmenu-container" v-if="subitem.subitems.length > 0 ">
+                        <div class="item-container" v-for="childitem in subitem.subitems" :class="{
+                            'active': ($route.hash === childitem.path) || ($route.name === subitem.name),
+                            'completed': true
+                        }">
+                            <router-link
+                                v-if="childitem.type === 'view'"
+                                :to="{ name: childitem.name }"
+                                active-class="active"
+                                class="row-item"
+                                tag="a"
+                                :class="{ 'active': $route.hash === childitem.path }"
+                            >{{ childitem.title }}</router-link>
+
+                            <a class="row-item" v-if="childitem.type === 'hash'" :href="childitem.path">{{ childitem.title }}</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -44,33 +71,20 @@
                     title: 'Education',
                     icon: 'fa-graduation-cap',
                     subitems: [{
-                        path: '#cryptocurrencies',
-                        title: 'Cryptocurrencies',
-                        type: 'hash'
+                        name: 'education.cryptocurrency',
+                        title: 'Cryptocurrency',
+                        type: 'view',
+                        subitems: []
                     }, {
-                        path: '#blockchains',
-                        title: 'Blockchains',
-                        type: 'hash'
+                        name: 'education.blockchain',
+                        title: 'Blockchain',
+                        type: 'view',
+                        subitems: []
                     }, {
-                        path: '#analogy-time',
-                        title: 'Analogy',
-                        type: 'hash'
-                    }, {
-                        path: '#efficiency',
-                        title: 'Efficiency',
-                        type: 'hash'
-                    }, {
-                        path: '#what-makes-it-valuable',
-                        title: 'What makes it valuable?',
-                        type: 'hash'
-                    }, {
-                        path: '#who-buys-cryptocurrencies',
-                        title: 'Who buys cryptocurrencies?',
-                        type: 'hash'
-                    }, {
-                        path: '#what-are-some-examples-of-cryptocurrencies',
-                        title: 'Cryptocurrency Examples',
-                        type: 'hash'
+                        name: 'education.cryptography',
+                        title: 'Cryptography',
+                        type: 'view',
+                        subitems: []
                     }]
                 }, {
                     name: 'ico.index',
@@ -87,6 +101,35 @@
 <style lang="less">
     @import '~assets/less/partials/vars';
 
+    .icon-navigation {
+        flex-direction: row;
+        display: flex;
+        flex: 1 1 auto;
+        height: 60px;
+        border-top: 1px solid rgba(255, 255, 255, 0.03);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        margin-bottom: 25px;
+
+        .link {
+            flex: 1 1 auto;
+            height: 100%;
+            display: flex;
+            text-align: center;
+            align-items: center;
+            border-right: 1px solid rgba(255, 255, 255, 0.03);
+            cursor: pointer;
+
+            &:last-child { border-right: 0; }
+            &:hover { color: @color-white; }
+
+            i {
+                font-size: 22px;
+                height: 22px;
+                width: 100%;
+            }
+        }
+    }
+
     .navigation {
         list-style-type: none;
         margin: 0;
@@ -94,6 +137,8 @@
         font-size: 0.8em;
         // overflow-y: scroll;
         height: 100%;
+
+        & > .item-container:last-child { border-bottom: 1px solid rgba(255, 255, 255, 0.03); }
 
         .item-container {
             text-decoration: none;
@@ -114,16 +159,23 @@
                   -ms-user-select: none; /* Internet Explorer/Edge */
                       user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
 
+            &.primary > .row-item {
+                padding-left: 70px;
+                padding-right: 30px;
+            }
+
             .row-item {
                 display: flex;
                 flex: 1 1 auto;
-                padding: 0 30px 0 70px;
+                border-top: 1px solid rgba(255, 255, 255, 0.03);
+                padding-top: 1.5px;
+                padding-bottom: 1.5px;
 
                 i.fa {
                     position: absolute;
                     left: 0;
                     top: 0;
-                    height: 36px;
+                    height: 42px;
                     width: 30px;
                     text-align: center;
                     flex: 1 1 auto;
@@ -133,9 +185,7 @@
                 }
             }
 
-            &:hover {
-                color: @text-hover-gray;
-            }
+            &:hover { color: @text-hover-gray; }
 
             &.active {
                 background: @dark-blue-gray;
@@ -146,13 +196,37 @@
                     margin-left: -1.5px;
                 }
             }
+
+            &.completed a:after { color: @color-bg-green; }
         }
 
         .submenu-container {
-            padding: 10px 0;
+            .item-container.completed a:after { color: @color-bg-green; }
 
             a {
-                padding: 0px 30px 0px 70px;
+                padding-left: 70px;
+                padding-right: 30px;
+                color: inherit;
+                display: flex;
+                flex: 1 1 auto;
+
+                &:after {
+                    content: '\f00c';
+                    font-family: FontAwesome;
+                    position: absolute;
+                    right: 0;
+                    top: 0;
+                    height: 100%;
+                    width: 50px;
+                    text-align: center;
+                }
+            }
+        }
+
+        .childmenu-container {
+            a {
+                padding-left: 60px;
+                padding-right: 30px;
                 color: inherit;
                 display: flex;
                 flex: 1 1 auto;

@@ -35,7 +35,22 @@ export default [
             {
                 path: '/education',
                 name: 'education.index',
-                component: require('pages/education/index.vue')
+                component: require('pages/education/index.vue'),
+                children: [
+                    {
+                        path: 'cryptocurrency',
+                        name: 'education.cryptocurrency',
+                        component: require('pages/education/index.vue')
+                    }, {
+                        path: 'blockchain',
+                        name: 'education.blockchain',
+                        component: require('pages/education/index.vue')
+                    }, {
+                        path: 'cryptography',
+                        name: 'education.cryptography',
+                        component: require('pages/education/index.vue')
+                    }
+                ]
             },
 
             // ICO's
