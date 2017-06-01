@@ -43,7 +43,7 @@
         },
 
         mounted() {
-            Vue.$http.get('http://localhost:4000/api/content/ico/index.json')
+            Vue.$http.get('content/ico/index.json')
                 .then((response) => { this.list = response })
                 .catch(error => console.log(error))
         },

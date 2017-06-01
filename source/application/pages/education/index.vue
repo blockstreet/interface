@@ -2,7 +2,7 @@
     <div class="page page-education">
         <div class="content-body">
             <div v-if="information" class="education">
-                <div
+                <!-- <div
                     class="section"
                     v-for="(section, index) in information"
                     :class="{ 'active': waypoints.includes(index) }"
@@ -18,7 +18,8 @@
                         :toc-anchor-link="false"
                         :source="section">
                     </markdown>
-                </div>
+                </div> -->
+                <div v-html="information"></div>
             </div>
             <!-- <div class="help-gutter">
                 <div class="helper" :style="{ top: helper.offset + 'px' }">
@@ -61,6 +62,10 @@
             }
         },
 
+        computed: {
+            section() { return this.$route }
+        },
+
         watch: {
             waypoints(value) {
                 if (value.length > 0) {
@@ -69,20 +74,34 @@
                     this.helper.offset = this.helper.element.offsetTop
                     this.helper.height = this.helper.element.clientHeight
                 }
+            },
+
+            section(route) {
+                console.log('Changed!', route)
+                this.loadContent(route)
             }
         },
 
         mounted() {
-            Vue.$http.get('https://raw.githubusercontent.com/blockstreet/content/master/education.md')
-                .then((response) => { this.information = this.splitMarkdown(response) })
-                .catch(error => console.log(error))
-
-            Vue.$http.get('https://raw.githubusercontent.com/blockstreet/content/master/terms.json')
-                .then((response) => { this.helper.dictionary = response })
-                .catch(error => console.log(error))
+            this.loadContent(this.$route)
         },
 
         methods: {
+            loadContent(route) {
+                console.log(route.path)
+
+                let path = route.path
+                if (route.meta.type === 'index') path = `${path}/index`
+
+                console.log(path)
+
+                Vue.$http.get(`content${path}.md`)
+                    .then((response) => {
+                        this.information = response
+                    })
+                    .catch(error => console.log(error))
+            },
+
             setupListeners() {
                 this.$nextTick(() => {
                     if (this.waypoints.length > 0) {

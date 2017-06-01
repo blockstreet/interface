@@ -256,7 +256,7 @@
 
             refresh() {
                 this.loading = true
-                Vue.$http.get('/ticker')
+                Vue.$http.get('https://blockstreet.io/api/ticker')
                     .then((response) => {
                         this.ticker = response.map((coin) => {
                             if (coin.symbol === 'ETC') coin.title = 'ETH Classic'

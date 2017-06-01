@@ -6,43 +6,48 @@
             </div>
         </div> -->
 
-        <div class="item-container primary" v-for="item in menu" :class="{ 'active': $route.name === item.name }">
-            <router-link :to="{ name: item.name, path: item.path }" class="row-item" tag="div">
+        <div class="item-container primary" v-for="item in menu" :class="{
+            'active': $route.name.includes(item.name)
+        }">
+            <router-link
+                :to="{ name: item.name, path: item.path }"
+                class="row-item"
+                tag="div"
+                :class="{ 'active': $route.name.includes(item.name) }"
+            >
                 <i class="fa" :class="item.icon"></i>
                 <span class="title">{{ item.title }}</span>
             </router-link>
 
-            <div class="submenu-container" v-if="item.subitems.length > 0  && $route.name === item.name">
+            <div class="submenu-container" v-if="item.subitems.length > 0  && $route.name.includes(item.name)">
                 <div class="item-container" v-for="subitem in item.subitems" :class="{
-                    'active': ($route.hash === subitem.path) || ($route.name === subitem.name),
+                    'active': $route.name.includes(subitem.name),
                     'completed': (Math.round(Math.random() * 2) % 2)
                 }">
                     <router-link
                         v-if="subitem.type === 'view'"
                         :to="{ name: subitem.name }"
-                        active-class="active"
                         class="row-item"
                         tag="a"
-                        :class="{ 'active': $route.name === subitem.name }"
+                        :class="{ 'active': $route.name.includes(subitem.name) }"
                     >{{ subitem.title }}</router-link>
 
-                    <a class="row-item" v-if="subitem.type === 'hash'" :href="subitem.path">{{ subitem.title }}</a>
+                    <!-- <a class="row-item" v-if="subitem.type === 'hash'" :href="subitem.path">{{ subitem.title }}</a> -->
 
                     <div class="childmenu-container" v-if="subitem.subitems.length > 0 ">
                         <div class="item-container" v-for="childitem in subitem.subitems" :class="{
-                            'active': ($route.hash === childitem.path) || ($route.name === subitem.name),
+                            /*'active': $route.name.includes(subitem.name),*/
                             'completed': true
                         }">
                             <router-link
                                 v-if="childitem.type === 'view'"
                                 :to="{ name: childitem.name }"
-                                active-class="active"
                                 class="row-item"
                                 tag="a"
-                                :class="{ 'active': $route.hash === childitem.path }"
+                                :class="{ 'active': $route.name.includes(childitem.name) }"
                             >{{ childitem.title }}</router-link>
 
-                            <a class="row-item" v-if="childitem.type === 'hash'" :href="childitem.path">{{ childitem.title }}</a>
+                            <!-- <a class="row-item" v-if="childitem.type === 'hash'" :href="childitem.path">{{ childitem.title }}</a> -->
                         </div>
                     </div>
                 </div>
@@ -65,9 +70,19 @@
                     name: 'ticker.index',
                     title: 'Price Tracker',
                     icon: 'fa-database',
-                    subitems: []
+                    subitems: [{
+                        name: 'home.index',
+                        title: 'Currencies',
+                        type: 'view',
+                        subitems: []
+                    }, {
+                        name: 'home.index',
+                        title: 'Assets',
+                        type: 'view',
+                        subitems: []
+                    }]
                 }, {
-                    name: 'education.index',
+                    name: 'education',
                     title: 'Education',
                     icon: 'fa-graduation-cap',
                     subitems: [{
@@ -75,19 +90,19 @@
                         title: 'Cryptocurrency',
                         type: 'view',
                         subitems: [{
-                            name: 'education.cryptocurrency',
+                            name: 'education.cryptocurrency.economics',
                             title: 'Economics',
                             type: 'view'
                         }, {
-                            name: 'education.cryptocurrency',
+                            name: 'education.cryptocurrency.exchanges',
                             title: 'Exchanges',
                             type: 'view'
                         }, {
-                            name: 'education.cryptocurrency',
+                            name: 'education.cryptocurrency.initial-coin-offering',
                             title: 'Initial Coin Offering',
                             type: 'view'
                         }, {
-                            name: 'education.cryptocurrency',
+                            name: 'education.cryptocurrency.legality',
                             title: 'Legality',
                             type: 'view'
                         }]
@@ -96,31 +111,31 @@
                         title: 'Blockchain',
                         type: 'view',
                         subitems: [{
-                            name: 'education.cryptocurrency',
+                            name: 'education.blockchain.addresses',
                             title: 'Addresses',
                             type: 'view'
                         }, {
-                            name: 'education.cryptocurrency',
+                            name: 'education.blockchain.decentralization',
                             title: 'Decentralization',
                             type: 'view'
                         }, {
-                            name: 'education.cryptocurrency',
+                            name: 'education.blockchain.digital-signature',
                             title: 'Digital Signature',
                             type: 'view'
                         }, {
-                            name: 'education.cryptocurrency',
+                            name: 'education.blockchain.forking',
                             title: 'Forking',
                             type: 'view'
                         }, {
-                            name: 'education.cryptocurrency',
+                            name: 'education.blockchain.hashing',
                             title: 'Hashing',
                             type: 'view'
                         }, {
-                            name: 'education.cryptocurrency',
+                            name: 'education.blockchain.immutability',
                             title: 'Immutability',
                             type: 'view'
                         }, {
-                            name: 'education.cryptocurrency',
+                            name: 'education.blockchain.mining',
                             title: 'Mining',
                             type: 'view'
                         }]
@@ -139,35 +154,6 @@
 
 <style lang="less">
     @import '~assets/less/partials/vars';
-
-    .icon-navigation {
-        flex-direction: row;
-        display: flex;
-        flex: 1 1 auto;
-        height: 60px;
-        border-top: 1px solid rgba(255, 255, 255, 0.03);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-        margin-bottom: 25px;
-
-        .link {
-            flex: 1 1 auto;
-            height: 100%;
-            display: flex;
-            text-align: center;
-            align-items: center;
-            border-right: 1px solid rgba(255, 255, 255, 0.03);
-            cursor: pointer;
-
-            &:last-child { border-right: 0; }
-            &:hover { color: @color-white; }
-
-            i {
-                font-size: 22px;
-                height: 22px;
-                width: 100%;
-            }
-        }
-    }
 
     .navigation {
         list-style-type: none;
@@ -229,6 +215,12 @@
                         transition: all 0.1s;
                     }
                 }
+
+                &.active {
+                    color: @text-hover-gray;
+                    border-left: 1.5px solid @color-link;
+                    margin-left: -1.5px;
+                }
             }
 
             &:hover {
@@ -247,11 +239,11 @@
 
             &.active {
                 background: @dark-blue-gray;
-                color: @text-hover-gray;
+                // color: @text-hover-gray;
 
                 & > .row-item {
-                    border-left: 1.5px solid @color-link;
-                    margin-left: -1.5px;
+                    // border-left: 1.5px solid @color-link;
+                    // margin-left: -1.5px;
 
                     i {
                         opacity: 0.2;
