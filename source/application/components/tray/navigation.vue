@@ -59,7 +59,7 @@
                 menu: [{
                     name: 'home.index',
                     title: 'News',
-                    icon: 'fa-tachometer',
+                    icon: 'fa-newspaper-o',
                     subitems: []
                 }, {
                     name: 'ticker.index',
@@ -74,17 +74,56 @@
                         name: 'education.cryptocurrency',
                         title: 'Cryptocurrency',
                         type: 'view',
-                        subitems: []
+                        subitems: [{
+                            name: 'education.cryptocurrency',
+                            title: 'Economics',
+                            type: 'view'
+                        }, {
+                            name: 'education.cryptocurrency',
+                            title: 'Exchanges',
+                            type: 'view'
+                        }, {
+                            name: 'education.cryptocurrency',
+                            title: 'Initial Coin Offering',
+                            type: 'view'
+                        }, {
+                            name: 'education.cryptocurrency',
+                            title: 'Legality',
+                            type: 'view'
+                        }]
                     }, {
                         name: 'education.blockchain',
                         title: 'Blockchain',
                         type: 'view',
-                        subitems: []
-                    }, {
-                        name: 'education.cryptography',
-                        title: 'Cryptography',
-                        type: 'view',
-                        subitems: []
+                        subitems: [{
+                            name: 'education.cryptocurrency',
+                            title: 'Addresses',
+                            type: 'view'
+                        }, {
+                            name: 'education.cryptocurrency',
+                            title: 'Decentralization',
+                            type: 'view'
+                        }, {
+                            name: 'education.cryptocurrency',
+                            title: 'Digital Signature',
+                            type: 'view'
+                        }, {
+                            name: 'education.cryptocurrency',
+                            title: 'Forking',
+                            type: 'view'
+                        }, {
+                            name: 'education.cryptocurrency',
+                            title: 'Hashing',
+                            type: 'view'
+                        }, {
+                            name: 'education.cryptocurrency',
+                            title: 'Immutability',
+                            type: 'view'
+                        }, {
+                            name: 'education.cryptocurrency',
+                            title: 'Mining',
+                            type: 'view'
+                        }]
                     }]
                 }, {
                     name: 'ico.index',
@@ -160,7 +199,7 @@
                       user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
 
             &.primary > .row-item {
-                padding-left: 70px;
+                padding-left: 30px;
                 padding-right: 30px;
             }
 
@@ -175,17 +214,36 @@
                     position: absolute;
                     left: 0;
                     top: 0;
+                    width: 100%;
                     height: 42px;
-                    width: 30px;
-                    text-align: center;
-                    flex: 1 1 auto;
-                    display: flex;
-                    align-items: center;
-                    padding: 0 0 0 30px;
+                    overflow: hidden;
+                    opacity: 0.15;
+
+                    &:before {
+                        position: absolute;
+                        top: -6px;
+                        right: 20px;
+                        width: 80px;
+                        text-align: center;
+                        font-size: 60px;
+                        transition: all 0.1s;
+                    }
                 }
             }
 
-            &:hover { color: @text-hover-gray; }
+            &:hover {
+                color: @text-hover-gray;
+
+                i.fa {
+                    color: @text-hover-gray;
+                    opacity: 0.2;
+
+                    &:before {
+                        transform: rotate(-14deg);
+                        transform-origin: 50% 40%;
+                    }
+                }
+            }
 
             &.active {
                 background: @dark-blue-gray;
@@ -194,6 +252,15 @@
                 & > .row-item {
                     border-left: 1.5px solid @color-link;
                     margin-left: -1.5px;
+
+                    i {
+                        opacity: 0.2;
+
+                        &:before {
+                            transform: rotate(-14deg);
+                            transform-origin: 50% 40%;
+                        }
+                    }
                 }
             }
 
@@ -204,28 +271,28 @@
             .item-container.completed a:after { color: @color-bg-green; }
 
             a {
-                padding-left: 70px;
+                padding-left: 60px;
                 padding-right: 30px;
                 color: inherit;
                 display: flex;
                 flex: 1 1 auto;
 
-                &:after {
-                    content: '\f00c';
-                    font-family: FontAwesome;
-                    position: absolute;
-                    right: 0;
-                    top: 0;
-                    height: 100%;
-                    width: 50px;
-                    text-align: center;
-                }
+                // &:after {
+                //     content: '\f00c';
+                //     font-family: FontAwesome;
+                //     position: absolute;
+                //     right: 0;
+                //     top: 0;
+                //     height: 100%;
+                //     width: 50px;
+                //     text-align: center;
+                // }
             }
         }
 
         .childmenu-container {
             a {
-                padding-left: 60px;
+                padding-left: 90px;
                 padding-right: 30px;
                 color: inherit;
                 display: flex;

@@ -1,15 +1,15 @@
 var express = require('express')
-var nunjucks = require('nunjucks')
+// var nunjucks = require('nunjucks')
 var morgan = require('morgan')
 var app = express()
 
 
 // Templating Configuration
-nunjucks.configure(__dirname + '/dist/', {
-    autoescape: true,
-    express: app,
-    watch: false
-})
+// nunjucks.configure(__dirname + '/dist/', {
+//     autoescape: true,
+//     express: app,
+//     watch: false
+// })
 
 // Logging
 app.use(morgan('short'))
