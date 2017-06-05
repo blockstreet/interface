@@ -128,6 +128,7 @@
             min-height: 100vh !important;
             display: flex;
             flex-direction: row;
+            overflow-x: hidden;
         }
 
         .help-gutter {
@@ -174,6 +175,7 @@
             flex: 1 1 auto;
             color: rgba(0, 0, 0, .8);
             margin: auto;
+            height: 100%;
 
             lookup[key] {
                 cursor: pointer;
@@ -303,6 +305,8 @@
             .education {
                 max-width: 850px;
                 font-size: 20px;
+                margin-top: 50px;
+                margin-bottom: 50px;
 
                 h1, h2 { margin-top: 50px; }
 
@@ -318,8 +322,10 @@
         @media (min-width: @screen-laptop-min) and (max-width: @screen-laptop-max) {
             .education {
                 margin-top: 50px;
+                margin-bottom: 50px;
                 font-size: 18px;
 
+                h1, h2 { margin-top: 50px; }
                 table { margin: 50px 0; }
             }
         }
@@ -332,15 +338,9 @@
         }
 
 
-        @media (min-width: @screen-laptop-min) {
-            .content-body {
-                overflow-x: hidden;
-            }
-        }
-
-
         @media (max-width: @screen-tablet-max) {
             .education {
+                font-size: 17px;
                 padding: 20px;
 
                 table {
