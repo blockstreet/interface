@@ -95,7 +95,7 @@ export default configuration => ({
             text: '1d'
         }, {
             type: 'week',
-            count: 7,
+            count: 1,
             text: '1w'
         }, {
             type: 'month',
