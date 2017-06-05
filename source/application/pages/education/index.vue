@@ -121,8 +121,6 @@
     @import '~assets/less/partials/vars';
 
     .page-education {
-        // background: @color-white;
-
         .content-body {
             padding: 0;
             min-height: 100vh !important;
