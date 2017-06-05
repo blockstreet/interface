@@ -1,37 +1,7 @@
 <template>
     <div class="page page-education">
         <div class="content-body">
-            <div v-if="information" class="education">
-                <!-- <div
-                    class="section"
-                    v-for="(section, index) in information"
-                    :class="{ 'active': waypoints.includes(index) }"
-                    ref="section">
-                    <v-waypoint
-                        v-on:waypoint-in="waypointIn(index)"
-                        v-on:waypoint-out="waypointOut(index)">
-                    </v-waypoint>
-                    <markdown
-                        ref="markdown"
-                        class="markdown"
-                        :toc="true"
-                        :toc-anchor-link="false"
-                        :source="section">
-                    </markdown>
-                </div> -->
-                <div v-html="information"></div>
-            </div>
-            <!-- <div class="help-gutter">
-                <div class="helper" :style="{ top: helper.offset + 'px' }">
-                    <div v-for="(item, key) in helper.dictionary" class="term" :id="'lookup-' + key">
-                        <div class="title">{{ key.replace('-', ' ') }}</div>
-                        <p class="definition">{{ item }}</p>
-                    </div>
-                    <div v-if="helper.keys.length === 0">
-                        Nothing to show.
-                    </div>
-                </div>
-            </div> -->
+            <div class="education" v-if="information" v-html="information"></div>
         </div>
     </div>
 </template>
@@ -77,7 +47,6 @@
             },
 
             section(route) {
-                console.log('Changed!', route)
                 this.loadContent(route)
             }
         },
@@ -88,12 +57,8 @@
 
         methods: {
             loadContent(route) {
-                console.log(route.path)
-
                 let path = route.path
                 if (route.meta.type === 'index') path = `${path}/index`
-
-                console.log(path)
 
                 Vue.$http.get(`content${path}.md`)
                     .then((response) => {
@@ -147,27 +112,6 @@
             waypointOut(index) {
                 const element = this.$refs.markdown[index].$el.children[0]
                 if (element.tagName === 'H2') this.waypoints.splice(this.waypoints.indexOf(index), 1)
-            },
-
-            splitMarkdown(text) {
-                const sections = []
-                let section
-
-                function addSection() {
-                    if (section) sections.push(section.join('\n'))
-                }
-
-                text.split('\n').forEach((line) => {
-                    if (/^([#]{1,2}\s\[)/.test(line)) {
-                        addSection()
-                        section = []
-                    }
-
-                    (section = section || []).push(line)
-                })
-
-                addSection()
-                return sections
             }
         }
     }
@@ -273,129 +217,127 @@
             h2 { font-size: 2.25em; }
             h4 { font-size: 1em; }
 
-            p {
+            p, span, table {
                 font-family: blockstreet-content-serif-font, Georgia, Cambria, "Times New Roman", Times, serif;
-                margin-bottom: 25px;
                 --x-height-multiplier: 0.35;
                 --baseline-multiplier: 0.179;
-                letter-spacing: .01rem;
-                font-weight: 400;
-                font-style: normal;
-                letter-spacing: -.003em;
                 line-height: 1.58;
+                letter-spacing: -.003em;
             }
 
-            table {
-                background: transparent;
+            p { margin-bottom: 25px; }
 
-                td { vertical-align: top; }
+            table {
+                position: relative;
+                background: @color-white;
+                box-shadow: 0px 6px 6px -6px rgba(0, 0, 0, 0.075);
+                display: flex;
+                flex-direction: column;
+                padding: 50px 0;
+
+                thead {
+                    display: flex;
+                    flex-direction: column;
+
+                    tr {
+                        display: flex;
+                        border-bottom: 1px solid @color-border;
+                    }
+                }
+
+                tbody {
+                    display: flex;
+                    flex: 1 1 auto;
+                    flex-direction: column;
+
+                    tr {
+                        border-bottom: 1px solid @color-border;
+                        display: flex;
+                        flex: 1 1 auto;
+
+                        td {
+                            vertical-align: top;
+                            flex-grow: 1;
+                            flex-basis: 0;
+
+                            &:first-child { padding-left: 0; }
+                            &:last-child { padding-right: 0; }
+                        }
+
+                        &:last-child { border-bottom: 0; }
+                    }
+                }
+
+                th, td {
+                    flex: 1 1 auto;
+                    padding: 10px;
+                }
+
+                &:before {
+                    content: '';
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    background: @color-white;
+                    top: 0;
+                    left: -100%;
+                    box-shadow: 0px 6px 6px -6px rgba(0, 0, 0, 0.075);
+                }
+
+                &:after {
+                    content: '';
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    background: @color-white;
+                    top: 0;
+                    right: -100%;
+                    box-shadow: 0px 6px 6px -6px rgba(0, 0, 0, 0.075);
+                }
             }
         }
 
 
         @media (min-width: @screen-desktop-min) {
             .education {
-
                 max-width: 850px;
+                font-size: 20px;
 
-                .section {
-                    margin-bottom: 125px;
+                h1, h2 { margin-top: 50px; }
 
-                    &.active {
-                        &:before {
-                            content: '';
-                            position: absolute;
-                            width: 1px;
-                            height: 100%;
-                            left: -50px;
-                            top: 0;
-                            background: @color-link;
-                            opacity: 0.5;
-                        }
-
-                        .helpers { display: flex; }
-                    }
-
-                    h1 > a, h2 > a {
-                        position: relative;
-                        margin-left: -50px;
-                        padding-left: 50px;
-
-                        &:hover {
-                            &:before {
-                                content: '\f0c1';
-                                display: block;
-                                position: absolute;
-                                left: 0;
-                                top: 0;
-                                width: 45px;
-                                margin-left: 5px;
-                                height: 2em;
-                                font-family: 'FontAwesome';
-                                font-size: 0.6em;
-                                line-height: 2em;
-                                text-align: center;
-                            }
-                        }
-                    }
-                }
-            }
-
-            .markdown {
                 table {
-                    font-size: 18px;
-                    margin: 50px 0;
-
-                    thead {
-                        th {
-                            background: transparent;
-                            border-top: 0;
-                        }
-                    }
-
-                    th, td { width: 50%; padding: 15px 0; }
-                    th:first-child, td:first-child { padding-right: 10px; }
-                    th:last-child, td:last-child { padding-left: 10px; }
+                    max-width: (@screen-desktop-min);
+                    width: 140%;
+                    margin: 50px 0 50px -20%;
                 }
             }
         }
 
-        @media (max-width: @screen-laptop-max) {
-            .help-gutter { display: none; }
-        }
 
-        @media (min-width: @screen-laptop-min) {
+        @media (min-width: @screen-laptop-min) and (max-width: @screen-laptop-max) {
             .education {
                 margin-top: 50px;
+                font-size: 18px;
 
-                .section {
-                    p {
-                        font-size: 21px;
-                        margin-bottom: 30px;
-                        letter-spacing: -.003em;
-                    }
-                }
+                table { margin: 50px 0; }
             }
         }
+
+
+        @media (max-width: @screen-laptop-max) {
+            .education {
+                table { width: 100%; }
+            }
+        }
+
 
         @media (max-width: @screen-tablet-max) {
             .education {
                 padding: 20px;
 
-                .section {
-                    margin-bottom: 50px;
-
-                    p {
-                        font-size: 18px;
-                        margin-bottom: 21px;
-                        letter-spacing: -.004em;
-                    }
-                }
-
-                .markdown {
-                    table {
-                        margin: 25px 0;
-                    }
+                table {
+                    padding: 10px 0;
+                    margin: 25px 0;
                 }
             }
         }
