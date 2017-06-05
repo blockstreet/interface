@@ -259,6 +259,7 @@
                             vertical-align: top;
                             flex-grow: 1;
                             flex-basis: 0;
+                            padding-top: 15px;
 
                             &:first-child { padding-left: 0; }
                             &:last-child { padding-right: 0; }
@@ -327,6 +328,13 @@
         @media (max-width: @screen-laptop-max) {
             .education {
                 table { width: 100%; }
+            }
+        }
+
+
+        @media (min-width: @screen-laptop-min) {
+            .content-body {
+                overflow-x: hidden;
             }
         }
 
