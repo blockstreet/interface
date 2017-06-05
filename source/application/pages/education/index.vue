@@ -63,6 +63,7 @@
                 Vue.$http.get(`content${path}.md`)
                     .then((response) => {
                         this.information = response
+                        document.getElementsByClassName('content-body')[0].scrollTop = 0
                     })
                     .catch(error => console.log(error))
             },
