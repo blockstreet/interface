@@ -3,10 +3,13 @@
         <div class="header">
             <div class="options">
                 <h1>Cryptocurrency Market Capitalization</h1>
-                <button type="button" class="btn" v-on:click="refresh()">
-                    <span v-if="!loading">Refresh</span>
-                    <i class="fa fa-spin fa-refresh" v-if="loading || !loaded"></i>
-                </button>
+                <div class="">
+                    <!-- <span>updated {{ updatedAt.toNow() }}</span> -->
+                    <!-- <button type="button" class="btn" v-on:click="refresh()">
+                        <span v-if="!loading">Refresh</span>
+                        <i class="fa fa-spin fa-refresh" v-if="loading || !loaded"></i>
+                    </button> -->
+                </div>
             </div>
         </div>
 
@@ -122,6 +125,7 @@
     import Vue from 'vue'
     import chartConstructor from 'utilities/chart'
     import colorMap from 'utilities/colors'
+    import moment from 'moment'
 
     export default {
         data() {
@@ -132,6 +136,7 @@
                 expanded: false,
                 chart: false,
                 sorted: false,
+                updatedAt: moment(),
                 headers: [{
                     key: 'symbol',
                     title: 'Symbol',
@@ -205,6 +210,12 @@
 
         created() {
             this.refresh()
+
+            setInterval(() => {
+                this.refresh()
+                this.updatedAt = moment()
+                console.log('Ticker refreshed.')
+            }, 1000 * 60)
         },
 
         methods: {

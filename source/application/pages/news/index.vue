@@ -29,7 +29,7 @@
 
                     <div class="footer">
                         <div class="tag">
-                            <i class="fa fa-tags"></i> {{ article.tag }}
+                            <!-- <i class="fa fa-tags"></i> {{ article.tag }} -->
                         </div>
 
                         <div class="keep-reading">
@@ -39,7 +39,7 @@
                         </div>
 
                         <div class="social">
-                            <span class="facebook">
+                            <!-- <span class="facebook">
                                 <i class="fa fa-facebook"></i>
                             </span>
                             <span class="twitter">
@@ -50,7 +50,7 @@
                             </span>
                             <span class="link">
                                 <i class="fa fa-link"></i>
-                            </span>
+                            </span> -->
                         </div>
                     </div>
                 </div>
@@ -75,7 +75,7 @@
                     id: '0000-0000-0000',
                     headline: 'Blockstreet Launches',
                     image: 'https://raw.githubusercontent.com/nkmlombardi/desktop-backgrounds/master/mountain-purple.jpg',
-                    date: moment('5/1/2017').fromNow(),
+                    date: moment('2017-06-01').fromNow(),
                     author: 'The Blockstreet Team',
                     excerpt: '',
                     tag: 'General'

@@ -70,17 +70,19 @@
                     name: 'ticker.index',
                     title: 'Price Tracker',
                     icon: 'fa-database',
-                    subitems: [{
-                        name: 'home.index',
-                        title: 'Currencies',
-                        type: 'view',
-                        subitems: []
-                    }, {
-                        name: 'home.index',
-                        title: 'Assets',
-                        type: 'view',
-                        subitems: []
-                    }]
+                    subitems: [
+                        // {
+                        //     name: 'home.index',
+                        //     title: 'Currencies',
+                        //     type: 'view',
+                        //     subitems: []
+                        // }, {
+                        //     name: 'home.index',
+                        //     title: 'Assets',
+                        //     type: 'view',
+                        //     subitems: []
+                        // }
+                    ]
                 }, {
                     name: 'education',
                     title: 'Education',

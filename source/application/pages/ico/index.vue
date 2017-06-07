@@ -11,7 +11,7 @@
                     </div>
 
                     <div class="table-body">
-                        <div class="table-row" v-for="token in list">
+                        <div class="table-row" v-for="token in sorted">
                             <div class="cells">
                                 <div class="cell">{{ token.status }}</div>
                                 <div class="cell">{{ token.name }}</div>
@@ -33,12 +33,19 @@
 
     export default {
         computed: {
+            sorted() {
+                if (this.list.length > 0) {
+                    return this.list.sort((a, b) => this.order.indexOf(a.status) - this.order.indexOf(b.status))
+                }
 
+                return []
+            }
         },
 
         data() {
             return {
-                list: false
+                list: false,
+                order: ['upcoming', 'active', 'undetermined', 'past']
             }
         },
 
