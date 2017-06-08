@@ -2,6 +2,10 @@ var express = require('express')
 var nunjucks = require('nunjucks')
 var morgan = require('morgan')
 var app = express()
+var env = require('node-env-file')
+
+// Environemnt variables
+env(`${__dirname}/.environment`)
 
 // Templating Configuration
 nunjucks.configure(__dirname + '/dist/', {
@@ -9,7 +13,6 @@ nunjucks.configure(__dirname + '/dist/', {
     express: app,
     watch: false
 })
-
 
 // Logging
 app.use(morgan('short'))
@@ -35,4 +38,4 @@ app.use('/assets', express.static('./source/assets'))
 app.use('/static', express.static('./dist/static'))
 
 // Launch server
-app.listen(3000, () => { console.log('Example app listening on port 3000!') })
+app.listen(process.env.PORT, () => { console.log('Example app listening on port' + process.env.PORT + '!') })
