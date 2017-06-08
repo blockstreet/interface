@@ -288,7 +288,7 @@
                     return
                 }
 
-                Vue.$http.get(`/price/${currency.id}`)
+                Vue.$http.get(`/price/${currency.symbol.toLowerCase()}`)
                     .then((response) => {
                         if (response && response.length > 0) {
                             this.expanded = { index, currency }
