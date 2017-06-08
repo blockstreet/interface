@@ -267,7 +267,7 @@
 
             refresh() {
                 this.loading = true
-                Vue.$http.get('https://blockstreet.io/api/ticker')
+                Vue.$http.get('/price')
                     .then((response) => {
                         this.ticker = response.map((coin) => {
                             if (coin.symbol === 'ETC') coin.title = 'ETH Classic'
@@ -288,7 +288,7 @@
                     return
                 }
 
-                Vue.$http.get(`https://blockstreet.io/api/price/${currency.id}`)
+                Vue.$http.get(`/price/${currency.id}`)
                     .then((response) => {
                         if (response && response.length > 0) {
                             this.expanded = { index, currency }
