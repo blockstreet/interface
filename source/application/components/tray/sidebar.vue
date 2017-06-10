@@ -7,7 +7,7 @@
             <div class="logo-title">
                 <span>Blockstreet</span>
             </div>
-            <div class="hamburger" v-on:click="activateSidebar()">
+            <div class="hamburger" v-on:click="toggleSidebar()">
                 <i class="fa fa-bars" aria-hidden="true"></i>
             </div>
         </div>
@@ -19,6 +19,8 @@
 
             <navigation></navigation>
         </div>
+
+        <div class="close-tray" v-on:click="toggleSidebar(false)"></div>
     </div>
 </template>
 
@@ -36,7 +38,10 @@
         },
 
         methods: {
-            activateSidebar() { this.active = !this.active }
+            toggleSidebar(state) {
+                if (state) this.active = state
+                this.active = !this.active
+            }
         }
     }
 </script>
@@ -163,6 +168,8 @@
                 }
             }
         }
+
+        .close-tray { display: none; }
     }
 
     @media (min-width: @screen-laptop-min) {
@@ -272,6 +279,16 @@
                             }
                         }
                     }
+                }
+
+                .close-tray {
+                    display: flex;
+                    flex: 1 1 auto;
+                    position: absolute;
+                    right: 0;
+                    top: 0;
+                    width: 10%;
+                    height: 100%;
                 }
             }
         }
