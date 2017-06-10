@@ -4,8 +4,6 @@
         <tray></tray>
 
         <router-view></router-view>
-
-        <!-- <tray-right></tray-right> -->
     </div>
 </template>
 
@@ -15,8 +13,7 @@
 
     export default {
         components: {
-            tray: require('components/tray/tray.vue'),
-            'tray-right': require('components/tray-right/tray-right.vue')
+            tray: require('components/tray/tray.vue')
         },
 
         mounted() {

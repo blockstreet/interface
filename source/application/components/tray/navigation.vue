@@ -1,11 +1,5 @@
 <template>
     <div class="navigation">
-        <!-- <div class="icon-navigation">
-            <div class="link" v-for="item in menu" :class="{ 'active': $route.name === item.name }">
-                <i class="fa" :class="item.icon"></i>
-            </div>
-        </div> -->
-
         <div class="item-container primary" v-for="item in menu" :class="{
             'active': $route.name.includes(item.name)
         }">
@@ -303,44 +297,46 @@
 
     @media (max-width: @screen-tablet-max) {
         .navigation {
-            flex-direction: row;
-            display: flex;
-            flex: 1 1 auto;
-            min-height: 50px;
+            font-size: 1.4em;
 
-            .item-container {
-                &.active {
-                    .row-item {
-                        margin: 0;
-                        border: 0;
-                        border-bottom: 3px solid @color-bg-blue;
-                    }
-                }
+            // flex-direction: row;
+            // display: flex;
+            // flex: 1 1 auto;
+            // min-height: 50px;
 
-                .row-item {
-                    flex: 1 1 auto;
-                    padding: 0;
-
-                    .title { display: none; }
-
-                    i.fa {
-                        display: flex;
-                        position: relative;
-                        flex: 1 1 auto;
-                        line-height: 50px;
-                        padding: 0;
-                        font-size: 1.5em;
-
-                        &:before {
-                            text-align: center;
-                            width: 100%;
-                            height: 100%;
-                        }
-                    }
-                }
-
-                .submenu-container { display: none; }
-            }
+            // .item-container {
+            //     &.active {
+            //         .row-item {
+            //             margin: 0;
+            //             border: 0;
+            //             border-bottom: 3px solid @color-bg-blue;
+            //         }
+            //     }
+            //
+            //     .row-item {
+            //         flex: 1 1 auto;
+            //         padding: 0;
+            //
+            //         .title { display: none; }
+            //
+            //         i.fa {
+            //             display: flex;
+            //             position: relative;
+            //             flex: 1 1 auto;
+            //             line-height: 50px;
+            //             padding: 0;
+            //             font-size: 1.5em;
+            //
+            //             &:before {
+            //                 text-align: center;
+            //                 width: 100%;
+            //                 height: 100%;
+            //             }
+            //         }
+            //     }
+            //
+            //     .submenu-container { display: none; }
+            // }
         }
     }
 </style>
