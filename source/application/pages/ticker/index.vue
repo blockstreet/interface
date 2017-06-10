@@ -137,6 +137,8 @@
                 chart: false,
                 sorted: false,
                 updatedAt: moment(),
+
+
                 headers: [{
                     key: 'symbol',
                     title: 'Symbol',
@@ -177,7 +179,10 @@
                     title: 'Week',
                     type: 'number',
                     icon: 'left'
-                }]
+                }],
+
+                // Refresh interval to be attached
+                refreshInterval: null
             }
         },
 
@@ -209,13 +214,18 @@
         },
 
         created() {
+            // Refresh ticker and
             this.refresh()
-
-            setInterval(() => {
+            this.refreshInterval = setInterval(() => {
                 this.refresh()
                 this.updatedAt = moment()
                 console.log('Ticker refreshed.')
             }, 1000 * 60)
+        },
+
+        destroyed() {
+            // Kill the refresh interval on leaving the page
+            clearInterval(this.refreshInterval)
         },
 
         methods: {
