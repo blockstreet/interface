@@ -3,5 +3,5 @@ env('.environment')
 
 module.exports = {
     NODE_ENV: '"production"',
-    API_LOCATION: `"${process.env.PROD_API}"`
+    API_LOCATION: `"${process.env.BUILD_API}"`
 }
