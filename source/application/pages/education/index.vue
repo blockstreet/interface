@@ -218,7 +218,7 @@
             h2 { font-size: 2.25em; }
             h4 { font-size: 1em; }
 
-            p, span, table {
+            p, span {
                 font-family: blockstreet-content-serif-font, Georgia, Cambria, "Times New Roman", Times, serif;
                 --x-height-multiplier: 0.35;
                 --baseline-multiplier: 0.179;
@@ -234,7 +234,7 @@
                 box-shadow: 0px 6px 6px -6px rgba(0, 0, 0, 0.075);
                 display: flex;
                 flex-direction: column;
-                padding: 50px 0;
+                padding: 25px 0;
 
                 thead {
                     display: flex;
@@ -243,6 +243,7 @@
                     tr {
                         display: flex;
                         border-bottom: 1px solid @color-border;
+                        font-weight: 700;
                     }
                 }
 
@@ -260,7 +261,14 @@
                             vertical-align: top;
                             flex-grow: 1;
                             flex-basis: 0;
-                            padding-top: 15px;
+                            padding: 8px 10px;
+
+                            font-family: blockstreet-content-serif-font, Georgia, Cambria, "Times New Roman", Times, serif;
+                            --x-height-multiplier: 0.35;
+                            --baseline-multiplier: 0.179;
+                            // line-height: 1.58;
+                            letter-spacing: -.003em;
+                            font-size: 0.9em;
 
                             &:first-child { padding-left: 0; }
                             &:last-child { padding-right: 0; }

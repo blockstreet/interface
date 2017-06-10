@@ -1,20 +1,25 @@
 <template>
     <div class="page page-ticker">
         <div class="header">
-            <div class="options">
-                <h1>Cryptocurrency Market Capitalization</h1>
-                <div class="">
-                    <!-- <span>updated {{ updatedAt.toNow() }}</span> -->
-                    <!-- <button type="button" class="btn" v-on:click="refresh()">
-                        <span v-if="!loading">Refresh</span>
-                        <i class="fa fa-spin fa-refresh" v-if="loading || !loaded"></i>
-                    </button> -->
+            <div class="header-container title">
+                <div class="header-row">
+                    <h1>Cryptocurrency Market Capitalization</h1>
+                </div>
+            </div>
+
+            <div class="header-container options">
+                <div class="header-row">
+                    <div class="header-item search">
+                        <input type="text" v-model="search" placeholder="Search currencies">
+                        <button type="button" name="button" v-on:click="filterCurrencies()">
+                        <i class="fa fa-search"></i></button>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="content-body">
-            <div class="table-container" v-if="ticker.length > 0">
+            <div class="table-container" v-if="assets.length > 0">
                 <div class="flex-table table-primary table-striped">
                     <div class="table-header">
                         <div class="cell text-center index">#</div>
@@ -34,7 +39,7 @@
 
                     <div class="table-body">
                         <div class="table-row"
-                            v-for="(currency, index) in sortedTicker"
+                            v-for="(currency, index) in ticker"
                             :class="{ 'expanded': index === expanded.index }"
                             :style="{ 'order': index }"
                         >
@@ -111,7 +116,7 @@
                     </div>
                 </div>
 
-                <div class="loading" v-if="ticker.length === 0">
+                <div class="loading" v-if="assets.length === 0">
                     <i class="fa fa-gear fa-spin fa-fw"></i>
                     <span class="sr-only">Loading...</span>
                 </div>
@@ -130,13 +135,15 @@
     export default {
         data() {
             return {
-                ticker: [],
+                assets: [],
                 loaded: false,
                 loading: false,
                 expanded: false,
                 chart: false,
                 sorted: false,
                 updatedAt: moment(),
+                search: '',
+
                 headers: [{
                     key: 'symbol',
                     title: 'Symbol',
@@ -177,45 +184,37 @@
                     title: 'Week',
                     type: 'number',
                     icon: 'left'
-                }]
+                }],
+
+                // Refresh interval to be attached
+                refreshInterval: null
             }
         },
 
         computed: {
-            sortedTicker() {
-                if (!this.sorted) return this.ticker
+            ticker() {
+                let ticker = this.assets
 
-                const sortedArray = this.ticker.slice(0)
-                let typeSorter
+                if (this.search !== '') ticker = this.filterTicker(ticker)
+                if (this.sorted) ticker = this.sortTicker(ticker)
 
-                if (this.sorted.type === 'number') {
-                    console.log('sorting num')
-                    typeSorter = (key, previous, current) => (previous[key] - current[key])
-                } else if (this.sorted.type === 'string') {
-                    typeSorter = (key, previous, current) => {
-                        if (previous[key] < current[key]) return 1
-                        if (previous[key] > current[key]) return -1
-                        return 0
-                    }
-                } else {
-                    console.error('Invalid type passed to sorting function.', typeof this.sorted.key, this.sorted.key)
-                    return this.ticker
-                }
-
-                sortedArray.sort((previous, current) => typeSorter(this.sorted.key, previous, current))
-                if (this.sorted.direction === -1) return sortedArray
-                return sortedArray.reverse()
+                return ticker
             }
         },
 
         created() {
+            // Refresh ticker and
             this.refresh()
-
-            setInterval(() => {
+            this.refreshInterval = setInterval(() => {
                 this.refresh()
                 this.updatedAt = moment()
                 console.log('Ticker refreshed.')
             }, 1000 * 60)
+        },
+
+        destroyed() {
+            // Kill the refresh interval on leaving the page
+            clearInterval(this.refreshInterval)
         },
 
         methods: {
@@ -269,7 +268,7 @@
                 this.loading = true
                 Vue.$http.get('/price')
                     .then((response) => {
-                        this.ticker = response.map((coin) => {
+                        this.assets = response.map((coin) => {
                             if (coin.symbol === 'ETC') coin.title = 'ETH Classic'
                             else coin.title = coin.name
                             coin.color = colorMap(coin.symbol)
@@ -295,10 +294,6 @@
                             currency.price_history = response
 
                             this.chart = chartConstructor({
-                                onZoom: (event) => {
-                                    console.log(event)
-                                    // this.$refs.highchart
-                                },
                                 series: [{
                                     name: 'Price (USD)',
                                     data: response.map(coin => [(coin[0] * 1000), coin[1]])
@@ -324,16 +319,42 @@
                     return
                 }
 
-                this.sorted = {
-                    key,
-                    direction: 1,
-                    type: typeof this.ticker[0][key]
-                }
+                this.sorted = { key, direction: 1, type: typeof this.ticker[0][key] }
 
                 // Redraw the chart
                 if (this.expanded !== false) {
                     this.expand(this.expanded.index, this.sortedTicker[this.expanded.index], true)
                 }
+            },
+
+            sortTicker(ticker) {
+                // Make a copy so we aren't modifying the data source
+                ticker = ticker.slice(0)
+                let typeSorter
+
+                if (this.sorted.type === 'number') {
+                    console.log('sorting num')
+                    typeSorter = (key, previous, current) => (previous[key] - current[key])
+                } else if (this.sorted.type === 'string') {
+                    typeSorter = (key, previous, current) => {
+                        if (previous[key] < current[key]) return 1
+                        if (previous[key] > current[key]) return -1
+                        return 0
+                    }
+                } else {
+                    console.error('Invalid type passed to sorting function.', typeof this.sorted.key, this.sorted.key)
+                    return this.assets
+                }
+
+                ticker.sort((previous, current) => typeSorter(this.sorted.key, previous, current))
+                if (this.sorted.direction === -1) return ticker
+                return ticker.reverse()
+            },
+
+            filterTicker(ticker) {
+                console.log('Search!', this.search)
+
+                return ticker.filter(currency => currency.name.toLowerCase().indexOf(this.search.toLowerCase()) >= 0)
             }
         }
     }

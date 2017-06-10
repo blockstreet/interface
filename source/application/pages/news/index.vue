@@ -74,7 +74,7 @@
                 articles: [{
                     id: '0000-0000-0000',
                     headline: 'Blockstreet Launches',
-                    image: 'https://raw.githubusercontent.com/nkmlombardi/desktop-backgrounds/master/mountain-purple.jpg',
+                    image: 'https://raw.githubusercontent.com/blockstreet/content/staging/images/mountain-purple.jpg',
                     date: moment('2017-06-01').fromNow(),
                     author: 'The Blockstreet Team',
                     excerpt: '',
@@ -95,12 +95,6 @@
                     this.articles[0].excerpt = response
                 })
                 .catch(error => console.log(error))
-        },
-
-        methods: {
-            enterArticle(id) {
-                Vue.router.push({ name: 'news.singleton', params: { id } })
-            }
         }
     }
 </script>

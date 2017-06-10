@@ -20,47 +20,70 @@
     }
 
     .header {
-        flex: 1 1 auto;
-        background: @color-bg-white;
-        border-bottom: 1px solid @color-border-light;
-        height: 70px;
-        max-height: 70px;
+        flex-direction: column;
 
-        .options {
-            flex: 1 1 auto;
-            // padding: 15px 0;
-            flex-direction: row;
-            justify-content: space-between;
+        .header-container {
             display: flex;
-            max-width: 1200px;
-            margin: auto;
-            height: 100%;
+            flex: 1;
+            min-height: 70px;
+            max-height: 70px;
 
-            h1 {
+            .header-row {
+                display: flex;
                 flex: 1 1 auto;
-                line-height: 70px;
+                max-width: 1200px;
+                justify-content: space-between;
+                margin: 0 auto;
             }
 
-            button {
-                padding: 6px 36px;
-                height: 42px;
-                margin: 14px 0;
+            .header-item {
+                flex: 1 1 auto;
+            }
+        }
 
-                // Semantic UI Button
-                background: transparent none !important;
-                color: @color-text;
-                border-radius: 4px;
-                box-shadow: 0 0 0 1px rgba(34, 36, 38, .15) inset;
-                border: 1px solid @color-border;
+        .title {
+            background: @color-bg-white;
+            border-bottom: 1px solid @color-border-light;
 
-                &:hover { border-color: @color-text; }
+            h1 { margin: auto 0; }
+        }
 
-                span {
-                    font-size: 16px;
-                    // text-transform: uppercase;
-                    line-height: 12px;
-                    font-weight: 500;
+        .options {
+            display: flex;
+            flex: 1 1 auto;
+            border-bottom: 1px solid @color-border-light;
+            min-height: 45px;
+            max-height: 45px;
+            background: #f6f8fa;
+
+            .search {
+                display: flex;
+                justify-content: flex-end;
+
+                input {
+                    margin: auto 0;
+                    background: @color-bg-page;
+                    border: 1px solid @color-border-light;
                     font-family: 'Open Sans', sans-serif;
+                    font-size: 16px;
+                    height: 32px;
+                    width: 225px;
+                    padding: 5px 10px;
+                    border-right: 0;
+                }
+
+                button {
+                    height: 32px;
+                    width: 32px;
+                    margin: auto 0;
+                    padding: 0;
+                    border-radius: 0;
+                    background: @color-bg-page;
+                    border: 1px solid @color-border-light;
+
+                    i {
+                        font-size: 18px;
+                    }
                 }
             }
         }
@@ -318,10 +341,6 @@
      * Media queries that apply to all viewports above or below a breakpoint
      */
     @media (min-width: @screen-desktop-min) {
-        .options {
-            h1 { font-size: 1.8em; }
-        }
-
         .table-container {
             max-width: 1200px;
             margin: 50px auto;
@@ -361,59 +380,54 @@
     }
 
 
-    @media (min-width: @screen-tablet-min) {
-        .table-header, .table-row {
-            height: 50px;
-            line-height: 50px;
-
-            .symbol {
-                position: relative;
-                i.coin { line-height: 50px; }
-            }
-
-            // Allocate cell width
-            .index { flex: 0.5; }
-            .symbol, .name, .price, .market_cap { flex: 1; }
-            .supply { flex: 0.7; }
-            .hour, .day, .week { flex: 0.8; }
-
-            // Text alignment
-            .price, .market_cap, .supply, .hour, .day, .week {
-                text-align: right;
-                span { text-align: right; }
-            }
-
-            // Text alignment
-            .index, .symbol {
-                text-align: center;
-                span { text-align: center; }
-            }
-        }
-    }
-
-
-
     /**
      * Media queries that apply specifically within a viewport range
      */
 
     // Laptop range
     @media (min-width: @screen-laptop-min) and (max-width: @screen-laptop-max) {
+        .header {
+            .title, .options { padding: 0 20px; }
+        }
+
         .table-primary { font-size: 17px; }
+    }
+
+
+    @media (max-width: @screen-tablet-max) {
+        .header {
+            .title {
+                padding: 0 20px;
+                h1 { font-size: 1.75em; }
+            }
+
+            .options {
+                padding: 0;
+
+                .search {
+                    input {
+                        display: flex;
+                        flex: 1 1 auto;
+                        height: 100%;
+                        margin: 0;
+                        border: 0;
+                        padding: 0 20px;
+                    }
+
+                    button {
+                        width: 40px;
+                        height: 100%;
+                        border: 0;
+                        padding-right: 20px;
+                    }
+                }
+            }
+        }
     }
 
 
     // Tablet & Laptop range
     @media (min-width: @screen-tablet-min) and (max-width: @screen-laptop-max) {
-        .header {
-            .options { padding: 10px 20px; }
-
-            h1 {
-                font-size: 2em;
-                line-height: 1.5em;
-            }
-        }
-
         .table-primary {
             .table-header, .table-row  {
                 .cell {
@@ -453,16 +467,39 @@
     }
 
 
-    // Mobile range
-    @media (max-width: @screen-mobile-max) {
-        .header {
-            .options { padding: 15px; }
+    @media (min-width: @screen-tablet-min) {
+        .table-header, .table-row {
+            height: 50px;
+            line-height: 50px;
 
-            h1 {
-                font-size: 1.65em;
-                line-height: 1em;
+            .symbol {
+                position: relative;
+                i.coin { line-height: 50px; }
+            }
+
+            // Allocate cell width
+            .index { flex: 0.5; }
+            .symbol, .name, .price, .market_cap { flex: 1; }
+            .supply { flex: 0.7; }
+            .hour, .day, .week { flex: 0.8; }
+
+            // Text alignment
+            .price, .market_cap, .supply, .hour, .day, .week {
+                text-align: right;
+                span { text-align: right; }
+            }
+
+            // Text alignment
+            .index, .symbol {
+                text-align: center;
+                span { text-align: center; }
             }
         }
+    }
+
+
+    // Mobile range
+    @media (max-width: @screen-mobile-max) {
 
         .table-primary {
             font-size: 16px;

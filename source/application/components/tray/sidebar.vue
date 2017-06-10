@@ -1,11 +1,14 @@
 <template>
-    <div class="sidebar">
+    <div class="sidebar" :class="active ? 'active' : ''">
         <div class="logo-container">
             <div class="logo" id="logo">
                 <i class="icon-logo logo-bull-o"></i>
             </div>
             <div class="logo-title">
-                Blockstreet
+                <span>Blockstreet</span>
+            </div>
+            <div class="hamburger" v-on:click="toggleSidebar()">
+                <i class="fa fa-bars" aria-hidden="true"></i>
             </div>
         </div>
 
@@ -16,6 +19,8 @@
 
             <navigation></navigation>
         </div>
+
+        <div class="close-tray" v-on:click="toggleSidebar(false)"></div>
     </div>
 </template>
 
@@ -24,6 +29,19 @@
     export default {
         components: {
             navigation: require('./navigation.vue')
+        },
+
+        data() {
+            return {
+                active: false
+            }
+        },
+
+        methods: {
+            toggleSidebar(state) {
+                if (state) this.active = state
+                this.active = !this.active
+            }
         }
     }
 </script>
@@ -110,6 +128,8 @@
                 color: @color-bg-page;
                 // text-shadow: 2px 4px 3px rgba(0, 0, 0, 0.25);
             }
+
+            .hamburger { display: none; }
         }
 
         .menu-section {
@@ -121,7 +141,8 @@
             .menu-header {
                 display: flex;
                 flex-direction: row;
-                height: 42px;
+                min-height: 42px;
+                max-height: 42px;
                 padding: 10px 30px;
 
                 h1.section-title {
@@ -147,6 +168,8 @@
                 }
             }
         }
+
+        .close-tray { display: none; }
     }
 
     @media (min-width: @screen-laptop-min) {
@@ -159,19 +182,114 @@
 
 
     @media (max-width: @screen-tablet-max) {
-        .logo-container {
-            display: none;
-        }
-
         .sidebar {
             flex: 1 1 auto;
+            min-width: 100%;
+            max-height: 50px;
+            pointer-events: all;
 
-            .menu-section {
-                padding: 0;
+            .logo-container {
+                max-height: 50px;
+                background: @dark-blue;
+                flex-direction: row;
+                display: flex;
+
+                .logo, &:before, &:after { display: none; }
+
+                .logo-title {
+                    display: flex;
+                    flex-direction: column;
+                    flex: 1 1 auto;
+                    min-height: 100%;
+                    order: 1;
+                    justify-content: center;
+                }
+
+                .hamburger {
+                    display: flex;
+                    flex: 1 1 auto;
+                    max-width: 50px;
+                    order: 0;
+                    flex-direction: column;
+                    justify-content: center;
+
+                    i {
+                        font-size: 1.9em;
+                        text-align: center;
+                    }
+                }
             }
 
-            .menu-header {
-                display: none !important;
+            .menu-section { display: none; }
+
+            &.active {
+                min-height: 100%;
+                max-height: 100%;
+                flex-direction: column;
+
+                .logo-container {
+                    min-height: 50px;
+                    max-height: 50px;
+                    width: 90%;
+                    border-right: 1px solid @color-text;
+                    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+
+                    .hamburger { order: 1; }
+                    .logo-title {
+                        order: 0;
+                        text-align: left;
+                        padding-left: 30px;
+                    }
+
+                    &:after {
+                        content: '';
+                        width: 100%;
+                        height: 50px;
+                        background: @dark-blue;
+                        display: flex;
+                        flex: 1 1 auto;
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        margin: 0;
+                        z-index: -1;
+                    }
+                }
+
+                .menu-section {
+                    padding: 0;
+                    display: flex;
+                    height: 100%;
+                    width: 90%;
+                    flex-direction: column;
+                    border-right: 1px solid @color-text;
+
+                    .menu-header {
+                        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+                    }
+
+                    .navigation {
+                        overflow-y: scroll;
+
+                        .item-container.primary {
+                            &:first-child {
+                                .row-item:first-child {
+                                    border-top: none;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .close-tray {
+                    display: flex;
+                    flex: 1 1 auto;
+                    position: absolute;
+                    right: 0;
+                    top: 0;
+                    width: 10%;
+                    height: 100%;
+                }
             }
         }
     }

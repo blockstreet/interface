@@ -17,8 +17,6 @@
         },
 
         mounted() {
-            // particles.load('gutter', `${process.env.API_LOCATION}/assets/particles/particles.gutter.json`)
-            // particles.load('logo', `${process.env.API_LOCATION}/assets/particles/particles.logo.json`)
             particles.load('tray', 'https://blockstreet.io/assets/particles/particles.tray.json')
         }
     }
@@ -56,15 +54,16 @@
 
     @media (max-width: @screen-tablet-max) {
         .tray {
-            max-height: 50px;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             transition: all 0.5s ease;
+            background: transparent;
+            z-index: 1000;
+            pointer-events: none;
 
             &.scrolling-down { opacity: 0; }
-
             canvas.particles-js-canvas-el { display: none !important; }
         }
     }

@@ -10,18 +10,11 @@ export default [
         component: require('layouts/dashboard.vue'),
         redirect: '/news',
         children: [
-            // Home
+            // News
             {
                 path: '/news',
                 name: 'home.index',
                 component: require('pages/news/index.vue')
-            },
-
-            // News
-            {
-                path: '/news/:id',
-                name: 'news.singleton',
-                component: require('pages/news/singleton.vue')
             },
 
             // Ticker
