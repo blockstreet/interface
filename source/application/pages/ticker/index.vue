@@ -266,11 +266,9 @@
 
             refresh() {
                 this.loading = true
-                Vue.$http.get('/price')
+                Vue.$http.get('/currencies')
                     .then((response) => {
                         this.assets = response.map((coin) => {
-                            if (coin.symbol === 'ETC') coin.title = 'ETH Classic'
-                            else coin.title = coin.name
                             coin.color = colorMap(coin.symbol)
                             return coin
                         })
@@ -287,7 +285,7 @@
                     return
                 }
 
-                Vue.$http.get(`/price/${currency.symbol.toLowerCase()}`)
+                Vue.$http.get(`/currencies/${currency.symbol.toLowerCase()}/history`)
                     .then((response) => {
                         if (response && response.length > 0) {
                             this.expanded = { index, currency }
