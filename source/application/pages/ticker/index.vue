@@ -285,7 +285,7 @@
                     return
                 }
 
-                Vue.$http.get(`/currencies/${currency.symbol.toLowerCase()}/history`)
+                Vue.$http.get(`/currencies/${currency.id.toLowerCase()}/history`)
                     .then((response) => {
                         if (response && response.length > 0) {
                             this.expanded = { index, currency }
@@ -294,7 +294,7 @@
                             this.chart = chartConstructor({
                                 series: [{
                                     name: 'Price (USD)',
-                                    data: response.map(coin => [(coin[0] * 1000), coin[1]])
+                                    data: response.map(point => [(point.time * 1000), point.close])
                                 }],
                                 row: (this.expanded.index % 2 === 0 ? 'even' : 'odd'),
                                 color: currency.color,
@@ -331,7 +331,6 @@
                 let typeSorter
 
                 if (this.sorted.type === 'number') {
-                    console.log('sorting num')
                     typeSorter = (key, previous, current) => (previous[key] - current[key])
                 } else if (this.sorted.type === 'string') {
                     typeSorter = (key, previous, current) => {
