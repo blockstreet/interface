@@ -39,9 +39,10 @@ export default {
     },
 
     human(number) {
-        if (number >= 1000000000000) return `${(Number(number) / 1000000000000).toFixed(2)}T`
-        if (number >= 1000000000) return `${(Number(number) / 1000000000).toFixed(2)}B`
-        if (number >= 1000000) return `${(Number(number) / 1000000).toFixed(2)}M`
+        if (isNaN(number)) return ''
+        if (number >= 1000000000000) return `${(number / 1000000000000).toFixed(2)}T`
+        if (number >= 1000000000) return `${(number / 1000000000).toFixed(2)}B`
+        if (number >= 1000000) return `${(number / 1000000).toFixed(2)}M`
         return Math.round(number).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
     }
 }

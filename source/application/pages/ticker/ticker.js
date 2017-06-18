@@ -13,6 +13,7 @@ export default {
             numbers: utility.numbers,
 
             assets: [],
+            statistics: false,
             loaded: false,
             loading: false,
             expanded: false,
@@ -104,6 +105,7 @@ export default {
     methods: {
         refresh() {
             this.loading = true
+            Vue.$http.get('/statistics').then(response => { this.statistics = response })
             Vue.$http.get('/currencies')
                 .then((response) => {
                     this.assets = response.map((coin) => {

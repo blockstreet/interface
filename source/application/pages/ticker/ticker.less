@@ -25,8 +25,8 @@
         .header-container {
             display: flex;
             flex: 1;
-            min-height: 70px;
-            max-height: 70px;
+            min-height: 80px;
+            max-height: 80px;
 
             .header-row {
                 display: flex;
@@ -41,14 +41,33 @@
             }
         }
 
-        .title {
+        .row-title {
             background: @color-bg-white;
             border-bottom: 1px solid @color-border-light;
 
-            h1 { margin: auto 0; }
+            .title {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+
+            .statistics {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                font-weight: 600;
+
+                .row { text-align: right; }
+
+                span {
+                    font-family: 'Open Sans', sans-serif;
+                    letter-spacing: 0.25px;
+                    font-size: 0.8em;
+                }
+            }
         }
 
-        .options {
+        .row-options {
             display: flex;
             flex: 1 1 auto;
             border-bottom: 1px solid @color-border-light;

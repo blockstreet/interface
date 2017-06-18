@@ -1,12 +1,23 @@
 <div class="page page-ticker">
     <div class="header">
-        <div class="header-container title">
+        <div class="header-container row-title">
             <div class="header-row">
-                <h1>Cryptocurrency Market Capitalization</h1>
+                <div class="header-item title">
+                    <h1>Cryptocurrency Market Capitalization</h1>
+                </div>
+
+                <div class="header-item statistics">
+                    <div class="row">
+                        Market Capitalization: <span>${{ numbers.human(statistics.market_cap) }}</span>
+                    </div>
+                    <div class="row">
+                        Daily Volume: <span>${{ numbers.human(statistics.volume) }}</span>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="header-container options">
+        <div class="header-container row-options">
             <div class="header-row">
                 <div class="header-item search">
                     <input type="text" v-model="search" placeholder="Search currencies">
