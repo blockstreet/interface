@@ -115,4 +115,6 @@ const colors = {
     zeit: '172, 172, 172'
 }
 
-export default symbol => colors[symbol.toLowerCase()] || '0, 0, 0'
+export default {
+    get: symbol => colors[symbol.toLowerCase()] || '0, 0, 0'
+}
