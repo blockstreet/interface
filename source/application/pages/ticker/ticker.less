@@ -406,7 +406,7 @@
     // Laptop range
     @media (min-width: @screen-laptop-min) and (max-width: @screen-laptop-max) {
         .header {
-            .title, .options { padding: 0 20px; }
+            .row-title, .row-options { padding: 0 20px; }
         }
 
         .table-primary { font-size: 17px; }
@@ -415,12 +415,21 @@
 
     @media (max-width: @screen-tablet-max) {
         .header {
-            .title {
+            .row-title {
                 padding: 0 20px;
-                h1 { font-size: 1.75em; }
+
+                .header-row {
+                    flex-direction: column;
+                }
+
+                .statistics {
+                    font-size: 16.5px;
+                    flex-direction: row;
+                    justify-content: space-between;
+                }
             }
 
-            .options {
+            .row-options {
                 padding: 0;
 
                 .search {
