@@ -33,7 +33,14 @@
 
         data() {
             return {
-                active: false
+                active: false,
+                route: this.$route
+            }
+        },
+
+        watch: {
+            $route() {
+                if (this.active) this.active = !this.active
             }
         },
 
