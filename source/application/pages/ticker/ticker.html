@@ -107,7 +107,7 @@
                                 'up': currency.percent_change_month > 0,
                                 'down': currency.percent_change_month < 0
                             }">
-                                {{ numbers.percent(currency.percent_change_month || 0) }}
+                                {{ numbers.percent(currency.percent_change_month) || 'None' }}
                             </div>
                         </div>
                     </div>

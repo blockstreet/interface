@@ -35,14 +35,19 @@ export default {
      * Convert number to percent format. Negative percentages are already prefixed with a "-" sign.
      */
     percent(input) {
-        return (input > 0 ? `+${Number(input).toFixed(2)}%` : `${Number(input).toFixed(2)}%`)
+        if (!input) return false
+        return (input > 0 ? `+${this.human(input, 2)}%` : `${this.human(input, 2)}%`)
     },
 
-    human(number) {
-        if (isNaN(number)) return ''
-        if (number >= 1000000000000) return `${(number / 1000000000000).toFixed(2)}T`
-        if (number >= 1000000000) return `${(number / 1000000000).toFixed(2)}B`
-        if (number >= 1000000) return `${(number / 1000000).toFixed(2)}M`
-        return Math.round(number).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    human(input, decimals) {
+        if (isNaN(input)) return ''
+        if (input >= 1000000000000) return `${(input / 1000000000000).toFixed(2)}T`
+        if (input >= 1000000000) return `${(input / 1000000000).toFixed(2)}B`
+        if (input >= 1000000) return `${(input / 1000000).toFixed(2)}M`
+
+        if (!decimals) input = Math.round(input)
+        else input = input.toFixed(decimals)
+
+        return input.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
     }
 }
