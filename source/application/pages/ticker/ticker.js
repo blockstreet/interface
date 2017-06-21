@@ -140,6 +140,8 @@ export default {
                         this.expanded = { index, currency }
                         currency.price_history = response
 
+                        this.expanded.interval = 'daily'
+
                         this.chart = {
                             series: [{
                                 name: 'Price (USD)',
@@ -148,8 +150,9 @@ export default {
                             row: (this.expanded.index % 2 === 0 ? 'even' : 'odd'),
                             color: currency.color,
                             price: currency.price,
-                            interval: 'daily'
+                            interval: this.expanded.interval
                         }
+
                     } else {
                         this.expanded = { index, currency }
                         this.expanded.currency.price_history = false
@@ -171,20 +174,28 @@ export default {
         zoom(event) {
             if (event.dataMin === event.min && event.dataMax === event.max) return
 
+            if (event.rangeSelectorButton) {
+                console.log('Range: ', event.rangeSelectorButton)
+                event.min = moment().subtract(event.rangeSelectorButton.count, event.rangeSelectorButton.type)
+                event.max = moment()
+            }
+
             console.log('Min: ', moment(event.min).format())
             console.log('Max: ', moment(event.max).format())
 
-            const interval = this.calculateHistoryInterval(moment.duration(moment(event.max).diff(moment(event.min))))
+            this.expanded.interval = this.calculateHistoryInterval(moment.duration(moment(event.max).diff(moment(event.min))))
+            this.expanded.start = event.min
+            this.expanded.end = event.max
 
             Vue.$http.get(`/currencies/${this.expanded.currency.id.toLowerCase()}/history`, {
                 params: {
                     start: moment(event.min).unix(),
                     end: moment(event.max).unix(),
-                    interval
+                    interval: this.expanded.interval
                 }
             }).then((response) => {
                 this.chart.series[0].data = this.transformHistory(response)
-                this.chart.interval = interval
+                this.chart.interval = this.expanded.interval
             })
             .catch((error) => {
                 console.error('Empty price history returned.', error)

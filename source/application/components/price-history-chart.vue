@@ -176,7 +176,7 @@
                     },
                     xAxis: {
                         events: {
-                            afterSetExtremes: this.zoom
+                            setExtremes: this.zoom
                         },
                         minRange: 3600 * 1000,
                         crosshair: {
