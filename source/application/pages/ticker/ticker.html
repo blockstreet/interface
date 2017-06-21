@@ -102,6 +102,13 @@
                             }">
                                 {{ numbers.percent(currency.percent_change_week) }}
                             </div>
+
+                            <div class="cell number percent month" :class="{
+                                'up': currency.percent_change_month > 0,
+                                'down': currency.percent_change_month < 0
+                            }">
+                                {{ numbers.percent(currency.percent_change_month || 0) }}
+                            </div>
                         </div>
                     </div>
 

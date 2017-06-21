@@ -509,10 +509,10 @@
             .index { flex: 0.5; }
             .symbol, .name, .price, .market_cap { flex: 1; }
             .supply { flex: 0.7; }
-            .hour, .day, .week { flex: 0.8; }
+            .hour, .day, .week, .month { flex: 0.8; }
 
             // Text alignment
-            .price, .market_cap, .supply, .hour, .day, .week {
+            .price, .market_cap, .supply, .hour, .day, .week, .month {
                 text-align: right;
                 span { text-align: right; }
             }
@@ -528,7 +528,6 @@
 
     // Mobile range
     @media (max-width: @screen-mobile-max) {
-
         .table-primary {
             font-size: 16px;
 
@@ -591,6 +590,7 @@
                         &.index { display: none; }
                         &.name { display: none; }
                         &.supply { display: none; }
+                        &.month { display: none; }
 
                         &.hour, &.day, &.week {
                             display: inline-block;

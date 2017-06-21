@@ -69,6 +69,11 @@ export default {
                 title: 'Week',
                 type: 'number',
                 icon: 'left'
+            }, {
+                key: 'percent_change_month',
+                title: 'Month',
+                type: 'number',
+                icon: 'left'
             }],
 
             // Refresh interval to be attached
