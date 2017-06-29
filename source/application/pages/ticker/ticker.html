@@ -1,0 +1,144 @@
+<div class="page page-ticker">
+    <div class="header">
+        <div class="header-container row-title">
+            <div class="header-row">
+                <div class="header-item title">
+                    <h1>Cryptocurrency Market Capitalization</h1>
+                </div>
+
+                <div class="header-item statistics">
+                    <div class="row">
+                        Market Capitalization: <span>${{ numbers.human(statistics.market_cap) }}</span>
+                    </div>
+                    <div class="row">
+                        Daily Volume: <span>${{ numbers.human(statistics.volume) }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="header-container row-options">
+            <div class="header-row">
+                <div class="header-item search">
+                    <input type="text" v-model="search" placeholder="Search currencies">
+                    <button type="button" name="button" v-on:click="filterCurrencies()">
+                    <i class="fa fa-search"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-body">
+        <div class="table-container" v-if="assets.length > 0">
+            <div class="flex-table table-primary table-striped">
+                <div class="table-header">
+                    <div class="cell text-center index">#</div>
+
+                    <div class="cell sortable"
+                        v-for="header in headers"
+                        v-on:click="sort(header.key)"
+                        :class="[{
+                            'sorted': sorted && sorted.key === header.key,
+                            'descending': sorted && sorted.direction === 1,
+                            'ascending': sorted && sorted.direction === -1
+                        }, header.key.replace('percent_change_', ''), header.type, header.icon]"
+                    >
+                        <span class="header-title truncatable">{{ header.title }}</span>
+                    </div>
+                </div>
+
+                <div class="table-body">
+                    <div class="table-row"
+                        v-for="(currency, index) in ticker"
+                        :class="{ 'expanded': index === expanded.index }"
+                        :style="{ 'order': index }"
+                    >
+                        <div class="cells" v-on:click="expand(index, currency)">
+                            <div class="cell index">
+                                {{ sorted.direction === -1 ? (100 - index) : (index + 1)  }}
+                            </div>
+
+                            <div class="cell symbol">
+                                <span>{{ currency.symbol }}</span>
+                                <i class="coin" :class="`coin-${currency.symbol.toLowerCase()}`"></i>
+                            </div>
+
+                            <div class="cell name">
+                                <span class="truncatable">{{ currency.name }}</span>
+                            </div>
+
+                            <div class="cell number price">
+                                <div class="aligner">
+                                    <span class="cash">$</span>
+                                    <span v-html="numbers.fractional(currency.price)"></span>
+                                </div>
+                            </div>
+
+                            <div class="cell number market_cap">
+                                <span class="cash">$</span>{{ numbers.human(currency.market_cap )}}
+                            </div>
+
+                            <div class="cell number supply">
+                                <span class="cash"></span>{{ numbers.human(currency.supply )}}
+                            </div>
+
+                            <div class="cell number percent hour" :class="{
+                                'up': currency.percent_change_hour > 0,
+                                'down': currency.percent_change_hour < 0
+                            }">
+                                {{ numbers.percent(currency.percent_change_hour) }}
+                            </div>
+
+                            <div class="cell number percent day" :class="{
+                                'up': currency.percent_change_day > 0,
+                                'down': currency.percent_change_day < 0
+                            }">
+                                {{ numbers.percent(currency.percent_change_day) }}
+                            </div>
+
+                            <div class="cell number percent week" :class="{
+                                'up': currency.percent_change_week > 0,
+                                'down': currency.percent_change_week < 0
+                            }">
+                                {{ numbers.percent(currency.percent_change_week) }}
+                            </div>
+
+                            <div class="cell number percent month" :class="{
+                                'up': currency.percent_change_month > 0,
+                                'down': currency.percent_change_month < 0
+                            }">
+                                {{ numbers.percent(currency.percent_change_month) || 'None' }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="details" v-if="chart && expanded !== false"
+                        :style="{ 'order': expanded.index }"
+                        :class="{
+                            'even': expanded.index % 2 === 0,
+                            'odd': expanded.index % 2 !== 0,
+                            'no-data': expanded.currency.price_history === false
+                        }">
+
+                        <price-history-chart
+                            :series="chart.series"
+                            :row="chart.row"
+                            :color="chart.color"
+                            :price="chart.price"
+                            :zoom="zoom">
+                        </price-history-chart>
+
+                        <div class="no-data-warning" v-if="expanded.currency.price_history === false">
+                            No price history data for {{ expanded.currency.name }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="loading" v-if="assets.length === 0">
+                <i class="fa fa-gear fa-spin fa-fw"></i>
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </div>
+</div>

@@ -25,8 +25,8 @@
         .header-container {
             display: flex;
             flex: 1;
-            min-height: 70px;
-            max-height: 70px;
+            min-height: 80px;
+            max-height: 80px;
 
             .header-row {
                 display: flex;
@@ -41,14 +41,33 @@
             }
         }
 
-        .title {
+        .row-title {
             background: @color-bg-white;
             border-bottom: 1px solid @color-border-light;
 
-            h1 { margin: auto 0; }
+            .title {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+
+            .statistics {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                font-weight: 600;
+
+                .row { text-align: right; }
+
+                span {
+                    font-family: 'Open Sans', sans-serif;
+                    letter-spacing: 0.25px;
+                    font-size: 0.8em;
+                }
+            }
         }
 
-        .options {
+        .row-options {
             display: flex;
             flex: 1 1 auto;
             border-bottom: 1px solid @color-border-light;
@@ -61,25 +80,24 @@
                 justify-content: flex-end;
 
                 input {
-                    margin: auto 0;
                     background: @color-bg-page;
                     border: 1px solid @color-border-light;
+                    border-top: 0;
+                    border-bottom: 0;
                     font-family: 'Open Sans', sans-serif;
                     font-size: 16px;
-                    height: 32px;
-                    width: 225px;
-                    padding: 5px 10px;
                     border-right: 0;
+                    height: 100%;
                 }
 
                 button {
-                    height: 32px;
-                    width: 32px;
-                    margin: auto 0;
-                    padding: 0;
                     border-radius: 0;
                     background: @color-bg-page;
                     border: 1px solid @color-border-light;
+                    border-top: 0;
+                    border-bottom: 0;
+                    height: 100%;
+                    width: 60px;
 
                     i {
                         font-size: 18px;
@@ -351,6 +369,17 @@
 
     // Applies to laptop and up
     @media (min-width: @screen-laptop-min) {
+        .header {
+            .row-options {
+                .search {
+                    input {
+                        width: 225px;
+                        padding: 5px 10px;
+                    }
+                }
+            }
+        }
+
         .table-container {
             .table-header, .table-body {
                 .cell {
@@ -387,7 +416,7 @@
     // Laptop range
     @media (min-width: @screen-laptop-min) and (max-width: @screen-laptop-max) {
         .header {
-            .title, .options { padding: 0 20px; }
+            .row-title, .row-options { padding: 0 20px; }
         }
 
         .table-primary { font-size: 17px; }
@@ -396,29 +425,37 @@
 
     @media (max-width: @screen-tablet-max) {
         .header {
-            .title {
+            .row-title {
                 padding: 0 20px;
-                h1 { font-size: 1.75em; }
+
+                .header-row {
+                    flex-direction: column;
+                }
+
+                .statistics {
+                    font-size: 16.5px;
+                    flex-direction: row;
+                    justify-content: space-between;
+                }
             }
 
-            .options {
+            .row-options {
                 padding: 0;
 
                 .search {
                     input {
                         display: flex;
                         flex: 1 1 auto;
-                        height: 100%;
                         margin: 0;
                         border: 0;
                         padding: 0 20px;
+                        min-height: 44px;
                     }
 
                     button {
-                        width: 40px;
-                        height: 100%;
+                        width: 60px;
                         border: 0;
-                        padding-right: 20px;
+                        min-height: 44px;
                     }
                 }
             }
@@ -481,10 +518,10 @@
             .index { flex: 0.5; }
             .symbol, .name, .price, .market_cap { flex: 1; }
             .supply { flex: 0.7; }
-            .hour, .day, .week { flex: 0.8; }
+            .hour, .day, .week, .month { flex: 0.8; }
 
             // Text alignment
-            .price, .market_cap, .supply, .hour, .day, .week {
+            .price, .market_cap, .supply, .hour, .day, .week, .month {
                 text-align: right;
                 span { text-align: right; }
             }
@@ -500,6 +537,13 @@
 
     // Mobile range
     @media (max-width: @screen-mobile-max) {
+        .header {
+            .row-title {
+                .statistics {
+                    display: none;
+                }
+            }
+        }
 
         .table-primary {
             font-size: 16px;
@@ -563,6 +607,7 @@
                         &.index { display: none; }
                         &.name { display: none; }
                         &.supply { display: none; }
+                        &.month { display: none; }
 
                         &.hour, &.day, &.week {
                             display: inline-block;
