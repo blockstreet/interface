@@ -31,6 +31,7 @@ app.get('/news', (req, res) => res.render('index.html'))
 app.get('/news/:id', (req, res) => res.render('index.html'))
 app.get('/ticker', (req, res) => res.render('index.html'))
 app.get('/education', (req, res) => res.render('index.html'))
+app.get('/education/*', (req, res) => res.render('index.html'))
 app.get('/ico', (req, res) => res.render('index.html'))
 
 // Static assets
