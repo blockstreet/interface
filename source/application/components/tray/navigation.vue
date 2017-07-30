@@ -52,10 +52,18 @@
 
 
 <script lang="babel">
+    import Vue from 'vue'
+
     export default {
-        data() {
-            return {
-                menu: [{
+        created() {
+            Vue.$http.get('/content/education/navigation.json')
+                .then((response) => { this.educationMenu = response })
+                .catch(error => console.log(error))
+        },
+
+        computed: {
+            menu() {
+                return [{
                     name: 'home.index',
                     title: 'News',
                     icon: 'fa-newspaper-o',
@@ -64,84 +72,24 @@
                     name: 'ticker.index',
                     title: 'Price Tracker',
                     icon: 'fa-database',
-                    subitems: [
-                        // {
-                        //     name: 'home.index',
-                        //     title: 'Currencies',
-                        //     type: 'view',
-                        //     subitems: []
-                        // }, {
-                        //     name: 'home.index',
-                        //     title: 'Assets',
-                        //     type: 'view',
-                        //     subitems: []
-                        // }
-                    ]
+                    subitems: []
                 }, {
                     name: 'education',
                     title: 'Education',
                     icon: 'fa-graduation-cap',
-                    subitems: [{
-                        name: 'education.cryptocurrency',
-                        title: 'Cryptocurrency',
-                        type: 'view',
-                        subitems: [{
-                            name: 'education.cryptocurrency.economics',
-                            title: 'Economics',
-                            type: 'view'
-                        }, {
-                            name: 'education.cryptocurrency.exchanges',
-                            title: 'Exchanges',
-                            type: 'view'
-                        }, {
-                            name: 'education.cryptocurrency.initial-coin-offering',
-                            title: 'Initial Coin Offering',
-                            type: 'view'
-                        }, {
-                            name: 'education.cryptocurrency.legality',
-                            title: 'Legality',
-                            type: 'view'
-                        }]
-                    }, {
-                        name: 'education.blockchain',
-                        title: 'Blockchain',
-                        type: 'view',
-                        subitems: [{
-                            name: 'education.blockchain.addresses',
-                            title: 'Addresses',
-                            type: 'view'
-                        }, {
-                            name: 'education.blockchain.decentralization',
-                            title: 'Decentralization',
-                            type: 'view'
-                        }, {
-                            name: 'education.blockchain.digital-signature',
-                            title: 'Digital Signature',
-                            type: 'view'
-                        }, {
-                            name: 'education.blockchain.forking',
-                            title: 'Forking',
-                            type: 'view'
-                        }, {
-                            name: 'education.blockchain.hashing',
-                            title: 'Hashing',
-                            type: 'view'
-                        }, {
-                            name: 'education.blockchain.immutability',
-                            title: 'Immutability',
-                            type: 'view'
-                        }, {
-                            name: 'education.blockchain.mining',
-                            title: 'Mining',
-                            type: 'view'
-                        }]
-                    }]
+                    subitems: this.educationMenu
                 }, {
                     name: 'ico.index',
                     title: 'Initial Coin Offerings',
                     icon: 'fa-cubes',
                     subitems: []
                 }]
+            }
+        },
+
+        data() {
+            return {
+                educationMenu: []
             }
         }
     }
