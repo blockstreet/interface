@@ -78,11 +78,6 @@
                     title: 'Education',
                     icon: 'fa-graduation-cap',
                     subitems: this.educationMenu
-                }, {
-                    name: 'ico.index',
-                    title: 'Initial Coin Offerings',
-                    icon: 'fa-cubes',
-                    subitems: []
                 }]
             }
         },
