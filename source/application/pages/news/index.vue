@@ -23,7 +23,8 @@
                             class="markdown"
                             :toc="true"
                             :toc-anchor-link="false"
-                            :source="article.excerpt">
+                            :source="article.excerpt"
+                            v-if="article.excerpt">
                         </markdown>
                     </div>
 
@@ -35,7 +36,7 @@
                         <div class="keep-reading">
                             <!-- <i class="fa fa-chevron-down"></i>
                             Keep Reading -->
-                            <span class="words">{{ words[index] }} words</span>
+                            <span class="words">{{ article.words }} words</span>
                         </div>
 
                         <div class="social">
@@ -71,30 +72,47 @@
 
         data() {
             return {
-                articles: [{
+                metadata: [{
                     id: '0000-0000-0000',
                     headline: 'Blockstreet Launches',
                     image: 'https://raw.githubusercontent.com/blockstreet/content/staging/images/mountain-purple.jpg',
                     date: moment('2017-06-01').fromNow(),
                     author: 'The Blockstreet Team',
-                    excerpt: '',
-                    tag: 'General'
+                    excerpt: null,
+                    tag: 'General',
+                    file: '04-04-2017',
+                    words: 0
+                }, {
+                    id: '0000-0000-0001',
+                    headline: 'OmiseGO Enjoying Robust Demands in the Cryptocurrency Marketplace',
+                    image: 'https://raw.githubusercontent.com/blockstreet/content/master/images/mountain-valley.jpg',
+                    date: moment('2017-09-07').fromNow(),
+                    author: 'The Blockstreet Team',
+                    excerpt: null,
+                    tag: 'Decentralized Applications',
+                    file: '09-07-2017',
+                    words: 0
                 }]
             }
         },
 
         computed: {
-            words() {
-                return this.articles.map(article => article.excerpt.split(' ').length)
+            articles() {
+                return this.metadata.map((article) => {
+                    if (article.excerpt) article.words = article.excerpt.split(' ').length
+                    return article
+                })
             }
         },
 
         mounted() {
-            Vue.$http.get('https://raw.githubusercontent.com/blockstreet/content/staging/news/04-04-2017.md')
-                .then((response) => {
-                    this.articles[0].excerpt = response
-                })
-                .catch(error => console.log(error))
+            this.metadata.forEach((article) => {
+                Vue.$http.get(`https://raw.githubusercontent.com/blockstreet/content/staging/news/${article.file}.md`)
+                    .then((response) => {
+                        article.excerpt = response
+                    })
+                    .catch(error => console.log(error))
+            })
         }
     }
 </script>
@@ -105,7 +123,7 @@
     .page-home {
         .news {
             display: flex;
-            flex-direction: row;
+            flex-direction: column-reverse;
             flex: 1 1 auto;
             height: 100%;
             flex-wrap: wrap;
@@ -118,6 +136,7 @@
                 flex-direction: column;
                 position: relative;
                 padding-bottom: 50px;
+                margin-bottom: 50px;
 
                 .news-image {
                     width: 100%;
