@@ -1,4 +1,4 @@
-# Blockstreet Front End
+# Blockstreet Interface
 This is the front end of the Blockstreet website. It is powered by the VueJS, a modern component based JavaScript framework that provides features like data binding and computed properties that allow us to build complex web applications.
 
 ## Installation
