@@ -14,6 +14,7 @@ To install the project's dependencies, navigate to the root of the project:
 npm  install
 ```
 
+#### Development Mode
 To run the application in development mode (with live reloading, and non-compiled (source) assets):
 ```
 npm run dev
@@ -21,6 +22,7 @@ npm run dev
 
 By default, this will run the application on port 8080, and will open a browser window with the dashboard up for you.
 
+#### Production Mode
 To run the dashboard in production mode (with compiled assets) execute the following two commands. This will commpile the assets to a directory in the project root called `/dist`. Running the start command executes a simple node webserver to serve up the now static assets.
 
 ```
