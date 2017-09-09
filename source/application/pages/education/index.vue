@@ -209,14 +209,15 @@
 
             h3, h4 {
                 margin-top: 24px;
-                margin-bottom: 16px;
-                font-weight: 600;
+                margin-bottom: 6px;
+                font-weight: 700;
                 line-height: 1.25;
             }
 
-            h1 { font-size: 2.6em; }
-            h2 { font-size: 2.25em; }
-            h4 { font-size: 1em; }
+            h1 { font-size: 2.5em; }
+            h2 { font-size: 1.65em; }
+            h3 { font-size: 1.40em; }
+            h4 { font-size: 1.10em; }
 
             p, span {
                 font-family: blockstreet-content-serif-font, Georgia, Cambria, "Times New Roman", Times, serif;
@@ -227,6 +228,22 @@
             }
 
             p { margin-bottom: 25px; }
+
+            ul {
+                li {
+                    margin-left: 35px;
+                    position: relative;
+
+                    &:before {
+                        content: '-';
+                        position: absolute;
+                        right: 100%;
+                        top: 0;
+                        width: 35px;
+                        text-align: center;
+                    }
+                }
+            }
 
             table {
                 position: relative;
