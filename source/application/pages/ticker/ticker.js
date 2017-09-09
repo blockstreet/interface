@@ -203,13 +203,27 @@ export default {
             })
         },
 
+        // Sometimes the first few objects in the ticker array will not have the specified key,
+        // so we need to loop though it until we find a value
+        getSortedType(key) {
+            let ret
+            for (let i = 0; i < this.ticker.length; i++) {
+                if (this.ticker[i][key]) {
+                    ret = typeof this.ticker[i][key]
+                    break
+                }
+            }
+
+            return ret
+        },
+
         sort(key) {
             if (this.sorted && this.sorted.key === key) {
                 this.sorted.direction = this.sorted.direction * -1
                 return
             }
 
-            this.sorted = { key, direction: 1, type: typeof this.ticker[0][key] }
+            this.sorted = { key, direction: 1, type: this.getSortedType(key) }
 
             // Redraw the chart
             if (this.expanded !== false) {
@@ -223,7 +237,8 @@ export default {
             let typeSorter
 
             if (this.sorted.type === 'number') {
-                typeSorter = (key, previous, current) => (previous[key] - current[key])
+                // Defaulting to 0 prevents NaN
+                typeSorter = (key, previous, current) => ((previous[key] || 0) - (current[key] || 0))
             } else if (this.sorted.type === 'string') {
                 typeSorter = (key, previous, current) => {
                     if (previous[key] < current[key]) return 1
