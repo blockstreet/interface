@@ -51,6 +51,10 @@ export default [
                         path: 'legality',
                         name: 'education.cryptocurrency.legality',
                         component: require('pages/education/index.vue')
+                    }, {
+                        path: 'risk',
+                        name: 'education.cryptocurrency.risk',
+                        component: require('pages/education/index.vue')
                     }]
                 }, {
                     path: 'blockchain',
@@ -84,6 +88,10 @@ export default [
                     }, {
                         path: 'mining',
                         name: 'education.blockchain.mining',
+                        component: require('pages/education/index.vue')
+                    }, {
+                        path: 'wallets',
+                        name: 'education.blockchain.wallets',
                         component: require('pages/education/index.vue')
                     }]
                 }]
