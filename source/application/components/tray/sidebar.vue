@@ -199,6 +199,7 @@
                 display: flex;
                 background: @dark-blue;
                 height: 50px;
+                justify-content: center;
 
                 a {
                     width: 50px;
