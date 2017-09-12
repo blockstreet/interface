@@ -199,6 +199,7 @@
                 display: flex;
                 background: @dark-blue;
                 height: 50px;
+                padding: 0 10px;
 
                 a {
                     width: 50px;
