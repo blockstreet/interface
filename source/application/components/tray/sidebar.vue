@@ -20,6 +20,16 @@
             <navigation></navigation>
         </div>
 
+        <div class="social-links">
+            <a class="github" href="https://github.com/blockstreet" title="Come check out our open source code on Github!">
+                <i class="fa fa-github"></i>
+            </a>
+
+            <a class="slack" href="http://slack.blockstreet.io">
+                <i class="fa fa-slack" title="Come join us on Slack!"></i>
+            </a>
+        </div>
+
         <div class="close-tray" v-on:click="toggleSidebar(false)"></div>
     </div>
 </template>
@@ -184,6 +194,28 @@
             width: 300px;
             border-left: 1px solid @color-text;
             border-right: 1px solid @color-text;
+
+            .social-links {
+                display: flex;
+                background: @dark-blue;
+                height: 50px;
+                justify-content: center;
+
+                a {
+                    width: 50px;
+                    display: flex;
+                    color: @color-white;
+
+                    &:hover {
+                        color: @color-blue;
+                    }
+                }
+
+                i {
+                    margin: auto;
+                    font-size: 28px;
+                }
+            }
         }
     }
 
@@ -228,6 +260,10 @@
             }
 
             .menu-section { display: none; }
+
+            .social-links {
+                display: none;
+            }
 
             &.active {
                 min-height: 100%;

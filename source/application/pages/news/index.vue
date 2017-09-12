@@ -75,7 +75,7 @@
                 metadata: [{
                     id: '0000-0000-0000',
                     headline: 'Blockstreet Launches',
-                    image: 'https://raw.githubusercontent.com/blockstreet/content/staging/images/mountain-purple.jpg',
+                    image: `https://raw.githubusercontent.com/blockstreet/content/${process.env.NODE_ENV === 'development' ? 'staging' : 'master'}/images/lights/lights-1.jpeg`,
                     date: moment('2017-06-01').fromNow(),
                     author: 'The Blockstreet Team',
                     excerpt: null,
@@ -85,8 +85,8 @@
                 }, {
                     id: '0000-0000-0001',
                     headline: 'OmiseGO Enjoying Robust Demands in the Cryptocurrency Marketplace',
-                    image: 'https://raw.githubusercontent.com/blockstreet/content/master/images/mountain-valley.jpg',
-                    date: moment('2017-09-07').fromNow(),
+                    image: `https://raw.githubusercontent.com/blockstreet/content/${process.env.NODE_ENV === 'development' ? 'staging' : 'master'}/images/lights/lights-4.jpeg`,
+                    date: moment('2017-09-12').fromNow(),
                     author: 'The Blockstreet Team',
                     excerpt: null,
                     tag: 'Decentralized Applications',
@@ -107,7 +107,7 @@
 
         mounted() {
             this.metadata.forEach((article) => {
-                Vue.$http.get(`https://raw.githubusercontent.com/blockstreet/content/staging/news/${article.file}.md`)
+                Vue.$http.get(`https://raw.githubusercontent.com/blockstreet/content/${process.env.NODE_ENV === 'development' ? 'staging' : 'master'}/news/${article.file}.md`)
                     .then((response) => {
                         article.excerpt = response
                     })
