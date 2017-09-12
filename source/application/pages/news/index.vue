@@ -86,7 +86,7 @@
                     id: '0000-0000-0001',
                     headline: 'OmiseGO Enjoying Robust Demands in the Cryptocurrency Marketplace',
                     image: 'https://raw.githubusercontent.com/blockstreet/content/master/images/mountain-valley.jpg',
-                    date: moment('2017-09-07').fromNow(),
+                    date: moment('2017-09-12').fromNow(),
                     author: 'The Blockstreet Team',
                     excerpt: null,
                     tag: 'Decentralized Applications',
