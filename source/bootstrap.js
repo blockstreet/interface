@@ -31,6 +31,7 @@ Vue.config.debug = process.env.NODE_ENV !== 'production'
  * https://github.com/mzabriskie/axios
  */
 import Axios from 'axios'
+import VueAxios from 'vue-axios'
 
 Axios.defaults.baseURL = process.env.API_LOCATION
 Axios.defaults.headers.common.Accept = 'application/json'
@@ -57,7 +58,8 @@ Axios.interceptors.response.use(
     }
 )
 
-Vue.$http = Axios
+Vue.use(VueAxios, Axios)
+// Vue.$http = Axios
 
 
 /* ============
@@ -113,14 +115,16 @@ export const router = new VueRouter({
 Vue.router = router
 
 
-const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 2
-})
+/**
+ * Google Tag Manager
+ */
+import VueGtm from 'vue-gtm'
 
-/* Filters */
-Vue.filter('currency', value => formatter.format(value))
+Vue.use(VueGtm, {
+    debug: true, // Whether or not display console logs debugs (optional)
+    vueRouter: router, // Pass the router instance to automatically sync with router (optional)
+    ignoredViews: ['homepage'] // If router, you can exclude some routes name (case insensitive) (optional)
+})
 
 
 /* ============
@@ -218,6 +222,19 @@ Vue.use(VueWaypoint)
 // import VueIntercom from 'vue-intercom'
 //
 // Vue.use(VueIntercom, { appId: 't45fbomu' })
+
+
+/**
+ * Currency Formatter
+ */
+const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2
+})
+
+/* Filters */
+Vue.filter('currency', value => formatter.format(value))
 
 
 /* ============

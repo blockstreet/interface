@@ -1,11 +1,10 @@
 <template>
-    <div class="page page-home collection">
+    <div class="page page-home single">
         <div class="content-body">
             <div class="news">
-                <div class="item" v-for="(article, index) in articles">
+                <div class="item" v-if="article">
                     <div class="header">
-                        <!-- <h1 class="title" @click="enterArticle(article.slug)">{{ article.headline }}</h1> -->
-                        <router-link :to="{ name: 'news.single', params: { slug: article.slug } }" class="title follow" tag="h1">{{ article.headline }}</router-link>
+                        <h1 class="title">{{ article.headline }}</h1>
 
                         <div class="details">
                             <span class="author">
@@ -77,7 +76,7 @@
         data() {
             return {
                 metadata: [],
-                contents: [],
+                content: null,
                 environment: null,
                 source: null
             }
@@ -89,19 +88,14 @@
              * at the correct time. If the property is calculated off of the metadata property it won't recompute when
              * a new XHR request completes for an article's content.
              */
-            articles() {
-                if (!this.metadata.length) return []
+            article() {
+                if (!this.metadata || !this.content) return null
 
-                return this.contents
-                    .map((entry) => {
-                        const meta = this.metadata.find(item => item.id === entry.id)
-                        return Object.assign({}, meta, {
-                            dateFormatted: moment(meta.date).fromNow(),
-                            contents: entry.content,
-                            words: entry.content.split(' ').length
-                        })
-                    })
-                    .sort((previous, current) => moment(current.date).valueOf() - moment(previous.date).valueOf())
+                return Object.assign({}, this.metadata, {
+                    dateFormatted: moment(this.metadata.date).fromNow(),
+                    contents: this.content.content,
+                    words: this.content.content.split(' ').length
+                })
             }
         },
 
@@ -113,12 +107,10 @@
             this.source = 'https://raw.githubusercontent.com/blockstreet/content'
 
             this.$http.get(`${this.source}/${this.environment}/news/index.json`).then((metas) => {
-                this.metadata = metas
+                this.metadata = metas.find(meta => meta.slug === this.$route.params.slug)
 
-                this.metadata.forEach((meta) => {
-                    this.$http.get(`${this.source}/${this.environment}/news/${meta.file}.md`).then((article) => {
-                        this.contents.push({ id: meta.id, content: article })
-                    })
+                this.$http.get(`${this.source}/${this.environment}/news/${this.metadata.file}.md`).then((article) => {
+                    this.content = ({ id: this.metadata.id, content: article })
                 })
             })
         }
@@ -128,10 +120,10 @@
 <style lang="less">
     @import '~assets/less/partials/vars';
 
-    .page-home.collection {
+    .page-home.single {
         .news {
             display: flex;
-            flex-direction: column;
+            flex-direction: column-reverse;
             flex: 1 1 auto;
             height: 100%;
             flex-wrap: wrap;
@@ -168,10 +160,6 @@
                         font-style: normal;
                         letter-spacing: -.028em;
                         display: inline-block;
-
-                        &.follow {
-                            cursor: pointer;
-                        }
                     }
 
                     .details {
@@ -221,25 +209,6 @@
                     font-style: normal;
                     letter-spacing: -.003em;
                     line-height: 1.58;
-
-                    // Limit height
-                    // max-height: 500px;
-                    //
-                    // &:after {
-                    //     content: '';
-                    //     bottom: 53px;
-                    //     left: 0;
-                    //     display: flex;
-                    //     height: 200px;
-                    //     width: 100%;
-                    //     position: absolute;
-                    //
-                    //     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,ffffff+100&0+1,1+100 */
-                    //     background: -moz-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 1%, rgba(255,255,255,1) 100%); /* FF3.6-15 */
-                    //     background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(255,255,255,0) 1%,rgba(255,255,255,1) 100%); /* Chrome10-25,Safari5.1-6 */
-                    //     background: linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,0) 1%,rgba(255,255,255,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-                    //     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
-                    // }
 
                     p {
                         margin-bottom: 20px;
@@ -413,7 +382,6 @@
                     border-left: 0;
                     border-right: 0;
                     padding-bottom: 100px;
-                    margin-bottom: 20px;
 
                     &:first-child { border-top: 0; }
                     &:last-child { margin-bottom: 0; }

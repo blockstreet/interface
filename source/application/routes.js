@@ -17,6 +17,13 @@ export default [
                 component: require('pages/news/index.vue')
             },
 
+            // News Singleton
+            {
+                path: '/news/:slug',
+                name: 'news.single',
+                component: require('pages/news/single.vue')
+            },
+
             // Ticker
             {
                 path: '/ticker',
