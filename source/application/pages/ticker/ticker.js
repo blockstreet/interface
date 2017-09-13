@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import utility from 'utilities'
 import moment from 'moment'
 
@@ -110,8 +109,8 @@ export default {
     methods: {
         refresh() {
             this.loading = true
-            Vue.$http.get('/statistics').then(response => { this.statistics = response })
-            Vue.$http.get('/currencies')
+            this.$http.get('/statistics').then(response => { this.statistics = response })
+            this.$http.get('/currencies')
                 .then((response) => {
                     this.assets = response.map((coin) => {
                         coin.color = utility.colors.get(coin.symbol)
@@ -134,7 +133,7 @@ export default {
                 return
             }
 
-            Vue.$http.get(`/currencies/${currency.id.toLowerCase()}/history`)
+            this.$http.get(`/currencies/${currency.id.toLowerCase()}/history`)
                 .then((response) => {
                     if (response && response.length > 0) {
                         this.expanded = { index, currency }
@@ -187,7 +186,7 @@ export default {
             this.expanded.start = event.min
             this.expanded.end = event.max
 
-            Vue.$http.get(`/currencies/${this.expanded.currency.id.toLowerCase()}/history`, {
+            this.$http.get(`/currencies/${this.expanded.currency.id.toLowerCase()}/history`, {
                 params: {
                     start: moment(event.min).unix(),
                     end: moment(event.max).unix(),

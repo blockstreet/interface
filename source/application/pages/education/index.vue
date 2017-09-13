@@ -7,7 +7,6 @@
 </template>
 
 <script lang="babel">
-    import Vue from 'vue'
     import VueMarkdown from 'vue-markdown'
     import VueWaypoint from 'vue-waypoint'
 
@@ -60,7 +59,7 @@
                 let path = route.path
                 if (route.meta.type === 'index') path = `${path}/index`
 
-                Vue.$http.get(`content${path}.md`)
+                this.$http.get(`content${path}.md`)
                     .then((response) => {
                         this.information = response
                         document.getElementsByClassName('content-body')[0].scrollTop = 0
@@ -106,7 +105,7 @@
 
                 // Disable routing on tablet / mobile
                 if (document.documentElement.clientWidth > 1200) {
-                    Vue.router.push({ path: `#${element.id}` })
+                    this.$router.push({ path: `#${element.id}` })
                 }
             },
 

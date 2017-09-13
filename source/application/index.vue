@@ -26,7 +26,6 @@
      */
 
     import { router } from './../bootstrap'
-    // import datacenterService from './services/datacenters'
 
     export default {
         /**
@@ -42,10 +41,10 @@
         },
 
         watch: {
-            '$intercom.ready': function ready() {
-                this.$intercom.boot()
-                // this.$intercom.show()
-            }
+            // '$intercom.ready': function ready() {
+            //     this.$intercom.boot()
+            //     // this.$intercom.show()
+            // }
         }
     }
 </script>
