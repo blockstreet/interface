@@ -52,11 +52,9 @@
 
 
 <script lang="babel">
-    import Vue from 'vue'
-
     export default {
         created() {
-            Vue.$http.get('/content/education/navigation.json')
+            this.$http.get('/content/education/navigation.json')
                 .then((response) => { this.educationMenu = response })
                 .catch(error => console.log(error))
         },

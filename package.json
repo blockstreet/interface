@@ -26,6 +26,8 @@
     "throttle-debounce": "^1.0.1",
     "vue": "^2.0.3",
     "vue-analytics": "^3.2.0",
+    "vue-axios": "^2.0.2",
+    "vue-gtm": "^1.0.2",
     "vue-highcharts": "0.0.9",
     "vue-intercom": "^1.0.6",
     "vue-markdown": "^2.1.3",
