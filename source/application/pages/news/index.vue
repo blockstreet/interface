@@ -133,7 +133,6 @@
             display: flex;
             flex-direction: column;
             flex: 1 1 auto;
-            height: 100%;
             flex-wrap: wrap;
 
             .item {
