@@ -97,8 +97,6 @@
         margin: 0;
         padding: 0;
         font-size: 0.8em;
-        // overflow-y: scroll;
-        height: 100%;
 
         & > .item-container:last-child { border-bottom: 1px solid rgba(255, 255, 255, 0.03); }
 
