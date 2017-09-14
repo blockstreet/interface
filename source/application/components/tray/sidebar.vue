@@ -78,10 +78,11 @@
         max-width: 300px;
 
         .logo-container {
-            flex: 1 1 auto;
+            flex: 1 0 auto;
             background: transparent;
             flex-direction: column;
             max-height: 300px;
+            height: 300px;
             display: flex;
 
             &:before,
@@ -150,10 +151,11 @@
         }
 
         .menu-section {
-            padding: 30px 0;
             flex: 1 1 auto;
             max-height: 100%;
             background: @dark-blue;
+            overflow-y: auto;
+            overflow-x: hidden;
 
             .menu-header {
                 display: flex;
@@ -197,6 +199,7 @@
 
             .social-links {
                 display: flex;
+                flex: 0 0 auto;
                 background: @dark-blue;
                 height: 50px;
                 justify-content: center;

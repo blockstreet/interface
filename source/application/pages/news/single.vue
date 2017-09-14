@@ -125,7 +125,6 @@
             display: flex;
             flex-direction: column-reverse;
             flex: 1 1 auto;
-            height: 100%;
             flex-wrap: wrap;
 
             .item {
