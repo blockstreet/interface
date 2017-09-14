@@ -151,7 +151,6 @@
         }
 
         .menu-section {
-            padding-top: 30px;
             flex: 1 1 auto;
             max-height: 100%;
             background: @dark-blue;
