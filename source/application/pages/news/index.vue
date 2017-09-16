@@ -31,6 +31,9 @@
                             :toc-anchor-link="false"
                             :source="article.contents">
                         </markdown>
+                        <router-link :to="{ name: 'news.single', params: { slug: article.slug } }">
+                            Read More
+                        </router-link>
                     </div>
 
                     <div class="footer">
@@ -97,7 +100,7 @@
                         const meta = this.metadata.find(item => item.id === entry.id)
                         return Object.assign({}, meta, {
                             dateFormatted: moment(meta.date).fromNow(),
-                            contents: entry.content,
+                            contents: this.excerpt(entry.content),
                             words: entry.content.split(' ').length
                         })
                     })
@@ -121,6 +124,34 @@
                     })
                 })
             })
+        },
+
+        methods: {
+            /**
+             * Create an excerpt from a block of text
+             * @param  {String} [str] - Text block in markdown format
+             * @return {String}       - The first two paragraphs of the text block
+             */
+            excerpt(str) {
+                // Filter for paragraphs
+                const strArr = str.split('\n').reduce((a, paragraph) => {
+                    const isHeading = paragraph[0] === '#'
+                    const isUL = paragraph[0] === '* '
+
+                    // Match for strings that:
+                    // 1. Begins with a number
+                    // 2. Followed by '.'
+                    // 3. Followed by a whitespace
+                    const isOL = paragraph.match(/^\d.\s/g)
+
+                    return !!paragraph && !isHeading && !isUL && !isOL
+                        ? a.concat(paragraph)
+                        : a
+                }, [])
+
+                // Take first two paragraphs
+                return strArr[0] + '\n\n' + strArr[1] // eslint-disable-line
+            }
         }
     }
 </script>
