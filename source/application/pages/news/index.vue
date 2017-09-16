@@ -138,7 +138,7 @@
                 // Filter for paragraphs
                 const strArr = str.split('\n').reduce((a, paragraph) => {
                     const isHeading = paragraph[0] === '#'
-                    const isUL = paragraph[0] === '* '
+                    const isUL = paragraph.substr(0, 2) === '* '
 
                     // Match for strings that:
                     // 1. Begins with a number
