@@ -315,7 +315,7 @@
                     }
 
                     .navigation {
-                        overflow-y: scroll;
+                        overflow-y: auto;
 
                         .item-container.primary {
                             &:first-child {
