@@ -146,7 +146,7 @@
                     // 3. Followed by a whitespace
                     const isOL = paragraph.match(/^\d.\s/g)
 
-                    return !!paragraph && !isHeading && !isUL && !isOL
+                    return !!paragraph.trim() && !isHeading && !isUL && !isOL
                         ? a.concat(paragraph)
                         : a
                 }, [])
