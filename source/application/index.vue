@@ -1,6 +1,8 @@
 <template>
     <div class="application" :class="$route.path.replace('/', '')">
-        <router-view></router-view>
+        <transition name="fade">
+            <router-view></router-view>
+        </transition>
     </div>
 </template>
 
@@ -10,6 +12,14 @@
     .application {
         width: 100%;
         display: flex;
+    }
+
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity .5s;
+    }
+
+    .fade-enter, .fade-leave-to {
+        opacity: 0;
     }
 
     @media (min-width: @screen-laptop-min) {
