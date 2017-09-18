@@ -24,13 +24,7 @@
                     </div>
 
                     <div class="news-body">
-                        <markdown
-                            ref="markdown"
-                            class="markdown"
-                            :toc="true"
-                            :toc-anchor-link="false"
-                            :source="article.contents">
-                        </markdown>
+                        <div class="article-content markdown" v-html="article.contents"></div>
 
                         <router-link class="read-more-link" :to="{ name: 'news.single', params: { slug: article.slug } }">
                             <i class="fa fa-chevron-down"></i>
@@ -71,14 +65,9 @@
 </template>
 
 <script lang="babel">
-    import VueMarkdown from 'vue-markdown'
     import moment from 'moment'
 
     export default {
-        components: {
-            markdown: VueMarkdown
-        },
-
         data() {
             return {
                 metadata: [],
@@ -117,11 +106,11 @@
             this.environment = process.env.NODE_ENV === 'development' ? 'staging' : 'master'
             this.source = 'https://raw.githubusercontent.com/blockstreet/content'
 
-            this.$http.get(`${this.source}/${this.environment}/news/index.json`).then((metas) => {
+            this.$http.get('content/news/index.json').then((metas) => {
                 this.metadata = metas
 
                 this.metadata.forEach((meta) => {
-                    this.$http.get(`${this.source}/${this.environment}/news/${meta.file}.md`).then((article) => {
+                    this.$http.get(`content/news/${meta.file}.md`).then((article) => {
                         this.contents.push({ id: meta.id, content: article })
                     })
                 })
