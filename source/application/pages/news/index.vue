@@ -127,7 +127,7 @@
                 // Filter for paragraphs
                 const strArr = str.split('\n').reduce((a, paragraph) => {
                     const isHeading = paragraph[0] === '#'
-                    const isUL = paragraph[0] === '* '
+                    const isUL = paragraph.substr(0, 2) === '* '
 
                     // Match for strings that:
                     // 1. Begins with a number
@@ -135,7 +135,7 @@
                     // 3. Followed by a whitespace
                     const isOL = paragraph.match(/^\d.\s/g)
 
-                    return !!paragraph && !isHeading && !isUL && !isOL
+                    return !!paragraph.trim() && !isHeading && !isUL && !isOL
                         ? a.concat(paragraph)
                         : a
                 }, [])
