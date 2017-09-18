@@ -1,6 +1,6 @@
 {
   "name": "blockstreet-ui",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "User inferface for the blockstreet website.",
   "scripts": {
     "dev": "node build/dev-server.js",
