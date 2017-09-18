@@ -37,6 +37,7 @@ app.get('/ico', (req, res) => res.render('index.html'))
 // Static assets
 app.use('/assets', express.static('./source/assets'))
 app.use('/static', express.static('./dist/static'))
+app.use('/favicon', express.static('./source/assets/favicon'))
 
 // Launch server
 app.listen(process.env.PORT, () => {

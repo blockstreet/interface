@@ -38,3 +38,48 @@ h1, h2, h3, h4, h5 {
 .chatlio-clear {
     display: none;
 }
+
+.userback-button-container {
+    .userback-powered-by {
+        display: none;
+    }
+
+    .userback-controls-rating:before {
+        display: none !important;
+    }
+
+    .userback-controls-send, .userback-controls-back {
+        color: #FFF !important;
+        background-color: rgb(34, 44, 60)  !important;
+        text-decoration: none  !important;
+        width: 100px;
+        height: 40px;
+        text-align: center;
+        text-transform: uppercase;
+        text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.004);
+        width: 50% !important;
+        margin: 0 !important;
+        border-radius: 0 !important;
+        font-size: 12px !important;
+        font-weight: normal !important;
+        letter-spacing: normal !important;
+        word-spacing: normal !important;
+        font-family: 'Proxima Nova', sans-serif !important;
+
+        &:hover {
+            background-color: rgba(34, 44, 60, 0.95) !important;
+        }
+    }
+
+    .userback-controls-back {
+        border-left: 1px solid rgba(255, 255, 255, 0.20);
+    }
+}
+
+
+@media (max-width: @screen-mobile-max) {
+    .userback-button-container .userback-button {
+        height: 20px !important;
+        line-height: 20px !important;
+    }
+}
