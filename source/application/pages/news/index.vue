@@ -24,15 +24,11 @@
                     </div>
 
                     <div class="news-body">
-                        <markdown
-                            ref="markdown"
-                            class="markdown"
-                            :toc="true"
-                            :toc-anchor-link="false"
-                            :source="article.contents">
-                        </markdown>
-                        <router-link :to="{ name: 'news.single', params: { slug: article.slug } }">
-                            Read More
+                        <div class="article-content markdown" v-html="article.contents"></div>
+
+                        <router-link class="read-more-link" :to="{ name: 'news.single', params: { slug: article.slug } }">
+                            <i class="fa fa-chevron-down"></i>
+                            <span>Continue Reading</span>
                         </router-link>
                     </div>
 
@@ -69,14 +65,9 @@
 </template>
 
 <script lang="babel">
-    import VueMarkdown from 'vue-markdown'
     import moment from 'moment'
 
     export default {
-        components: {
-            markdown: VueMarkdown
-        },
-
         data() {
             return {
                 metadata: [],
@@ -115,11 +106,11 @@
             this.environment = process.env.NODE_ENV === 'development' ? 'staging' : 'master'
             this.source = 'https://raw.githubusercontent.com/blockstreet/content'
 
-            this.$http.get(`${this.source}/${this.environment}/news/index.json`).then((metas) => {
+            this.$http.get('content/news/index.json').then((metas) => {
                 this.metadata = metas
 
                 this.metadata.forEach((meta) => {
-                    this.$http.get(`${this.source}/${this.environment}/news/${meta.file}.md`).then((article) => {
+                    this.$http.get(`content/news/${meta.file}.md`).then((article) => {
                         this.contents.push({ id: meta.id, content: article })
                     })
                 })
@@ -150,7 +141,7 @@
                 }, [])
 
                 // Take first two paragraphs
-                return strArr[0] + '\n\n' + strArr[1] // eslint-disable-line
+                return strArr[0] + '\n\n' + strArr[1] + '\n\n' + strArr[2] // eslint-disable-line
             }
         }
     }
@@ -284,6 +275,32 @@
                                 content: '-';
                                 margin: 0 15px 0 5px;
                             }
+                        }
+                    }
+
+                    .read-more-link {
+                        display: flex;
+                        margin: 25px auto 5px auto;
+                        background: #f0f0f0;
+                        color: #4a4a4a;
+                        border-radius: 3px;
+                        height: 40px;
+                        padding: 0 20px;
+
+                        i {
+                            display: flex;
+
+                            &:before {
+                                margin: auto 0;
+                            }
+                        }
+
+                        span {
+                            font-size: 0.9em;
+                            margin: auto 0 auto 10px;
+                            text-align: center;
+                            font-family: 'Proxima Nova', sans-serif;
+                            font-weight: 600;
                         }
                     }
                 }

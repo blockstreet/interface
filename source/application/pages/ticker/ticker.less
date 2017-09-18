@@ -292,6 +292,11 @@
                 .table-row {
                     cursor: pointer;
 
+                      -webkit-animation: arrive 1s forwards; /* Safari 4+ */
+                      -moz-animation:    arrive 1s forwards; /* Fx 5+ */
+                      -o-animation:      arrive 1s forwards; /* Opera 12+ */
+                      animation:         arrive 1s forwards; /* IE 10+, Fx 29+ */
+
                     &:nth-of-type(odd) {
                         background: none;
                         box-shadow: inset 0px 6px 10px -6px rgba(0, 0, 0, 0.075);

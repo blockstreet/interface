@@ -51,7 +51,9 @@
                     <div class="table-row"
                         v-for="(currency, index) in ticker"
                         :class="{ 'expanded': index === expanded.index }"
-                        :style="{ 'order': index }"
+                        :style="{
+                            'order': index
+                        }"
                     >
                         <div class="cells" v-on:click="expand(index, currency)">
                             <div class="cell index">

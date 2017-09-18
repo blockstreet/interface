@@ -1,6 +1,6 @@
 <template>
     <div class="navigation">
-        <div class="item-container primary" v-for="item in menu" :class="{
+        <div class="item-container primary" v-for="(item, index) in menu" :class="{
             'active': $route.name.includes(item.name)
         }">
             <router-link
@@ -14,7 +14,8 @@
             </router-link>
 
             <div class="submenu-container" v-if="item.subitems.length > 0  && $route.name.includes(item.name)">
-                <div class="item-container" v-for="subitem in item.subitems" :class="{
+                <div class="item-container" v-for="(subitem, index) in item.subitems"
+                :class="{
                     'active': $route.name.includes(subitem.name),
                     'completed': (Math.round(Math.random() * 2) % 2)
                 }">
@@ -118,6 +119,11 @@
                  -moz-user-select: none; /* Firefox */
                   -ms-user-select: none; /* Internet Explorer/Edge */
                       user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
+
+              -webkit-animation: arrive 1s forwards; /* Safari 4+ */
+              -moz-animation:    arrive 1s forwards; /* Fx 5+ */
+              -o-animation:      arrive 1s forwards; /* Opera 12+ */
+              animation:         arrive 1s forwards; /* IE 10+, Fx 29+ */
 
             &.primary > .row-item {
                 padding-left: 30px;

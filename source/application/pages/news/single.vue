@@ -23,13 +23,7 @@
                     </div>
 
                     <div class="news-body">
-                        <markdown
-                            ref="markdown"
-                            class="markdown"
-                            :toc="true"
-                            :toc-anchor-link="false"
-                            :source="article.contents">
-                        </markdown>
+                        <div class="article-content markdown" v-html="article.contents"></div>
                     </div>
 
                     <div class="footer">
@@ -65,14 +59,9 @@
 </template>
 
 <script lang="babel">
-    import VueMarkdown from 'vue-markdown'
     import moment from 'moment'
 
     export default {
-        components: {
-            markdown: VueMarkdown
-        },
-
         data() {
             return {
                 metadata: [],
@@ -106,10 +95,10 @@
             this.environment = process.env.NODE_ENV === 'development' ? 'staging' : 'master'
             this.source = 'https://raw.githubusercontent.com/blockstreet/content'
 
-            this.$http.get(`${this.source}/${this.environment}/news/index.json`).then((metas) => {
+            this.$http.get('content/news/index.json').then((metas) => {
                 this.metadata = metas.find(meta => meta.slug === this.$route.params.slug)
 
-                this.$http.get(`${this.source}/${this.environment}/news/${this.metadata.file}.md`).then((article) => {
+                this.$http.get(`content/news/${this.metadata.file}.md`).then((article) => {
                     this.content = ({ id: this.metadata.id, content: article })
                 })
             })
