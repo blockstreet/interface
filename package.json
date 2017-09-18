@@ -67,6 +67,7 @@
     "node-sass": "^4.1.1",
     "opn": "^4.0.2",
     "ora": "^0.3.0",
+    "prerender-spa-plugin": "^2.1.0",
     "sass-loader": "^4.1.1",
     "shelljs": "^0.7.4",
     "url-loader": "^0.5.7",

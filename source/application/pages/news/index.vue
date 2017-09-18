@@ -5,7 +5,13 @@
                 <div class="item" v-for="(article, index) in articles">
                     <div class="header">
                         <!-- <h1 class="title" @click="enterArticle(article.slug)">{{ article.headline }}</h1> -->
-                        <router-link :to="{ name: 'news.single', params: { slug: article.slug } }" class="title follow" tag="h1">{{ article.headline }}</router-link>
+                        <router-link
+                            :to="{ name: 'news.single', params: { slug: article.slug } }"
+                            class="title follow"
+                            tag="a"
+                        >
+                            <h1>{{ article.headline }}</h1>
+                        </router-link>
 
                         <div class="details">
                             <span class="author">
@@ -195,11 +201,12 @@
                 }
 
                 .header {
-                    h1 {
+                    a.title {
                         font-weight: 700;
                         font-style: normal;
                         letter-spacing: -.028em;
                         display: inline-block;
+                        color: inherit;
 
                         &.follow {
                             cursor: pointer;

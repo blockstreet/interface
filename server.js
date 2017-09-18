@@ -39,4 +39,6 @@ app.use('/assets', express.static('./source/assets'))
 app.use('/static', express.static('./dist/static'))
 
 // Launch server
-app.listen(process.env.PORT, () => { console.log('Example app listening on port' + process.env.PORT + '!') })
+app.listen(process.env.PORT, () => {
+    console.log('Dashboard process listening on port ' + process.env.PORT + '!')
+})

@@ -9,4 +9,6 @@ import * as App from './application'
 
 require('./bootstrap')
 
-new Vue(App).$mount('#app')
+document.addEventListener('DOMContentLoaded', () => {
+    new Vue(App).$mount('#app')
+})

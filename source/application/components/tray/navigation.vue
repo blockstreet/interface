@@ -6,7 +6,7 @@
             <router-link
                 :to="{ name: item.name, path: item.path }"
                 class="row-item"
-                tag="div"
+                tag="a"
                 :class="{ 'active': $route.name.includes(item.name) }"
             >
                 <i class="fa" :class="item.icon"></i>
@@ -136,6 +136,7 @@
                 border-top: 1px solid rgba(255, 255, 255, 0.03);
                 padding-top: 1.5px;
                 padding-bottom: 1.5px;
+                color: inherit;
 
                 i.fa {
                     position: absolute;
