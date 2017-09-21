@@ -7,12 +7,10 @@
 </template>
 
 <script lang="babel">
-    import VueMarkdown from 'vue-markdown'
     import VueWaypoint from 'vue-waypoint'
 
     export default {
         components: {
-            markdown: VueMarkdown,
             waypoint: VueWaypoint
         },
 
