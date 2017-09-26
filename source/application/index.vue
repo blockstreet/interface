@@ -36,6 +36,10 @@
      */
 
     import { router } from './../bootstrap'
+    import AuthService from './services/authentication'
+
+    const auth = new AuthService()
+    const { login, logout, authenticated, authNotifier } = auth
 
     export default {
         /**
@@ -55,6 +59,22 @@
             //     this.$intercom.boot()
             //     // this.$intercom.show()
             // }
+        },
+
+        data() {
+            authNotifier.on('authChange', (authState) => {
+                this.authenticated = authState.authenticated
+            })
+
+            return {
+                auth,
+                authenticated
+            }
+        },
+
+        methods: {
+            login,
+            logout
         }
     }
 </script>

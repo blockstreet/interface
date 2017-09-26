@@ -13,6 +13,8 @@
   },
   "author": "Nick Lombardi <nkmlombardi@gmail.com>",
   "dependencies": {
+    "EventEmitter": "^1.0.0",
+    "auth0-js": "^8.10.1",
     "axios": "^0.15.2",
     "babel-runtime": "^6.0.0",
     "font-awesome": "^4.6.3",

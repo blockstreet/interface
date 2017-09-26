@@ -46,6 +46,8 @@ module.exports = {
         'comma-dangle': ['warn', 'never'],
         'max-len': ['off', 120],
         'semi': ['warn', 'never'],
-        'no-console': ['off']
+        'no-console': ['off'],
+
+        'class-methods-use-this': ['off']
     }
 }
