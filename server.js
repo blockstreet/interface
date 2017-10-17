@@ -29,6 +29,7 @@ app.use((req, res, next) => {
 app.get('/', (req, res) => res.render('index.html'))
 app.get('/news', (req, res) => res.render('index.html'))
 app.get('/news/:id', (req, res) => res.render('index.html'))
+app.get('/about', (req, res) => res.render('index.html'))
 app.get('/ticker', (req, res) => res.render('index.html'))
 app.get('/education', (req, res) => res.render('index.html'))
 app.get('/education/*', (req, res) => res.render('index.html'))
