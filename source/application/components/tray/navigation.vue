@@ -68,6 +68,11 @@
                     icon: 'fa-newspaper-o',
                     subitems: []
                 }, {
+                    name: 'about.index',
+                    title: 'About Us',
+                    icon: 'fa-user',
+                    subitems: []
+                }, {
                     name: 'ticker.index',
                     title: 'Price Tracker',
                     icon: 'fa-database',

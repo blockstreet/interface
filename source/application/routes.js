@@ -22,6 +22,13 @@ export default [{
             component: require('pages/news/single.vue')
         },
 
+        // About Us
+        {
+            path: '/about',
+            name: 'about.index',
+            component: require('pages/about/index.vue')
+        },
+
         // Ticker
         {
             path: '/ticker',
