@@ -14,6 +14,15 @@
             waypoint: VueWaypoint
         },
 
+        metaInfo() {
+            return {
+                title: `${this.section.meta.title || 'Education'} | Blockstreet`,
+                meta: [
+                    { description: 'Straight forward blockchain and cryptocurrency information for non-technical readers.' }
+                ]
+            }
+        },
+
         data() {
             return {
                 information: false,

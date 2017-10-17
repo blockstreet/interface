@@ -21,6 +21,17 @@ Vue.config.debug = process.env.NODE_ENV !== 'production'
 
 
 /* ============
+ * Vue Meta
+ * ============
+ *
+ * https://github.com/declandewet/vue-meta
+ */
+import Meta from 'vue-meta'
+
+Vue.use(Meta)
+
+
+/* ============
  * Axios
  * ============
  *
@@ -121,7 +132,7 @@ Vue.router = router
 import VueGtm from 'vue-gtm'
 
 Vue.use(VueGtm, {
-    debug: true, // Whether or not display console logs debugs (optional)
+    debug: false, // Whether or not display console logs debugs (optional)
     vueRouter: router, // Pass the router instance to automatically sync with router (optional)
     ignoredViews: ['homepage'] // If router, you can exclude some routes name (case insensitive) (optional)
 })

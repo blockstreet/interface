@@ -6,8 +6,13 @@ export default {
         'price-history-chart': require('components/price-history-chart.vue')
     },
 
+    metaInfo: {
+        title: 'Price Tracker | Blockstreet'
+    },
+
     data() {
         return {
+
             // Inject utility into component so it can be used in rendering the template
             numbers: utility.numbers,
 

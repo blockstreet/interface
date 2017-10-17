@@ -74,6 +74,10 @@
     import moment from 'moment'
 
     export default {
+        metaInfo: {
+            title: 'News | Blockstreet'
+        },
+
         data() {
             return {
                 metadata: [],

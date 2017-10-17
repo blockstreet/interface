@@ -30,6 +30,7 @@
     "vue-gtm": "^1.0.2",
     "vue-highcharts": "0.0.9",
     "vue-intercom": "^1.0.6",
+    "vue-meta": "^1.2.0",
     "vue-progressbar": "^0.7.1",
     "vue-router": "^2.4.0",
     "vue-waypoint": "^2.4.0"

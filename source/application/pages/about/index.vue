@@ -52,6 +52,10 @@
 
 <script lang="babel">
     export default {
+        metaInfo: {
+            title: 'About Us | Blockstreet'
+        },
+
         data() {
             return {
                 content: false

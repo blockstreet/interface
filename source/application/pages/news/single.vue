@@ -62,6 +62,21 @@
     import moment from 'moment'
 
     export default {
+        metaInfo() {
+            if (this.article) {
+                return {
+                    title: `${this.metadata.headline || 'News'} | Blockstreet`,
+                    meta: [
+                        { description: this.excerptStripHtml(this.article.contents || '') }
+                    ]
+                }
+            }
+
+            return {
+                title: `${this.metadata.headline || 'News'} | Blockstreet`
+            }
+        },
+
         data() {
             return {
                 metadata: [],
@@ -102,6 +117,36 @@
                     this.content = ({ id: this.metadata.id, content: article })
                 })
             })
+        },
+
+        methods: {
+            /**
+             * Create an excerpt from a block of text
+             * @param  {String} [str] - Text block in markdown format
+             * @return {String}       - The first two paragraphs of the text block
+             */
+            excerptStripHtml(str) {
+                str = str.replace(/<\/?[^>]+(>|$)/g, '')
+
+                // Filter for paragraphs
+                const strArr = str.split('\n').reduce((a, paragraph) => {
+                    const isHeading = paragraph[0] === '#'
+                    const isUL = paragraph[0] === '* '
+
+                    // Match for strings that:
+                    // 1. Begins with a number
+                    // 2. Followed by '.'
+                    // 3. Followed by a whitespace
+                    const isOL = paragraph.match(/^\d.\s/g)
+
+                    return !!paragraph && !isHeading && !isUL && !isOL
+                        ? a.concat(paragraph)
+                        : a
+                }, [])
+
+                // Take first two paragraphs
+                return strArr[0] // eslint-disable-line
+            }
         }
     }
 </script>
