@@ -62,7 +62,8 @@
 
                             <div class="cell symbol">
                                 <span>{{ currency.symbol }}</span>
-                                <i class="coin" :class="`coin-${currency.symbol.toLowerCase()}`"></i>
+                                <!-- <i class="coin" :class="`coin-${currency.symbol.toLowerCase()}`"></i> -->
+                                <i class="cc" :class="currency.symbol.toUpperCase()"></i>
                             </div>
 
                             <div class="cell name">

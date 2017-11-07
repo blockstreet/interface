@@ -81,7 +81,14 @@ export default {
             }],
 
             // Refresh interval to be attached
-            refreshInterval: null
+            refreshInterval: null,
+
+            blacklist: [
+                'bitcoin-cash',
+                'bitconnect',
+                'ethereum-classic',
+                'tether'
+            ]
         }
     },
 
@@ -117,10 +124,12 @@ export default {
             this.$http.get('/statistics').then(response => { this.statistics = response })
             this.$http.get('/currencies')
                 .then((response) => {
-                    this.assets = response.map((coin) => {
-                        coin.color = utility.colors.get(coin.symbol)
-                        return coin
-                    })
+                    this.assets = response
+                        .filter(currency => !this.blacklist.includes(currency.id))
+                        .map((coin) => {
+                            coin.color = utility.colors.get(coin.symbol)
+                            return coin
+                        })
 
                     this.loading = false
                     this.loaded = true
@@ -128,9 +137,9 @@ export default {
                 .catch(error => console.log(error))
         },
 
-        transformHistory(history) {
-            return history.map(point => [(point.time * 1000), point.close])
-        },
+        // transformHistory(history) {
+        //     return history.map(point => [(point.time * 1000), point.close])
+        // },
 
         expand(index, currency, sortOverride) {
             if (!sortOverride && this.expanded.index === index) {
@@ -138,18 +147,18 @@ export default {
                 return
             }
 
-            this.$http.get(`/currencies/${currency.id.toLowerCase()}/history`)
+            this.$http.get(`http://cross.me:8080/https://graphs.coinmarketcap.com/currencies/${currency.id.toLowerCase()}`)
                 .then((response) => {
-                    if (response && response.length > 0) {
+                    if (response) {
                         this.expanded = { index, currency }
-                        currency.price_history = response
+                        currency.price_history = response.price_usd
 
                         this.expanded.interval = 'daily'
 
                         this.chart = {
                             series: [{
                                 name: 'Price (USD)',
-                                data: this.transformHistory(response)
+                                data: response.price_usd
                             }],
                             row: (this.expanded.index % 2 === 0 ? 'even' : 'odd'),
                             color: currency.color,
@@ -191,14 +200,14 @@ export default {
             this.expanded.start = event.min
             this.expanded.end = event.max
 
-            this.$http.get(`/currencies/${this.expanded.currency.id.toLowerCase()}/history`, {
-                params: {
-                    start: moment(event.min).unix(),
-                    end: moment(event.max).unix(),
-                    interval: this.expanded.interval
-                }
+            this.$http.get(`http://cross.me:8080/https://graphs.coinmarketcap.com/currencies/${this.expanded.currency.id.toLowerCase()}/${moment(event.min).valueOf()}/${moment(event.max).valueOf()}`, {
+                // params: {
+                //     start: moment(event.min).unix(),
+                //     end: moment(event.max).unix(),
+                //     interval: this.expanded.interval
+                // }
             }).then((response) => {
-                this.chart.series[0].data = this.transformHistory(response)
+                this.chart.series[0].data = response.price_usd
                 this.chart.interval = this.expanded.interval
             })
             .catch((error) => {
