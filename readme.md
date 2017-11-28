@@ -1,6 +1,9 @@
 # Blockstreet Interface
 This is the front end of the Blockstreet website. It is powered by the VueJS, a modern component based JavaScript framework that provides features like data binding and computed properties that allow us to build complex web applications.
 
+## Foreword
+It is necessary to say that this codebase should not be evaluated as an example of the work of any of the contributing engineers. The codebase was assembled quickly, with deployment time taking precedence over design patterns, modularity, and cleanliness.
+
 ## Installation
 This dashboard relies on the backend API for it's data, but for development purposes you can deploy the dashboard locally, and make calls to the live Blockstreet API (https://blockstreet.io/api).
 
