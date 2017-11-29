@@ -9,27 +9,35 @@
                 tag="a"
                 :class="{ 'active': $route.name.includes(item.name) }"
             >
-                <i class="fa" :class="item.icon"></i>
+                <i class="menu fa" :class="item.icon"></i>
                 <span class="title">{{ item.title }}</span>
             </router-link>
 
             <div class="submenu-container" v-if="item.subitems.length > 0  && $route.name.includes(item.name)">
                 <div class="item-container" v-for="(subitem, index) in item.subitems"
-                :class="{
-                    'active': $route.name.includes(subitem.name),
-                    'completed': (Math.round(Math.random() * 2) % 2)
-                }">
+                    @click="expand(index)"
+                    :class="{
+                        'active': $route.name.includes(subitem.name),
+                        'completed': (Math.round(Math.random() * 2) % 2)
+                    }"
+                >
                     <router-link
                         v-if="subitem.type === 'view'"
                         :to="{ name: subitem.name }"
                         class="row-item"
                         tag="a"
                         :class="{ 'active': $route.name.includes(subitem.name) }"
-                    >{{ subitem.title }}</router-link>
+                    >
+                        <i class="expand fa" :class="{
+                            'fa-chevron-down' : $route.name.includes(subitem.name),
+                            'fa-chevron-right' : !$route.name.includes(subitem.name)
+                        }"></i>
+                        {{ subitem.title }}
+                    </router-link>
 
                     <!-- <a class="row-item" v-if="subitem.type === 'hash'" :href="subitem.path">{{ subitem.title }}</a> -->
 
-                    <div class="childmenu-container" v-if="subitem.subitems.length > 0 ">
+                    <div class="childmenu-container" v-if="subitem.subitems.length > 0 && index === expanded">
                         <div class="item-container" v-for="childitem in subitem.subitems" :class="{
                             /*'active': $route.name.includes(subitem.name),*/
                             'completed': true
@@ -56,7 +64,12 @@
     export default {
         created() {
             this.$http.get('/content/education/navigation.json')
-                .then((response) => { this.educationMenu = response })
+                .then((response) => {
+                    this.educationMenu = response
+                    this.educationMenu.forEach((item, index) => {
+                        if (this.$route.name.includes(item.name)) this.expanded = index
+                    })
+                })
                 .catch(error => console.log(error))
         },
 
@@ -88,7 +101,14 @@
 
         data() {
             return {
-                educationMenu: []
+                educationMenu: [],
+                expanded: false
+            }
+        },
+
+        methods: {
+            expand(index) {
+                this.expanded = index
             }
         }
     }
@@ -142,8 +162,21 @@
                 padding-top: 1.5px;
                 padding-bottom: 1.5px;
                 color: inherit;
+                position: relative;
 
-                i.fa {
+                i.expand {
+                    position: absolute;
+                    left: 30px;
+                    top: 0;
+                    display: flex;
+                    height: 100%;
+
+                    &:before {
+                        margin: auto;
+                    }
+                }
+
+                i.menu.fa {
                     position: absolute;
                     left: 0;
                     top: 0;
@@ -173,7 +206,7 @@
             &:hover {
                 color: @text-hover-gray;
 
-                i.fa {
+                i.menu.fa {
                     color: @text-hover-gray;
                     opacity: 0.2;
 
@@ -192,7 +225,7 @@
                     // border-left: 1.5px solid @color-link;
                     // margin-left: -1.5px;
 
-                    i {
+                    i.menu {
                         opacity: 0.2;
 
                         &:before {
