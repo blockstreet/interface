@@ -265,7 +265,7 @@
                     padding: 0;
                     font-weight: 600;
 
-                    i.coin {
+                    i.coin, i.cc {
                         -webkit-transition: all 0.1s;
                         -moz-transition: all 0.1s;
                         -o-transition: all 0.1s;
@@ -400,7 +400,7 @@
                     &:hover {
                         .cell {
                             &.symbol {
-                                & > i.coin {
+                                & > i.coin, & > i.cc {
                                     transform: rotate(-14deg);
                                     transform-origin: 50% 40%;
                                     opacity: 0.55;
@@ -516,7 +516,7 @@
 
             .symbol {
                 position: relative;
-                i.coin { line-height: 50px; }
+                i.coin, i.cc { line-height: 50px; }
             }
 
             // Allocate cell width
@@ -581,7 +581,7 @@
                                 z-index: 30;
                             }
 
-                            i.coin {
+                            i.coin, i.cc {
                                 font-size: 8em;
                                 opacity: 0.1;
                                 z-index: -55;
