@@ -85,9 +85,11 @@ export default {
 
             blacklist: [
                 'bitcoin-cash',
+                'bitcoin-gold',
                 'bitconnect',
                 'ethereum-classic',
-                'tether'
+                'tether',
+                'eos'
             ]
         }
     },
