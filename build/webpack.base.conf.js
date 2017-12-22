@@ -10,6 +10,9 @@ var cssSourceMapDev = (env === 'development' && config.dev.cssSourceMap)
 var cssSourceMapProd = (env === 'production' && config.build.productionSourceMap)
 var useCssSourceMap = cssSourceMapDev || cssSourceMapProd
 
+const HappyPack = require('happypack')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+
 module.exports = {
     entry: {
         app: './source/main.js'
@@ -19,9 +22,19 @@ module.exports = {
         publicPath: process.env.NODE_ENV === 'production' ? config.build.assetsPublicPath : config.dev.assetsPublicPath,
         filename: '[name].js'
     },
+	plugins: [
+        new HappyPack({
+            id: '1',
+            threads: 4,
+            loaders: ['babel-loader', 'eslint-loader']
+        }),
+    ],
     resolve: {
-        extensions: ['', '.js', '.vue'],
-        fallback: [path.join(__dirname, '../node_modules')],
+		modules: [
+            path.join(__dirname, 'source'),
+            'node_modules'
+        ],
+        extensions: ['.js', '.vue'],
         alias: {
             'source': path.resolve(__dirname, '../source'),
             'app': path.resolve(__dirname, '../source/application'),
@@ -38,59 +51,48 @@ module.exports = {
             'utilities': path.resolve(__dirname, '../source/application/utilities')
         }
     },
-    resolveLoader: {
-        fallback: [path.join(__dirname, '../node_modules')]
-    },
     module: {
-        preLoaders: [{
-            test: /\.vue$/,
-            loader: 'eslint',
-            include: projectRoot,
-            exclude: /node_modules/
-        }, {
-            test: /\.js$/,
-            loader: 'eslint',
-            include: projectRoot,
-            exclude: /node_modules/
-        }],
-        loaders: [{
-            test: /\.vue$/,
-            loader: 'vue'
-        }, {
-            test: /\.js$/,
-            loader: 'babel',
-            include: projectRoot,
-            exclude: /node_modules/
-        }, {
-            test: /\.json$/,
-            loader: 'json'
-        }, {
-            test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-            loader: 'url',
-            query: {
-                limit: 10000,
-                name: utils.assetsPath('img/[name].[hash:7].[ext]')
+		rules: [
+            {
+                enforce: 'pre',
+                test: /\.js$/,
+                loader: 'babel-loader',
+                options: {
+                    plugins: ['transform-runtime'],
+                    presets: ['es2015']
+                },
+                include: projectRoot,
+                exclude: /node_modules/
+            }, {
+                test: /\.vue$/,
+                loader: 'vue-loader',
+            }, {
+                test: /\.html$/,
+                loader: 'vue-html-loader'
+            }, {
+                test: /\.json$/,
+                loader: 'json-loader'
+            }, {
+                test: /[\.](le|sc|c)ss$/,
+                use: ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use:['css-loader', 'less-loader']
+				})
+            }, {
+                test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+                loader: 'url-loader',
+                query: {
+                    limit: 10000,
+                    name: utils.assetsPath('img/[name].[hash:7].[ext]')
+                }
+            }, {
+                test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+                loader: 'file-loader',
+                query: {
+                    limit: 10000,
+                    name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
+                }
             }
-        }, {
-            test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-            loader: 'url',
-            query: {
-                limit: 10000,
-                name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
-            }
-        }]
-    },
-    eslint: {
-        formatter: require('eslint-friendly-formatter')
-    },
-    vue: {
-        loaders: utils.cssLoaders({
-            sourceMap: useCssSourceMap
-        }),
-        postcss: [
-            require('autoprefixer')({
-                browsers: ['last 2 versions']
-            })
         ]
     }
 }

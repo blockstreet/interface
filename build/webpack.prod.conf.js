@@ -7,6 +7,8 @@ var baseWebpackConfig = require('./webpack.base.conf')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var PrerenderSpaPlugin = require('prerender-spa-plugin')
+var ProgressBarPlugin = require('progress-bar-webpack-plugin');
+var ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin');
 var env = config.build.env
 
 var webpackConfig = merge(baseWebpackConfig, {
@@ -16,29 +18,37 @@ var webpackConfig = merge(baseWebpackConfig, {
             extract: true
         })
     },
-    devtool: config.build.productionSourceMap ? '#source-map' : false,
+    // devtool: config.build.productionSourceMap ? '#eval' : false,
+	devtool: '#eval',
     output: {
         path: config.build.assetsRoot,
         filename: utils.assetsPath('js/[name].[chunkhash].js'),
         chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
     },
-    vue: {
-        loaders: utils.cssLoaders({
-            sourceMap: config.build.productionSourceMap,
-            extract: true
-        })
-    },
     plugins: [
+		new ProgressBarPlugin(),
         // http://vuejs.github.io/vue-loader/workflow/production.html
         new webpack.DefinePlugin({
             'process.env': env
         }),
-        new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false
-            }
-        }),
-        new webpack.optimize.OccurenceOrderPlugin(),
+        // new webpack.optimize.UglifyJsPlugin({
+		// 	parallel: true,
+		// 	uglifyOptions: {
+		// 		compress: false
+		// 	}
+        // }),
+		new ParallelUglifyPlugin({
+		   cacheDir: '.cache/',
+		   uglifyJS:{
+		     output: {
+		       comments: false
+		     },
+		     compress: {
+		       warnings: false
+		     }
+		   }
+	   }),
+        new webpack.optimize.OccurrenceOrderPlugin(),
         // extract css into its own file
         new ExtractTextPlugin(utils.assetsPath('css/[name].[contenthash].css')),
         // generate dist index.html with correct asset hash for caching.
@@ -88,7 +98,23 @@ var webpackConfig = merge(baseWebpackConfig, {
               '/news',
               '/ticker',
               '/education'
-          ]
+          ],
+		  {
+			captureAfterElementExists: '.content-body',
+			maxAttempts: 10,
+			navigationLocked: true,
+			postProcessHtml: function (context) {
+			  var titles = {
+			    '/': 'Home',
+			    '/about': 'Our Story',
+			    '/contact': 'Contact Us'
+			  }
+			  return context.html.replace(
+			    /<title>[^<]*<\/title>/i,
+			    '<title>' + titles[context.route] + '</title>'
+			  )
+			}
+		  }
         )
     ]
 })

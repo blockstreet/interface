@@ -14,8 +14,8 @@ console.log(
     '  Opening index.html over file:// won\'t work.\n'
 )
 
-var spinner = ora('building for production...')
-spinner.start()
+// var spinner = ora('building for production...')
+// spinner.start()
 
 var assetsPath = path.join(config.build.assetsRoot, config.build.assetsSubDirectory)
 rm('-rf', assetsPath)
