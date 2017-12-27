@@ -149,7 +149,7 @@ export default {
                 return
             }
 
-            this.$http.get(`http://proxy.blockstreet.io/https://graphs.coinmarketcap.com/currencies/${currency.id.toLowerCase()}`)
+            this.$http.get(`https://proxy.blockstreet.io/https://graphs.coinmarketcap.com/currencies/${currency.id.toLowerCase()}`)
                 .then((response) => {
                     if (response) {
                         this.expanded = { index, currency }
@@ -202,7 +202,7 @@ export default {
             this.expanded.start = event.min
             this.expanded.end = event.max
 
-            this.$http.get(`http://proxy.blockstreet.io/https://graphs.coinmarketcap.com/currencies/${this.expanded.currency.id.toLowerCase()}/${moment(event.min).valueOf()}/${moment(event.max).valueOf()}`, {
+            this.$http.get(`https://proxy.blockstreet.io/https://graphs.coinmarketcap.com/currencies/${this.expanded.currency.id.toLowerCase()}/${moment(event.min).valueOf()}/${moment(event.max).valueOf()}`, {
                 // params: {
                 //     start: moment(event.min).unix(),
                 //     end: moment(event.max).unix(),

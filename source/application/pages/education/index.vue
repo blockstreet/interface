@@ -187,6 +187,32 @@
     @import '~assets/less/partials/vars';
 
     .page-education {
+        .illustration {
+            background: #9e9e9e0f;
+            display: flex;
+            justify-content: center;
+            padding: 30px 0;
+            margin: 30px 0;
+            position: relative;
+
+            &:before, &:after {
+                background: #9e9e9e0f;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                content: '';
+            }
+
+            &:before {
+                left: -100%;
+            }
+
+            &:after {
+                right: -100%;
+            }
+        }
+
         .content-body {
             padding: 0;
             min-height: 100vh !important;
