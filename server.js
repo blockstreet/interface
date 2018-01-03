@@ -3,6 +3,7 @@ var nunjucks = require('nunjucks')
 var morgan = require('morgan')
 var app = express()
 var env = require('node-env-file')
+var prerender = require('prerender-node')
 
 // Environemnt variables
 env(`${__dirname}/.environment`)
@@ -13,6 +14,10 @@ nunjucks.configure(__dirname + '/dist/', {
     express: app,
     watch: false
 })
+
+// Use prerender service
+// https://prerender.io
+app.use(prerender.set('prerenderToken', process.env.PRERENDER_TOKEN))
 
 // Logging
 app.use(morgan('short'))
