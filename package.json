@@ -15,6 +15,7 @@
   "dependencies": {
     "axios": "^0.15.2",
     "babel-runtime": "^6.0.0",
+    "express-robots": "^0.1.6",
     "font-awesome": "^4.6.3",
     "highcharts": "^5.0.7",
     "jquery": "^3.1.0",

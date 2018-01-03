@@ -4,6 +4,7 @@ var morgan = require('morgan')
 var app = express()
 var env = require('node-env-file')
 var prerender = require('prerender-node')
+var robots = require('express-robots')
 
 // Environemnt variables
 env(`${__dirname}/.environment`)
@@ -18,6 +19,9 @@ nunjucks.configure(__dirname + '/dist/', {
 // Use prerender service
 // https://prerender.io
 app.use(prerender.set('prerenderToken', process.env.PRERENDER_TOKEN))
+
+// Robots.txt
+app.use(robots(__dirname + '/static/robots.txt'))
 
 // Logging
 app.use(morgan('short'))
@@ -39,6 +43,7 @@ app.get('/ticker', (req, res) => res.render('index.html'))
 app.get('/education', (req, res) => res.render('index.html'))
 app.get('/education/*', (req, res) => res.render('index.html'))
 app.get('/ico', (req, res) => res.render('index.html'))
+app.get('/robots.txt', (req, res) => res.render('index.html'))
 
 // Static assets
 app.use('/assets', express.static('./source/assets'))
