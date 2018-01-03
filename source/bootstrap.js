@@ -199,7 +199,7 @@ global.moment = require('moment')
  *
  * http://http://fontawesome.io/
  */
-require('font-awesome/less/font-awesome.less')
+require('font-awesome/css/font-awesome.css')
 
 
 /*
