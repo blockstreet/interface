@@ -38,8 +38,16 @@ export default {
      */
     percent(input) {
         if (!input) return false
+        const number = numeral(input)
+        let format = '+0,0.00'
+
+        if (number.value() >= 1000000) {
+            format = format + 'a' // eslint-disable-line
+        }
+
         // Input is already a percent, so we only need to format the number
-        const perc = numeral(input).format('+0,0.00') + '%' // eslint-disable-line
+        const perc = numeral(input).format(format) + '%' // eslint-disable-line
+
         return !!input && perc
     },
 
@@ -55,8 +63,8 @@ export default {
         }
         decimalFormat = decimalFormat && '.' + decimalFormat // eslint-disable-line
 
-        // We only want 2 decimal places for numbers greater than 1M
-        const format = number.value() >= 1000000 ? '0.00' : `0,0${decimalFormat}`
+        // We only want 2 decimal places for numbers >= 1M
+        const format = number.value() >= 1000000 ? '0.00a' : `0,0${decimalFormat}`
 
         return number.format(format).toUpperCase()
     },
