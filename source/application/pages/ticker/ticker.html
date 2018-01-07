@@ -8,10 +8,16 @@
 
                 <div class="header-item statistics">
                     <div class="row">
-                        Market Capitalization: <span>${{ numbers.human(statistics.market_cap) }}</span>
+                        Market Capitalization:
+                        <span>
+                            {{ numbers.currency(numbers.human(statistics.market_cap)) }}
+                        </span>
                     </div>
                     <div class="row">
-                        Daily Volume: <span>${{ numbers.human(statistics.volume) }}</span>
+                        Daily Volume:
+                        <span>
+                            {{ numbers.currency(numbers.human(statistics.volume)) }}
+                        </span>
                     </div>
                 </div>
             </div>
@@ -62,7 +68,6 @@
 
                             <div class="cell symbol">
                                 <span>{{ currency.symbol }}</span>
-                                <!-- <i class="coin" :class="`coin-${currency.symbol.toLowerCase()}`"></i> -->
                                 <i class="cc" :class="currency.symbol.toUpperCase()"></i>
                             </div>
 
@@ -72,17 +77,16 @@
 
                             <div class="cell number price">
                                 <div class="aligner">
-                                    <span class="cash">$</span>
-                                    <span v-html="numbers.fractional(currency.price)"></span>
+                                    <span v-html="numbers.currency(numbers.fractional(currency.price))"></span>
                                 </div>
                             </div>
 
                             <div class="cell number market_cap">
-                                <span class="cash">$</span>{{ numbers.human(currency.market_cap )}}
+                                {{ numbers.currency(numbers.human(currency.market_cap)) }}
                             </div>
 
                             <div class="cell number supply">
-                                <span class="cash"></span>{{ numbers.human(currency.supply )}}
+                                {{ numbers.human(currency.supply) }}
                             </div>
 
                             <div class="cell number percent hour" :class="{
