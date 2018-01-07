@@ -16,11 +16,11 @@
             <div class="education" v-if="information" v-html="information"></div>
         </div>
 
-        <progress value="0">
+        <!-- <progress value="0">
             <div class="progress-container">
                 <span class="progress-bar"></span>
             </div>
-        </progress>
+        </progress> -->
     </div>
 </template>
 
@@ -124,47 +124,47 @@
                                 })
                             })
 
-                            $(document).ready(() => {
-                                const getMax = () => $(document).height() - $(window).height()
-                                const getValue = () => $(window).scrollTop()
-                                let progressBar
-
-                                if ('max' in document.createElement('progress')) {
-                                    // Browser supports progress element
-                                    progressBar = $('progress')
-
-                                    // Set the Max attr for the first time
-                                    progressBar.attr({ max: getMax() })
-
-                                    // On scroll only Value attr needs to be calculated
-                                    $(document).on('scroll', () => progressBar.attr({ value: getValue() }))
-
-                                    // On resize, both Max/Value attr needs to be calculated
-                                    $(window).resize(() => progressBar.attr({ max: getMax(), value: getValue() }))
-                                } else {
-                                    progressBar = $('.progress-bar')
-                                    let max = getMax()
-                                    let value
-                                    let width
-
-                                    const getWidth = () => {
-                                        // Calculate width in percentage
-                                        value = getValue()
-                                        width = (value / max) * 100
-                                        width = `${width}%`
-                                        return width
-                                    }
-
-                                    const setWidth = () => progressBar.css({ width: getWidth() })
-
-                                    $(document).on('scroll', setWidth)
-                                    $(window).on('resize', () => {
-                                        // Need to reset the Max attr
-                                        max = getMax()
-                                        setWidth()
-                                    })
-                                }
-                            })
+                            // $(document).ready(() => {
+                            //     const getMax = () => $(document).height() - $(window).height()
+                            //     const getValue = () => $(window).scrollTop()
+                            //     let progressBar
+                            //
+                            //     if ('max' in document.createElement('progress')) {
+                            //         // Browser supports progress element
+                            //         progressBar = $('progress')
+                            //
+                            //         // Set the Max attr for the first time
+                            //         progressBar.attr({ max: getMax() })
+                            //
+                            //         // On scroll only Value attr needs to be calculated
+                            //         $(document).on('scroll', () => progressBar.attr({ value: getValue() }))
+                            //
+                            //         // On resize, both Max/Value attr needs to be calculated
+                            //         $(window).resize(() => progressBar.attr({ max: getMax(), value: getValue() }))
+                            //     } else {
+                            //         progressBar = $('.progress-bar')
+                            //         let max = getMax()
+                            //         let value
+                            //         let width
+                            //
+                            //         const getWidth = () => {
+                            //             // Calculate width in percentage
+                            //             value = getValue()
+                            //             width = (value / max) * 100
+                            //             width = `${width}%`
+                            //             return width
+                            //         }
+                            //
+                            //         const setWidth = () => progressBar.css({ width: getWidth() })
+                            //
+                            //         $(document).on('scroll', setWidth)
+                            //         $(window).on('resize', () => {
+                            //             // Need to reset the Max attr
+                            //             max = getMax()
+                            //             setWidth()
+                            //         })
+                            //     }
+                            // })
                         })
                     })
                     .catch(error => console.log(error))
