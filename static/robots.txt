@@ -1,0 +1,4 @@
+User-Agent: *
+Disallow:
+Crawl-delay: 5
+Sitemap: https://blockstreet.io/assets/sitemap.xml

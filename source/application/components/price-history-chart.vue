@@ -1,4 +1,6 @@
 <script lang="babel">
+    import moment from 'moment'
+
     export default {
         props: {
             series: {
@@ -66,6 +68,10 @@
                             week: 'Week from %A, %b %e, %Y',
                             month: '%B %Y',
                             year: '%Y'
+                        },
+                        formatter: function formatTooltip() {
+                            return `<span style="font-size: 10px">${moment(this.x).format('MMMM Do, YYYY hh:mm:ss A zz')}</span><br/>` +
+                                `<span style="color: ${this.points[0].point.color}">\u25CF</span> ${this.points[0].series.name}: <b>$${this.y}</b>`
                         }
                     },
                     rangeSelector: {

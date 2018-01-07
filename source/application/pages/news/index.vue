@@ -75,7 +75,7 @@
 
     export default {
         metaInfo: {
-            title: 'News | Blockstreet'
+            title: 'Blockstreet | Blockchain News, Price and Education'
         },
 
         data() {

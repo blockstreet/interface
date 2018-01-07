@@ -1,6 +1,18 @@
 <template>
     <div class="page page-education">
         <div class="content-body">
+            <div class="breadcrumbs">
+                <div class="breadcrumb" v-for="(breadcrumb, index) in breadcrumbs">
+                    <div class="title">
+                        {{ breadcrumb }}
+                    </div>
+
+                    <span class="spacer" v-if="index !== breadcrumbs.length - 1">
+                        <i class="fa fa-chevron-right"></i>
+                    </span>
+                </div>
+            </div>
+
             <div class="education" v-if="information" v-html="information"></div>
         </div>
     </div>
@@ -39,7 +51,10 @@
         },
 
         computed: {
-            section() { return this.$route }
+            section() { return this.$route },
+            breadcrumbs() {
+                return this.$route.name.split('.')
+            }
         },
 
         watch: {
@@ -70,6 +85,50 @@
                     .then((response) => {
                         this.information = response
                         document.getElementsByClassName('content-body')[0].scrollTop = 0
+
+                        const $ = window.jQuery
+
+                        setTimeout(() => {
+                            $('p').hide()
+                            $('ul').hide()
+                            $('h3').hide()
+                            $('h4').hide()
+
+                            $('h1').nextAll().each(function activate() {
+                                if (this.tagName === 'H2') return false // stop execution
+                                return $(this).show()
+                            })
+
+                            const that = this
+
+                            $('h2').click(function clickHeader(context) {
+                                console.log('header2 clicked', this, context, that)
+
+                                $(this).toggleClass('active')
+
+                                $(this).nextAll().each(function toggleSection() {
+                                    if (this.tagName === 'H2') return false // stop execution
+                                    // if (this.tagName === 'H3') return false // stop execution
+                                    // if (this.tagName === 'H4') return false // stop execution
+                                    return $(this).toggle()
+                                })
+                            })
+
+                            // $('h4').click(function clickHeader(context) {
+                            //     console.log('header3 clicked', this, context, that)
+                            //
+                            //     $(this).nextAll().each(function toggleSection() {
+                            //         if (this.tagName === 'H2') return false // stop execution
+                            //         if (this.tagName === 'H3') return false // stop execution
+                            //         if (this.tagName === 'H4') return false // stop execution
+                            //         return $(this).toggle()
+                            //     })
+                            //     // $(this).prevAll().each(function toggleSection() {
+                            //     //     if (this.tagName === 'H2') return false // stop execution
+                            //     //     return $(this).toggle()
+                            //     // })
+                            // })
+                        })
                     })
                     .catch(error => console.log(error))
             },
@@ -128,12 +187,56 @@
     @import '~assets/less/partials/vars';
 
     .page-education {
+        .illustration {
+            background: #9e9e9e0f;
+            display: flex;
+            justify-content: center;
+            padding: 30px 0;
+            margin: 30px 0;
+            position: relative;
+
+            &:before, &:after {
+                background: #9e9e9e0f;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                content: '';
+            }
+
+            &:before {
+                left: -100%;
+            }
+
+            &:after {
+                right: -100%;
+            }
+        }
+
         .content-body {
             padding: 0;
             min-height: 100vh !important;
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
             overflow-x: hidden;
+        }
+
+        .breadcrumbs {
+            display: flex;
+            margin: 50px auto 0 auto;
+            flex: 0 0 auto;
+
+            .breadcrumb {
+                display: flex;
+                text-transform: uppercase;
+                font-size: 0.9em;
+                font-family: 'Proxima Nova', sans-serif;
+                font-weight: 600;
+            }
+
+            .spacer {
+                margin: 0 25px;
+            }
         }
 
         .help-gutter {
@@ -211,6 +314,27 @@
                 border-bottom: 1px solid @color-border;
 
                 a { color: inherit; }
+            }
+
+            h2 {
+                cursor: pointer;
+                padding-left: 50px;
+                position: relative;
+
+                &:before {
+                    font-family: FontAwesome;
+                    content: '\f054';
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    width: 50px;
+                    height: 100%;
+                    text-align: center;
+                }
+
+                &.active {
+                    &:before { content: '\f078'; }
+                }
             }
 
             h3, h4 {
@@ -332,10 +456,13 @@
 
 
         @media (min-width: @screen-desktop-min) {
+            .breadcrumbs {
+                width: 850px;
+            }
+
             .education {
                 max-width: 850px;
                 font-size: 20px;
-                margin-top: 50px;
                 margin-bottom: 50px;
 
                 h1, h2 { margin-top: 50px; }
@@ -350,8 +477,12 @@
 
 
         @media (min-width: @screen-laptop-min) and (max-width: @screen-laptop-max) {
+            .breadcrumbs {
+                width: 740px;
+                margin: 50 auto 0 auto;
+            }
+
             .education {
-                margin-top: 50px;
                 margin-bottom: 50px;
                 font-size: 18px;
 
@@ -369,6 +500,27 @@
 
 
         @media (max-width: @screen-tablet-max) {
+            .breadcrumbs {
+                margin-top: 25px;
+                max-width: 740px;
+                padding: 0 20px;
+                font-size: 1.4em;
+                flex-wrap: wrap;
+                flex: 1 1 auto;
+                flex-direction: column;
+
+                .breadcrumb {
+                    flex-direction: column;
+                    text-align: center;
+                }
+
+                .spacer {
+                    i {
+                        transform: rotate(90deg);
+                    }
+                }
+            }
+
             .education {
                 font-size: 17px;
                 padding: 20px;
