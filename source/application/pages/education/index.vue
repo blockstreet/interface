@@ -15,17 +15,17 @@
 
             <div class="education" v-if="information" v-html="information"></div>
         </div>
+
+        <progress value="0">
+            <div class="progress-container">
+                <span class="progress-bar"></span>
+            </div>
+        </progress>
     </div>
 </template>
 
 <script lang="babel">
-    import VueWaypoint from 'vue-waypoint'
-
     export default {
-        components: {
-            waypoint: VueWaypoint
-        },
-
         metaInfo() {
             return {
                 title: `${this.section.meta.title || 'Education'} | Blockstreet`,
@@ -38,7 +38,6 @@
         data() {
             return {
                 information: false,
-                waypoints: [],
                 helper: {
                     element: {},
                     offset: 0,
@@ -46,7 +45,8 @@
                     keys: {},
                     dictionary: {}
                 },
-                references: this.$refs
+                references: this.$refs,
+                progress: []
             }
         },
 
@@ -58,21 +58,13 @@
         },
 
         watch: {
-            waypoints(value) {
-                if (value.length > 0) {
-                    const index = value[value.length - 1]
-                    this.helper.element = this.$refs.section[index]
-                    this.helper.offset = this.helper.element.offsetTop
-                    this.helper.height = this.helper.element.clientHeight
-                }
-            },
-
             section(route) {
                 this.loadContent(route)
             }
         },
 
         mounted() {
+            this.progress = window.localStorage.getItem(this.$route.name)
             this.loadContent(this.$route)
         },
 
@@ -87,6 +79,14 @@
                         document.getElementsByClassName('content-body')[0].scrollTop = 0
 
                         const $ = window.jQuery
+                        let currentRoute = route.name
+
+                        setTimeout(() => {
+                            if (currentRoute === this.$route.name) {
+                                console.log(`${route.name} read, progress updated!`)
+                                window.localStorage.setItem(route.name, true)
+                            }
+                        }, 5000)
 
                         setTimeout(() => {
                             $('p').hide()
@@ -101,83 +101,73 @@
 
                             const that = this
 
-                            $('h2').click(function clickHeader(context) {
-                                console.log('header2 clicked', this, context, that)
+                            $('h2').click(function clickHeader() {
+                                // console.log('header2 clicked', this, context, that)
 
                                 $(this).toggleClass('active')
+
+                                currentRoute = route.name
+
+                                setTimeout(() => {
+                                    if (currentRoute === that.$route.name) {
+                                        console.log(`${route.name}.${this.id} read, progress updated!`)
+                                        window.localStorage.setItem(`${route.name}.${this.id}`, true)
+                                    }
+                                }, 5000)
 
                                 $(this).nextAll().each(function toggleSection() {
                                     if (this.tagName === 'H2') return false // stop execution
                                     // if (this.tagName === 'H3') return false // stop execution
                                     // if (this.tagName === 'H4') return false // stop execution
+
                                     return $(this).toggle()
                                 })
                             })
 
-                            // $('h4').click(function clickHeader(context) {
-                            //     console.log('header3 clicked', this, context, that)
-                            //
-                            //     $(this).nextAll().each(function toggleSection() {
-                            //         if (this.tagName === 'H2') return false // stop execution
-                            //         if (this.tagName === 'H3') return false // stop execution
-                            //         if (this.tagName === 'H4') return false // stop execution
-                            //         return $(this).toggle()
-                            //     })
-                            //     // $(this).prevAll().each(function toggleSection() {
-                            //     //     if (this.tagName === 'H2') return false // stop execution
-                            //     //     return $(this).toggle()
-                            //     // })
-                            // })
+                            $(document).ready(() => {
+                                const getMax = () => $(document).height() - $(window).height()
+                                const getValue = () => $(window).scrollTop()
+                                let progressBar
+
+                                if ('max' in document.createElement('progress')) {
+                                    // Browser supports progress element
+                                    progressBar = $('progress')
+
+                                    // Set the Max attr for the first time
+                                    progressBar.attr({ max: getMax() })
+
+                                    // On scroll only Value attr needs to be calculated
+                                    $(document).on('scroll', () => progressBar.attr({ value: getValue() }))
+
+                                    // On resize, both Max/Value attr needs to be calculated
+                                    $(window).resize(() => progressBar.attr({ max: getMax(), value: getValue() }))
+                                } else {
+                                    progressBar = $('.progress-bar')
+                                    let max = getMax()
+                                    let value
+                                    let width
+
+                                    const getWidth = () => {
+                                        // Calculate width in percentage
+                                        value = getValue()
+                                        width = (value / max) * 100
+                                        width = `${width}%`
+                                        return width
+                                    }
+
+                                    const setWidth = () => progressBar.css({ width: getWidth() })
+
+                                    $(document).on('scroll', setWidth)
+                                    $(window).on('resize', () => {
+                                        // Need to reset the Max attr
+                                        max = getMax()
+                                        setWidth()
+                                    })
+                                }
+                            })
                         })
                     })
                     .catch(error => console.log(error))
-            },
-
-            setupListeners() {
-                this.$nextTick(() => {
-                    if (this.waypoints.length > 0) {
-                        const $ = window.jQuery
-                        const vm = this
-                        // this.helper.keys = {}
-
-                        $('.active lookup[key]').each(function hoverHandler() {
-                            const key = $(this).attr('key')
-
-                            $(this).hover(
-                                () => {
-                                    $('.helper .term').each(function handle() {
-                                        $(this).stop().hide()
-                                    })
-
-                                    vm.helper.height = $(this).offsetTop
-                                    $(`#lookup-${key}`).stop().show()
-                                },
-                                () => { $(`#lookup-${key}`).stop().fadeOut(0) }
-                            )
-                        })
-                    }
-                })
-            },
-
-            waypointIn(index) {
-                const element = this.$refs.markdown[index].$el.children[0]
-                this.waypoints.slice(0, 1)
-
-                if (element.tagName === 'H2') {
-                    this.waypoints.push(index)
-                    this.waypoints.sort((a, b) => a - b)
-                    this.setupListeners()
-                }
-
-                // Disable routing on tablet / mobile
-                if (document.documentElement.clientWidth > 1200) {
-                    this.$router.push({ path: `#${element.id}` })
-                }
-            },
-
-            waypointOut(index) {
-                const element = this.$refs.markdown[index].$el.children[0]
-                if (element.tagName === 'H2') this.waypoints.splice(this.waypoints.indexOf(index), 1)
             }
         }
     }
@@ -185,6 +175,31 @@
 
 <style lang="less">
     @import '~assets/less/partials/vars';
+
+    progress {
+      /* Positioning */
+      position: fixed;
+      left: 0;
+      bottom: 0;
+
+      /* Dimensions */
+      width: 100%;
+      height: 5px;
+
+      /* Reset the appearance */
+      -webkit-appearance: none;
+         -moz-appearance: none;
+              appearance: none;
+
+      /* Get rid of the default border in Firefox/Opera. */
+      border: none;
+
+      /* Progress bar container for Firefox/IE10+ */
+      background-color: transparent;
+
+      /* Progress bar value for IE10+ */
+      color: red;
+    }
 
     .page-education {
         .illustration {
@@ -291,11 +306,6 @@
 
             .section {
                 position: relative;
-
-                .vue-waypoint__waypoint {
-                    position: absolute;
-                    top: 70%;
-                }
 
                 .markdown {
                     position: relative;

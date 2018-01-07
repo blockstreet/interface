@@ -7,7 +7,9 @@
                 :to="{ name: item.name, path: item.path }"
                 class="row-item"
                 tag="a"
-                :class="{ 'active': $route.name.includes(item.name) }"
+                :class="{
+                    'active': $route.name.includes(item.name)
+                }"
             >
                 <i class="menu fa" :class="item.icon"></i>
                 <span class="title">{{ item.title }}</span>
@@ -17,8 +19,7 @@
                 <div class="item-container" v-for="(subitem, index) in item.subitems"
                     @click="expand(index)"
                     :class="{
-                        'active': $route.name.includes(subitem.name),
-                        'completed': (Math.round(Math.random() * 2) % 2)
+                        'active': $route.name.includes(subitem.name)
                     }"
                 >
                     <router-link
@@ -26,7 +27,10 @@
                         :to="{ name: subitem.name }"
                         class="row-item"
                         tag="a"
-                        :class="{ 'active': $route.name.includes(subitem.name) }"
+                        :class="{
+                            'active': $route.name.includes(subitem.name),
+                            'read': hasRead(subitem.name)
+                        }"
                     >
                         <i class="expand fa" :class="{
                             'fa-chevron-down' : $route.name.includes(subitem.name),
@@ -40,14 +44,16 @@
                     <div class="childmenu-container" v-if="subitem.subitems.length > 0 && index === expanded">
                         <div class="item-container" v-for="childitem in subitem.subitems" :class="{
                             /*'active': $route.name.includes(subitem.name),*/
-                            'completed': true
                         }">
                             <router-link
                                 v-if="childitem.type === 'view'"
                                 :to="{ name: childitem.name }"
                                 class="row-item"
                                 tag="a"
-                                :class="{ 'active': $route.name.includes(childitem.name) }"
+                                :class="{
+                                    'active': $route.name.includes(childitem.name),
+                                    'read': hasRead(childitem.name)
+                                }"
                             >{{ childitem.title }}</router-link>
 
                             <!-- <a class="row-item" v-if="childitem.type === 'hash'" :href="childitem.path">{{ childitem.title }}</a> -->
@@ -96,7 +102,9 @@
                     icon: 'fa-graduation-cap',
                     subitems: this.educationMenu
                 }]
-            }
+            },
+
+            localStorage() { return window.localStorage }
         },
 
         data() {
@@ -109,6 +117,11 @@
         methods: {
             expand(index) {
                 this.expanded = index
+            },
+
+            hasRead(routeName) {
+                console.log(routeName, this.localStorage.getItem(routeName))
+                return !!this.localStorage.getItem(routeName)
             }
         }
     }
@@ -117,6 +130,22 @@
 
 <style lang="less">
     @import '~assets/less/partials/vars';
+
+    .read {
+        position: relative;
+
+        &:after {
+            content: '\f00c';
+            font-family: 'FontAwesome';
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100%;
+            width: 48px;
+            text-align: center;
+            color: @color-bg-green;
+        }
+    }
 
     .navigation {
         list-style-type: none;
