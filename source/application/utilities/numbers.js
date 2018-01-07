@@ -1,3 +1,5 @@
+import numeral from 'numeral'
+
 export default {
     padLeft(number, size) {
         return (`0000/${number}`).substr(-size)
@@ -36,18 +38,42 @@ export default {
      */
     percent(input) {
         if (!input) return false
-        return (input > 0 ? `+${this.human(input, 2)}%` : `${this.human(input, 2)}%`)
+        const number = numeral(input)
+        const format = number.value() >= 1000000
+            ? '+0.00a'
+            : '+0,0.00'
+
+        // Input is already a percent, so we only need to format the number
+        const perc = number.format(format) + '%' // eslint-disable-line
+
+        return !!input && perc
     },
 
-    human(input, decimals) {
+    human(input, decimals = 2) {
         if (isNaN(input)) return ''
-        if (input >= 1000000000000) return `${(input / 1000000000000).toFixed(2)}T`
-        if (input >= 1000000000) return `${(input / 1000000000).toFixed(2)}B`
-        if (input >= 1000000) return `${(input / 1000000).toFixed(2)}M`
 
-        if (!decimals) input = Math.round(input)
-        else input = input.toFixed(decimals)
+        const number = numeral(input)
 
-        return input.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+        // Build decimal format for numeral.js
+        let decimalFormat = ''
+        for (let i = 0; i < decimals; i += 1) {
+            decimalFormat += '0'
+        }
+        decimalFormat = decimalFormat && '.' + decimalFormat // eslint-disable-line
+
+        // We only want 2 decimal places for numbers >= 1M
+        const format = number.value() >= 1000000
+            ? '0.00a'
+            : '0,0' + decimalFormat // eslint-disable-line
+
+        return number.format(format).toUpperCase()
+    },
+
+    /**
+     * Extracts currency symbol from numeral.js and prepends it to the returned value
+     */
+    currency(input) {
+        const symbol = numeral().format('$')[0]
+        return input && symbol + input
     }
 }
