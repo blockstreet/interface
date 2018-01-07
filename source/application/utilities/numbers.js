@@ -39,11 +39,9 @@ export default {
     percent(input) {
         if (!input) return false
         const number = numeral(input)
-        let format = '+0,0.00'
-
-        if (number.value() >= 1000000) {
-            format = format + 'a' // eslint-disable-line
-        }
+        const format = number.value() >= 1000000
+            ? '+0.00a'
+            : '+0,0.00'
 
         // Input is already a percent, so we only need to format the number
         const perc = numeral(input).format(format) + '%' // eslint-disable-line
@@ -64,7 +62,9 @@ export default {
         decimalFormat = decimalFormat && '.' + decimalFormat // eslint-disable-line
 
         // We only want 2 decimal places for numbers >= 1M
-        const format = number.value() >= 1000000 ? '0.00a' : `0,0${decimalFormat}`
+        const format = number.value() >= 1000000
+            ? '0.00a'
+            : '0,0' + decimalFormat // eslint-disable-line
 
         return number.format(format).toUpperCase()
     },
@@ -73,7 +73,7 @@ export default {
      * Extracts currency symbol from numeral.js and prepends it to the returned value
      */
     currency(input) {
-        const symbol = numeral(0).format('$()')[0]
+        const symbol = numeral().format('$')[0]
         return input && symbol + input
     }
 }
