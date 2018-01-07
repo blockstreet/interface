@@ -1,17 +1,22 @@
+import MobileDetect from 'mobile-detect'
+
+const isMobile = !!new MobileDetect(window.navigator.userAgent).mobile()
+
 /**
  * The routes
  *
  * @type {object} The routes
  */
+
 export default [{
     path: '/',
     component: require('layouts/dashboard.vue'),
-    redirect: '/news',
+    redirect: isMobile ? '/ticker' : '/news',
     children: [
         // News
         {
             path: '/news',
-            name: 'home.index',
+            name: isMobile ? 'news.index' : 'home.index',
             component: require('pages/news/index.vue')
         },
 
@@ -32,7 +37,7 @@ export default [{
         // Ticker
         {
             path: '/ticker',
-            name: 'ticker.index',
+            name: isMobile ? 'home.index' : 'ticker.index',
             component: require('pages/ticker/index.vue')
         },
 
