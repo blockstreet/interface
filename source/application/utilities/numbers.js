@@ -44,7 +44,7 @@ export default {
             : '+0,0.00'
 
         // Input is already a percent, so we only need to format the number
-        const perc = numeral(input).format(format) + '%' // eslint-disable-line
+        const perc = number.format(format) + '%' // eslint-disable-line
 
         return !!input && perc
     },
