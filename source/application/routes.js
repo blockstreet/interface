@@ -16,7 +16,7 @@ export default [{
         // News
         {
             path: '/news',
-            name: isMobile ? 'news.index' : 'home.index',
+            name: 'news.index',
             component: require('pages/news/index.vue')
         },
 

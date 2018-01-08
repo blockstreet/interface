@@ -82,7 +82,7 @@
         computed: {
             menu() {
                 return [{
-                    name: 'home.index',
+                    name: 'news.index',
                     title: 'News',
                     icon: 'fa-newspaper-o',
                     subitems: []
