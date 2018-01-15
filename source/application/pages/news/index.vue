@@ -134,23 +134,17 @@
              * @return {String}       - The first two paragraphs of the text block
              */
             excerpt(str) {
-                // Filter for paragraphs
-                const strArr = str.split('\n').reduce((a, paragraph) => {
-                    const isHeading = paragraph[0] === '#'
-                    const isUL = paragraph[0] === '* '
+                // Filters out headings
+                const strArr = str.split('\n').reduce((a, text) => {
+                    const isHeading = text.substring(0, 2) === '<h'
 
-                    // Match for strings that:
-                    // 1. Begins with a number
-                    // 2. Followed by '.'
-                    // 3. Followed by a whitespace
-                    const isOL = paragraph.match(/^\d.\s/g)
+                    if (!!text && !isHeading) {
+                        a.push(text)
+                    }
 
-                    return !!paragraph && !isHeading && !isUL && !isOL
-                        ? a.concat(paragraph)
-                        : a
+                    return a
                 }, [])
 
-                // Take first two paragraphs
                 return strArr[0] + '\n\n' + strArr[1] + '\n\n' + strArr[2] // eslint-disable-line
             }
         }
