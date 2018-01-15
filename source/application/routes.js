@@ -37,7 +37,7 @@ export default [{
         // Ticker
         {
             path: '/ticker',
-            name: isMobile ? 'home.index' : 'ticker.index',
+            name: 'ticker.index',
             component: require('pages/ticker/index.vue')
         },
 
