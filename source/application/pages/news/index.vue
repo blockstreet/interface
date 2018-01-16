@@ -47,6 +47,7 @@
                             <!-- <i class="fa fa-chevron-down"></i>
                             Keep Reading -->
                             <span class="words">{{ article.words }} words</span>
+                            <span class="reading-time">{{ Math.max(Math.round(article.words / 250), 1) }} minute read</span>
                         </div>
 
                         <div class="social">
@@ -353,6 +354,12 @@
                         .words {
                             margin-left: 8px;
                             font-weight: 700;
+                        }
+
+                        .reading-time {
+                            margin-left: 5px;
+                            padding-left: 10px;
+                            border-left: 1px solid #e8e8e8;
                         }
                     }
 
