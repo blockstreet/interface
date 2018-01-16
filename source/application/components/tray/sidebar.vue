@@ -25,6 +25,10 @@
                 <i class="fa fa-github"></i>
             </a>
 
+            <a class="twitter" href="https://twitter.com/BlockstreetHQ">
+                <i class="fa fa-twitter" title="Follow us on Twitter!"></i>
+            </a>
+
             <a class="slack" href="http://slack.blockstreet.io">
                 <i class="fa fa-slack" title="Come join us on Slack!"></i>
             </a>

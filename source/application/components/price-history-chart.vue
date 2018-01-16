@@ -40,9 +40,10 @@
                         spacingRight: 0,
                         spacingTop: 10,
                         spacingBottom: 0,
-                        paddingLeft: 0,
                         marginLeft: 0,
                         marginBottom: 2,
+                        paddingLeft: 0,
+                        paddingRight: 0,
                         style: {
                             fontFamily: '"Open Sans", sans-serif',
                             fontSize: '12px'

@@ -1,15 +1,21 @@
 <template>
     <div class="page page-education">
         <div class="content-body">
-            <div class="breadcrumbs">
-                <div class="breadcrumb" v-for="(breadcrumb, index) in breadcrumbs">
-                    <div class="title">
-                        {{ breadcrumb }}
-                    </div>
+            <div class="meta-info">
+                <div class="breadcrumbs">
+                    <div class="breadcrumb" v-for="(breadcrumb, index) in breadcrumbs">
+                        <div class="title">
+                            {{ breadcrumb }}
+                        </div>
 
-                    <span class="spacer" v-if="index !== breadcrumbs.length - 1">
-                        <i class="fa fa-chevron-right"></i>
-                    </span>
+                        <span class="spacer" v-if="index !== breadcrumbs.length - 1">
+                            <i class="fa fa-chevron-right"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="read-time">
+                    {{ readTime }} minute read
                 </div>
             </div>
 
@@ -54,6 +60,11 @@
             section() { return this.$route },
             breadcrumbs() {
                 return this.$route.name.split('.')
+            },
+            readTime() {
+                return this.information
+                    ? Math.max(Math.round(this.information.split(' ').length / 250), 1)
+                    : 1
             }
         },
 
@@ -236,17 +247,40 @@
             overflow-x: hidden;
         }
 
-        .breadcrumbs {
+        .meta-info {
             display: flex;
             margin: 50px auto 0 auto;
             flex: 0 0 auto;
 
-            .breadcrumb {
+            .breadcrumbs {
                 display: flex;
+
+                .breadcrumb {
+                    display: flex;
+                    text-transform: uppercase;
+                    font-size: 0.9em;
+                    font-family: 'Proxima Nova', sans-serif;
+                    font-weight: 600;
+                }
+            }
+
+            .read-time {
+                text-align: right;
                 text-transform: uppercase;
                 font-size: 0.9em;
                 font-family: 'Proxima Nova', sans-serif;
                 font-weight: 600;
+                position: relative;
+
+                &:after {
+                    content: '\f254';
+                    font-family: 'FontAwesome';
+                    position: absolute;
+                    top: -150%;
+                    left: 25%;
+                    font-size: 4em;
+                    color: rgba(0, 0, 0, 0.1);
+                }
             }
 
             .spacer {
@@ -466,7 +500,7 @@
 
 
         @media (min-width: @screen-desktop-min) {
-            .breadcrumbs {
+            .meta-info {
                 width: 850px;
             }
 
@@ -487,7 +521,7 @@
 
 
         @media (min-width: @screen-laptop-min) and (max-width: @screen-laptop-max) {
-            .breadcrumbs {
+            .meta-info {
                 width: 740px;
                 margin: 50 auto 0 auto;
             }
@@ -501,6 +535,19 @@
             }
         }
 
+        @media (min-width: @screen-laptop-min) {
+            .meta-info {
+                display: flex;
+
+                .breadcrumbs {
+                    flex: 9;
+                }
+
+                .read-time {
+                }
+            }
+        }
+
 
         @media (max-width: @screen-laptop-max) {
             .education {
@@ -510,23 +557,27 @@
 
 
         @media (max-width: @screen-tablet-max) {
-            .breadcrumbs {
-                margin-top: 25px;
+            .meta-info {
+                margin: 25px auto;
                 max-width: 740px;
                 padding: 0 20px;
                 font-size: 1.4em;
-                flex-wrap: wrap;
-                flex: 1 1 auto;
                 flex-direction: column;
 
-                .breadcrumb {
-                    flex-direction: column;
-                    text-align: center;
+                .breadcrumbs {
+                    flex-wrap: wrap;
+
+                    .spacer {
+                        margin: 0 10px;
+                    }
                 }
 
-                .spacer {
-                    i {
-                        transform: rotate(90deg);
+                .read-time {
+                    margin-top: 35px;
+                    text-align: center;
+
+                    &:after {
+                        left: 45%;
                     }
                 }
             }

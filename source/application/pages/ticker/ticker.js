@@ -84,12 +84,12 @@ export default {
             refreshInterval: null,
 
             blacklist: [
-                'bitcoin-cash',
-                'bitcoin-gold',
-                'bitconnect',
-                'ethereum-classic',
-                'tether',
-                'eos'
+                // 'bitcoin-cash',
+                // 'bitcoin-gold',
+                // 'bitconnect',
+                // 'ethereum-classic',
+                // 'tether',
+                // 'eos'
             ]
         }
     },
