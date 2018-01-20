@@ -123,6 +123,11 @@ export default [{
                     name: 'education.blockchain.wallets',
                     component: require('pages/education/index.vue'),
                     meta: { title: 'Wallets' }
+                }, {
+                    path: 'use-cases',
+                    name: 'education.blockchain.use-cases',
+                    component: require('pages/education/index.vue'),
+                    meta: { title: 'Use Cases' }
                 }]
             }]
         },
