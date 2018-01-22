@@ -9,7 +9,7 @@
                         <div class="details">
                             <span class="author">
                                 <span class="profile" style="background-image: url('/static/images/avatar-sign.png')"></span>
-                                <a href="#">{{ article.author }}</a>
+                                <a href="#author">{{ article.author }}</a>
                             </span>
                             <span class="date">{{ article.dateFormatted }}</span>
                         </div>
@@ -53,6 +53,17 @@
                         </div>
                     </div>
                 </div>
+
+                <div id="author" class="item author" v-if="biography">
+                    <div class="news-body">
+                        <div class="article-content">
+                            <div class="profile">
+                                <img v-bind:src="biography.profile" alt="Profile">
+                            </div>
+                            <div class="description" v-html="biography.description"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -82,7 +93,8 @@
                 metadata: [],
                 content: null,
                 environment: null,
-                source: null
+                source: null,
+                biography: null
             }
         },
 
@@ -115,6 +127,10 @@
 
                 this.$http.get(`content/news/${this.metadata.file}.md`).then((article) => {
                     this.content = ({ id: this.metadata.id, content: article })
+                })
+
+                this.$http.get('content/news/biographies.json').then((result) => {
+                    this.biography = result.find(item => item.name === this.metadata.author)
                 })
             })
         },
@@ -157,7 +173,7 @@
     .page-home.single {
         .news {
             display: flex;
-            flex-direction: column-reverse;
+            // flex-direction: column-reverse;
             flex: 1 1 auto;
             flex-wrap: wrap;
 
@@ -169,7 +185,33 @@
                 flex-direction: column;
                 position: relative;
                 padding-bottom: 50px;
-                margin-bottom: 50px;
+                margin-bottom: 10px;
+
+                &.author {
+                    min-height: 0;
+                    padding-bottom: 0;
+                    margin-bottom: 50px;
+
+                    .article-content {
+                        flex-direction: row;
+                        display: flex;
+
+                        .profile {
+                            flex: 2;
+                            position: relative;
+
+                            img {
+                                position: absolute;
+                                height: 100%;
+                            }
+                        }
+
+                        .description {
+                            flex: 8;
+                            padding-left: 30px;
+                        }
+                    }
+                }
 
                 .news-image {
                     width: 100%;
@@ -391,11 +433,38 @@
         @media (max-width: @screen-tablet-max) {
             .news {
                 font-size: 18px;
+                flex-direction: column;
 
                 .item {
                     width: 100%;
 
-                    &:not(:first-child) { margin-top: 20px; }
+                    &.author {
+                        margin-bottom: 50px;
+
+                        .news-body .article-content {
+                            // flex-direction: column;
+                            display: flex;
+
+                            .profile {
+                                flex: 0;
+
+                                img {
+                                    position: relative;
+                                    width: 100px;
+                                    height: 100px;
+                                }
+                            }
+
+                            .description {
+                                flex: 1;
+                            }
+                        }
+                    }
+
+                    &:not(:first-child) {
+                        margin-top: 5px;
+                        margin-bottom: 25px !important; 
+                    }
 
                     .header { padding: 20px; }
                     .news-image { height: 250px; }
