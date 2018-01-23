@@ -10,37 +10,19 @@
                     <h1>Blockstreet Team</h1>
 
                     <div class="members">
-                        <div class="member animate-slash">
-                            <img class="profile" src="https://avatars0.githubusercontent.com/u/6503504?s=460&v=4" alt="profile">
-                            <div class="name">Nick Lombardi</div>
-                            <div class="responsibilities">Project Management, Engineering</div>
+                        <div class="member animate-slash" v-for="member in members">
+                            <img class="profile" :src="member.profile" alt="profile">
+                            <div class="name">{{ member.name }}</div>
+                            <div class="responsibilities">{{ member.departments.join(', ') }}</div>
                             <div class="social">
-                                <a href="https://github.com/nkmlombardi"><i class="fa fa-github"></i></a>
-                                <a href="https://www.linkedin.com/in/nklombardi"><i class="fa fa-linkedin"></i></a>
-                                <a href="https://angel.co/nlombardi">
+                                <a v-if="member.github" :href="member.github"><i class="fa fa-github"></i></a>
+                                <a v-if="member.linkedin" :href="member.linkedin"><i class="fa fa-linkedin"></i></a>
+                                <a v-if="member.twitter" :href="member.twitter"><i class="fa fa-twitter"></i></a>
+                                <a v-if="member.medium" :href="member.medium"><i class="fa fa-medium"></i></a>
+                                <a v-if="member.angel_list" :href="member.angel_list">
                                     <img src="https://assets.angel.co/webpack/64bfdcefe79bd40c1c90e9096fd76255.svg" alt="Angelist" width="14">
                                     <!-- <i class="fa-angellist"></i> -->
                                 </a>
-                            </div>
-                        </div>
-
-                        <div class="member animate-slash">
-                            <img class="profile" src="https://avatars2.githubusercontent.com/u/7926950?s=460&v=4" alt="profile">
-                            <div class="name">Josh Semedo</div>
-                            <div class="responsibilities">Content, News</div>
-                            <div class="social">
-                                <a href="https://github.com/Suhmedoh"><i class="fa fa-github"></i></a>
-                                <a href="https://www.linkedin.com/in/josh-semedo-9a7498128"><i class="fa fa-linkedin"></i></a>
-                            </div>
-                        </div>
-
-                        <div class="member animate-slash">
-                            <img class="profile" src="https://avatars2.githubusercontent.com/u/14863147?s=460&v=4" alt="profile">
-                            <div class="name">Kevin Conley</div>
-                            <div class="responsibilities">Content</div>
-                            <div class="social">
-                                <a href="https://github.com/kmanc"><i class="fa fa-github"></i></a>
-                                <a href="https://www.linkedin.com/in/conleykevin"><i class="fa fa-linkedin"></i></a>
                             </div>
                         </div>
                     </div>
@@ -58,12 +40,14 @@
 
         data() {
             return {
-                content: false
+                content: false,
+                members: null
             }
         },
 
         created() {
             this.$http.get('content/about/index.md').then((data) => { this.content = data })
+            this.$http.get('content/about/team-members.json').then((data) => { this.members = data })
         }
     }
 </script>
@@ -145,10 +129,6 @@
             height: 100%;
         }
 
-        .team {
-            padding: 50px 0;
-        }
-
         .members {
             display: flex;
             flex: 1;
@@ -180,6 +160,7 @@
                     display: flex;
                     justify-content: center;
                     padding: 15px 0;
+                    flex-wrap: wrap;
 
                     a {
                         color: @color-text;
@@ -234,10 +215,52 @@
             .about {
                 margin-top: 50px;
                 margin-bottom: 50px;
-                font-size: 18px;
 
                 ul { margin-bottom: 15px; }
                 h1, h2 { margin-top: 50px; }
+                p, ul {
+                    font-size: 20px;
+                    font-family: blockstreet-content-serif-font, Georgia, Cambria, "Times New Roman", Times, serif;
+                    --x-height-multiplier: 0.35;
+                    --baseline-multiplier: 0.179;
+                    letter-spacing: .01rem;
+                    font-weight: 400;
+                    font-style: normal;
+                    letter-spacing: -0.003em;
+                    line-height: 1.58;
+                }
+            }
+
+            .members .member { font-size: 18px; }
+        }
+
+        @media (max-width: @screen-laptop-max) {
+            .about {
+                padding: 25px;
+                font-size: 16px;
+
+                ul {
+                    margin-bottom: 15px;
+                }
+            }
+
+            .team {
+                padding: 10px 20px;
+            }
+
+            .members {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: @screen-mobile-max) {
+            .members {
+                flex-direction: column;
+
+                .member {
+                    margin: 10px auto;
+                    flex: 0;
+                }
             }
         }
     }
