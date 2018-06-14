@@ -4,8 +4,13 @@
             <div class="meta-info">
                 <div class="breadcrumbs">
                     <div class="breadcrumb" v-for="(breadcrumb, index) in breadcrumbs">
-                        <div class="title">
-                            {{ breadcrumb }}
+                        <div class="title" v-if="index !== breadcrumbs.length - 1">
+                           <router-link :to="{name: breadcrumb.link}" tag="a">
+                              {{ breadcrumb.title }}
+                           </router-link>
+                        </div>
+                        <div class="title" v-else>
+                           {{ breadcrumb.title }}
                         </div>
 
                         <span class="spacer" v-if="index !== breadcrumbs.length - 1">
@@ -59,7 +64,13 @@
         computed: {
             section() { return this.$route },
             breadcrumbs() {
-                return this.$route.name.split('.')
+                return this.$route.name.split('.').reduce((result, crumb) => {
+                    result.push({
+                        title: crumb,
+                        link: result.length === 0 ? crumb : `${result[result.length - 1].link}.${crumb}`
+                    })
+                    return result
+                }, [])
             },
             readTime() {
                 return this.information
