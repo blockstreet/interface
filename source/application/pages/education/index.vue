@@ -4,9 +4,9 @@
             <div class="meta-info">
                 <div class="breadcrumbs">
                     <div class="breadcrumb" v-for="(breadcrumb, index) in breadcrumbs">
-                        <div class="title">
-                            {{ breadcrumb }}
-                        </div>
+                        <a v-bind:href="breadcrumb.url" class="title">
+                            {{ breadcrumb.text }}
+                        </a>
 
                         <span class="spacer" v-if="index !== breadcrumbs.length - 1">
                             <i class="fa fa-chevron-right"></i>
@@ -59,7 +59,15 @@
         computed: {
             section() { return this.$route },
             breadcrumbs() {
-                return this.$route.name.split('.')
+                const crumbs = this.$route.name.split('.')
+                const breadCrumbs = []
+                for (let i = 0; i < crumbs.length; i += 1) {
+                    const previousUrl = breadCrumbs.length > 0 ?
+                        breadCrumbs[breadCrumbs.length - 1].url
+                        : ''
+                    breadCrumbs.push({ url: `${previousUrl}/${crumbs[i]}`, text: crumbs[i] })
+                }
+                return breadCrumbs
             },
             readTime() {
                 return this.information
